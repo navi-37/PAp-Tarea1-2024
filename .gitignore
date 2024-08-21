@@ -8,7 +8,6 @@ out/
 .idea/
 .vscode/
 *.log
-.classpath
 
 #Directorios de construcción de Maven y Gradle
 target/
