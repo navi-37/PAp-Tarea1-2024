@@ -1,0 +1,27 @@
+#Archivos compilados
+*.class
+bin/
+out/
+
+#Archivos del entorno de desarrollo
+*.iml
+.idea/
+.vscode/
+*.log
+.classpath
+
+#Directorios de construcción de Maven y Gradle
+target/
+build/
+effective-pom.xml
+
+#Archivos de sistema
+*.DS_Store
+Thumbs.db
+
+#Archivos de empaquetado
+*.jar
+*.war
+*.ear
+
+
