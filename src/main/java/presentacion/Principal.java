@@ -1,15 +1,22 @@
 package presentacion;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
+import interfaces.Fabrica;
+import interfaces.IControlador;
+
 public class Principal {
 
 	private JFrame frame;
+	private AltaDonacion agregarDonacionInternalFrame;
 
 	/**
 	 * Launch the application.
@@ -32,40 +39,66 @@ public class Principal {
 	 */
 	public Principal() {
 		initialize();
+		
+		Fabrica fabrica = Fabrica.getInstancia();
+        IControlador icon = fabrica.getIControlador();
+		
+		Dimension desktopSize = frame.getSize();
+		Dimension jInternalFrameSize;
+		
+		agregarDonacionInternalFrame = new AltaDonacion();
+		agregarDonacionInternalFrame.setClosable(true);
+		jInternalFrameSize = agregarDonacionInternalFrame.getSize();
+		agregarDonacionInternalFrame.setLocation(24,
+		34);
+		agregarDonacionInternalFrame.setVisible(false);
+		frame.getContentPane().add(agregarDonacionInternalFrame);
 	}
 
+		
 	/**
+	 * 
+	 * 
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 600, 450);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 436, 22);
+		menuBar.setBounds(0, 0, 576, 22);
 		frame.getContentPane().add(menuBar);
 		
-		JMenu mnNewMenu = new JMenu("Altas");
-		menuBar.add(mnNewMenu);
+		JMenu menuAltas = new JMenu("Altas");
+		menuBar.add(menuAltas);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("Usuario");
-		mnNewMenu.add(mntmNewMenuItem);
+		JMenuItem menuItemUsuario = new JMenuItem("Usuario");
+		menuAltas.add(menuItemUsuario);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Donación");
-		mnNewMenu.add(mntmNewMenuItem_1);
+		JMenuItem menuItemDonacion = new JMenuItem("Donación");
+		menuItemDonacion.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				agregarDonacionInternalFrame.setVisible(true);
+			}
+		});
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Distribución");
-		mnNewMenu.add(mntmNewMenuItem_2);
+		menuAltas.add(menuItemDonacion);
 		
-		JMenu mnNewMenu_1 = new JMenu("Modificaciones");
-		menuBar.add(mnNewMenu_1);
+		JMenuItem menuItemDist = new JMenuItem("Distribución");
+		menuAltas.add(menuItemDist);
 		
-		JMenu mnNewMenu_2 = new JMenu("Listas");
-		menuBar.add(mnNewMenu_2);
+		JMenu menuModificar = new JMenu("Modificaciones");
+		menuBar.add(menuModificar);
 		
-		JMenu mnNewMenu_3 = new JMenu("Reporte");
-		menuBar.add(mnNewMenu_3);
+		JMenu menuListar = new JMenu("Listas");
+		menuBar.add(menuListar);
+		
+		JMenu menuReporte = new JMenu("Reporte");
+		menuBar.add(menuReporte);
+		
+		//agregarDonacionInternalFrame.setVisible(false);
+
 	}
 }
