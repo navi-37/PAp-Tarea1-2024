@@ -7,6 +7,11 @@ import javax.swing.JTextPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 
+import datatypes.DtAlimento;
+import datatypes.DtArticulo;
+import datatypes.DtDonacion;
+import interfaces.IControlador;
+
 //import excepciones.SocioRepetidoExcepcion;
 
 import javax.swing.JList;
@@ -21,35 +26,19 @@ import javax.swing.JTextArea;
 import javax.swing.JButton;
 
 public class AltaDonacion extends JInternalFrame {
-
 	private static final long serialVersionUID = 1L;
+	
+	private IControlador icon;
 	private JTextField textid;
 	private JTextField textFechaIngreso;
 	private JTextField textDimensiones;
 	private JTextField textPeso;
 	private JTextField textCantElem;
 	private JTextField textDescripcion;
+	private JComboBox<String> comboBoxTipoDonacion;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AltaDonacion frame = new AltaDonacion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	public AltaDonacion() {
+	public AltaDonacion(IControlador icon) {
+		this.icon = icon;
 		setBounds(100, 100, 547, 402);
 		getContentPane().setLayout(null);
 		
@@ -62,7 +51,8 @@ public class AltaDonacion extends JInternalFrame {
 		textFechaIngreso.setBounds(162, 76, 95, 20);
 		getContentPane().add(textFechaIngreso);
 		
-		JComboBox<String> comboBoxTipoDonacion = new JComboBox<String>();
+		//JComboBox<String> 
+		comboBoxTipoDonacion = new JComboBox<String>();
 		comboBoxTipoDonacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selectedItem = (String) comboBoxTipoDonacion.getSelectedItem();
@@ -149,26 +139,31 @@ public class AltaDonacion extends JInternalFrame {
 				agregarDonacionCancelarActionPerformed(e);
 			}
 		});
-		//agregarDonacionInternalFrame.setVisible(false);
+		
 		btnCancelar.setBounds(302, 311, 117, 25);
 		getContentPane().add(btnCancelar);
 
 	}
 	
 	protected void agregarDonacionAceptarActionPerformed(ActionEvent arg0) {
-		String id = this.textid.getText();
-        String fecha = this.textDescripcion.getText();
-        /*if (checkFormulario()) {
-            try {
-                this.icon.agregarSocio(ci,nombre);
-                JOptionPane.showMessageDialog(this, "El Socio se ha creado con éxito", "Agregar Socio",
-                        JOptionPane.INFORMATION_MESSAGE);
-            } catch (SocioRepetidoExcepcion e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Agregar Socio", JOptionPane.ERROR_MESSAGE);
-            }
-            limpiarFormulario();
-            setVisible(false);
-        }*/
+		Integer id = Integer.valueOf(this.textid.getText());
+        String fecha = this.textFechaIngreso.getText();
+        String selectedItem = (String) comboBoxTipoDonacion.getSelectedItem();
+        DtDonacion dt = null;
+		if (selectedItem.equals("Alimento")) {
+			String descripcionProductos = this.textDescripcion.getText();
+			Integer cantElementos = Integer.valueOf(this.textCantElem.getText());
+			//dt = new DtAlimento(id, fecha, descripcionProductos, cantElementos);
+			//castear fecha a localdatetime o hacer que directamente se ingrese en ese formato
+		} else if (selectedItem.equals("Artículo")) {
+			String descripcion = this.textDescripcion.getText();
+			float peso = Float.parseFloat(this.textPeso.getText());
+			String dimensiones = this.textDimensiones.getText();
+			//dt = new DtArticulo(id, fecha, descripcion, peso, dimensiones);
+			//castear fecha a localdatetime o hacer que directamente se ingrese en ese formato
+		}
+        //hay que usar la instancia de icon para que agregue el dt
+        
         limpiarFormulario();
         setVisible(false);
 	} 

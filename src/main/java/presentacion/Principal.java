@@ -18,9 +18,6 @@ public class Principal {
 	private JFrame frame;
 	private AltaDonacion agregarDonacionInternalFrame;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -34,9 +31,6 @@ public class Principal {
 		});
 	}
 
-	/**
-	 * Create the application.
-	 */
 	public Principal() {
 		initialize();
 		
@@ -46,7 +40,7 @@ public class Principal {
 		Dimension desktopSize = frame.getSize();
 		Dimension jInternalFrameSize;
 		
-		agregarDonacionInternalFrame = new AltaDonacion();
+		agregarDonacionInternalFrame = new AltaDonacion(icon);
 		agregarDonacionInternalFrame.setClosable(true);
 		jInternalFrameSize = agregarDonacionInternalFrame.getSize();
 		//agregarDonacionInternalFrame.setLocation(29,
@@ -57,12 +51,7 @@ public class Principal {
 		frame.getContentPane().add(agregarDonacionInternalFrame);
 	}
 
-		
-	/**
-	 * 
-	 * 
-	 * Initialize the contents of the frame.
-	 */
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 550);
@@ -100,8 +89,7 @@ public class Principal {
 		
 		JMenu menuReporte = new JMenu("Reporte");
 		menuBar.add(menuReporte);
-		
-		//agregarDonacionInternalFrame.setVisible(false);
+
 
 	}
 }
