@@ -49,8 +49,10 @@ public class Principal {
 		agregarDonacionInternalFrame = new AltaDonacion();
 		agregarDonacionInternalFrame.setClosable(true);
 		jInternalFrameSize = agregarDonacionInternalFrame.getSize();
-		agregarDonacionInternalFrame.setLocation(24,
-		34);
+		//agregarDonacionInternalFrame.setLocation(29,
+		//27);
+		agregarDonacionInternalFrame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+				(desktopSize.height - jInternalFrameSize.height)/2);
 		agregarDonacionInternalFrame.setVisible(false);
 		frame.getContentPane().add(agregarDonacionInternalFrame);
 	}
@@ -63,13 +65,14 @@ public class Principal {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 600, 450);
+		frame.setBounds(100, 100, 800, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 576, 22);
-		frame.getContentPane().add(menuBar);
+		//menuBar.setBounds(0, 0, 576, 22);
+		//frame.getContentPane().add(menuBar);
+		frame.setJMenuBar(menuBar);
 		
 		JMenu menuAltas = new JMenu("Altas");
 		menuBar.add(menuAltas);

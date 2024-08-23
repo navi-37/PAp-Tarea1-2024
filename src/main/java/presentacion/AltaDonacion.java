@@ -24,6 +24,7 @@ public class AltaDonacion extends JInternalFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JTextField textid;
+	private JTextField textFechaIngreso;
 	private JTextField textDimensiones;
 	private JTextField textPeso;
 	private JTextField textCantElem;
@@ -57,9 +58,9 @@ public class AltaDonacion extends JInternalFrame {
 		getContentPane().add(textid);
 		textid.setColumns(10);
 		
-		JFormattedTextField formattedTextFechaIngreso = new JFormattedTextField();
-		formattedTextFechaIngreso.setBounds(162, 76, 95, 20);
-		getContentPane().add(formattedTextFechaIngreso);
+		textFechaIngreso = new JTextField();
+		textFechaIngreso.setBounds(162, 76, 95, 20);
+		getContentPane().add(textFechaIngreso);
 		
 		JComboBox<String> comboBoxTipoDonacion = new JComboBox<String>();
 		comboBoxTipoDonacion.addActionListener(new ActionListener() {
@@ -136,13 +137,18 @@ public class AltaDonacion extends JInternalFrame {
 		JButton btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					agregarDonacionAceptarActionPerformed(e);		
+				agregarDonacionAceptarActionPerformed(e);		
 			}
 		});
 		btnAceptar.setBounds(132, 311, 117, 25);
 		getContentPane().add(btnAceptar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				agregarDonacionCancelarActionPerformed(e);
+			}
+		});
 		//agregarDonacionInternalFrame.setVisible(false);
 		btnCancelar.setBounds(302, 311, 117, 25);
 		getContentPane().add(btnCancelar);
@@ -163,7 +169,21 @@ public class AltaDonacion extends JInternalFrame {
             limpiarFormulario();
             setVisible(false);
         }*/
+        limpiarFormulario();
+        setVisible(false);
+	} 
+	protected void agregarDonacionCancelarActionPerformed(ActionEvent arg0) {
+        limpiarFormulario();
         setVisible(false);
 		
 	} 
+	
+	private void limpiarFormulario() {
+        textid.setText("");
+        textFechaIngreso.setText("");
+        textDimensiones.setText("");
+        textPeso.setText("");
+        textDescripcion.setText("");
+        textCantElem.setText("");
+	}
 }
