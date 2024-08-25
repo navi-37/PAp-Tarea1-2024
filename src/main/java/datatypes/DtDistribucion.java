@@ -1,44 +1,56 @@
 package datatypes;
 
-import java.time.LocalDateTime;
+
+
+import java.util.Date;
 
 import logica.Beneficiario;
 import logica.Donacion;
 
 public class DtDistribucion {
-	private LocalDateTime fechaPreparacion;
-	private LocalDateTime fechaEntrega;
+	private int id;
+	private Date fechaPreparacion;
+	private Date fechaEntrega;
 	private EstadoDistribucion estado;
 	private Beneficiario beneficiario;
 	private Donacion donacion;
 	
 	
-	public DtDistribucion(LocalDateTime fechaPreparacion, LocalDateTime fechaEntrega, EstadoDistribucion estado, Beneficiario beneficiario, Donacion donacion) {
+	public DtDistribucion(int id, Date fechaPreparacion, Date fechaEntrega, EstadoDistribucion estado, Beneficiario beneficiario, Donacion donacion) {
 		super();
+		this.id = id;
 		this.fechaPreparacion = fechaPreparacion;
 		this.fechaEntrega = fechaEntrega;
 		this.estado = estado;
 		this.beneficiario = beneficiario;
 		this.donacion = donacion;
 	}
+	
+	public int getId() {
+		return id;
+	}
 
 
-	public LocalDateTime getFechaPreparacion() {
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Date getFechaPreparacion() {
 		return fechaPreparacion;
 	}
 
 
-	public void setFechaPreparacion(LocalDateTime fechaPreparacion) {
+	public void setFechaPreparacion(Date fechaPreparacion) {
 		this.fechaPreparacion = fechaPreparacion;
 	}
 
 
-	public LocalDateTime getFechaEntrega() {
+	public Date getFechaEntrega() {
 		return fechaEntrega;
 	}
 
 
-	public void setFechaEntrega(LocalDateTime fechaEntrega) {
+	public void setFechaEntrega(Date fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
 
