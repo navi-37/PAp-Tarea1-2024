@@ -16,9 +16,11 @@ import interfaces.IControlador;
 public class Principal {
 
 	private JFrame frame;
+  
 	private AltaDonacion agregarDonacionInternalFrame;
 	private AltaUsuario agregarUsuarioInternalFrame;
-	
+	private AltaDistribucion agregarDistribucionInternalFrame;
+
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -50,8 +52,7 @@ public class Principal {
 				(desktopSize.height - jInternalFrameSize.height)/2);
 		agregarDonacionInternalFrame.setVisible(false);
 		frame.getContentPane().add(agregarDonacionInternalFrame);
-		
-		//i AltaUsuario
+	
 		agregarUsuarioInternalFrame = new AltaUsuario(icon);
 		agregarUsuarioInternalFrame.setClosable(true);
 		jInternalFrameSize = agregarUsuarioInternalFrame.getSize();
@@ -59,6 +60,15 @@ public class Principal {
 				(desktopSize.height - jInternalFrameSize.height)/2);
 		agregarUsuarioInternalFrame.setVisible(false);
 		frame.getContentPane().add(agregarUsuarioInternalFrame);
+
+		agregarDistribucionInternalFrame = new AltaDistribucion(icon);
+		agregarDistribucionInternalFrame.setClosable(true);
+		jInternalFrameSize = agregarDistribucionInternalFrame.getSize();
+		agregarDistribucionInternalFrame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+				(desktopSize.height - jInternalFrameSize.height)/2);
+		agregarDistribucionInternalFrame.setVisible(false);
+		frame.getContentPane().add(agregarDistribucionInternalFrame);
+
 	}
 
 	
@@ -94,6 +104,11 @@ public class Principal {
 		menuAltas.add(menuItemDonacion);
 		
 		JMenuItem menuItemDist = new JMenuItem("Distribución");
+		menuItemDist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				agregarDistribucionInternalFrame.setVisible(true);
+			}
+		});
 		menuAltas.add(menuItemDist);
 		
 		JMenu menuModificar = new JMenu("Modificaciones");
