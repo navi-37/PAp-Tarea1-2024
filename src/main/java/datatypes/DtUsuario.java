@@ -14,7 +14,7 @@ public class DtUsuario{
 		this.email = email;
 	}
 	
-	public String getNomnbre() {
+	public String getNombre() {
 		return nombre;
 	}
 	
