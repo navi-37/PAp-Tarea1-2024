@@ -83,7 +83,7 @@ public class Principal {
 		//frame.getContentPane().add(menuBar);
 		frame.setJMenuBar(menuBar);
 		
-		JMenu menuAltas = new JMenu("Altas");
+		JMenu menuAltas = new JMenu("Dar de alta");
 		menuBar.add(menuAltas);
 		
 		JMenuItem menuItemUsuario = new JMenuItem("Usuario");
@@ -111,10 +111,10 @@ public class Principal {
 		});
 		menuAltas.add(menuItemDist);
 		
-		JMenu menuModificar = new JMenu("Modificaciones");
+		JMenu menuModificar = new JMenu("Modificar");
 		menuBar.add(menuModificar);
 		
-		JMenu menuListar = new JMenu("Listas");
+		JMenu menuListar = new JMenu("Listar");
 		menuBar.add(menuListar);
 		
 		JMenu menuReporte = new JMenu("Reporte");

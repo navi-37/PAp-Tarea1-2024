@@ -47,7 +47,7 @@ public class Controlador implements IControlador{
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 		
 		if (mDist.buscarDistribucion(dtdistribucion.getId()) != null) {
-			throw new DistribucionRepetidaExc("Ya existe una distribución para esa donación");
+			throw new DistribucionRepetidaExc("Ya existe una distribución con este ID");
 		}else if (mDon.buscarDonacion(dtdistribucion.getDonacion().getId()) == null) {
 			//exc error
 			throw new DonacionNoExisteExc("La donación no existe");
