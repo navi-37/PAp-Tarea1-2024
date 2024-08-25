@@ -12,7 +12,14 @@ import interfaces.IControlador;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import javax.swing.text.DateFormatter;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+
+
 
 public class AltaUsuario extends JInternalFrame {
     private static final long serialVersionUID = 1L;
@@ -22,13 +29,16 @@ public class AltaUsuario extends JInternalFrame {
     private JTextField textEmail;
     private JTextField textNumeroLicencia;
     private JTextField textDireccion;
-    private JTextField textFechaNacimiento;
     private JComboBox<EstadoBeneficiario> comboBoxEstadoBeneficiario;
     private JComboBox<Barrio> comboBoxBarrio;
     private JComboBox<String> comboBoxTipoUsuario;
     private JLabel lblNumeroLicencia;
     private JLabel lblDireccion;
     private JLabel lblFechaNacimiento;
+    
+    private JFormattedTextField texFechaNacimiento;
+    private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
 
     public AltaUsuario(IControlador icon) {
         this.icon = icon;
@@ -52,25 +62,32 @@ public class AltaUsuario extends JInternalFrame {
                 if (selectedItem.equals("Beneficiario")) {
                     textNumeroLicencia.setEnabled(false);
                     textDireccion.setEnabled(true);
-                    textFechaNacimiento.setEnabled(true);
+                    texFechaNacimiento.setEnabled(true);
                     comboBoxEstadoBeneficiario.setEnabled(true);
                     comboBoxBarrio.setEnabled(true);
                 } else if (selectedItem.equals("Repartidor")) {
                     textNumeroLicencia.setEnabled(true);
                     textDireccion.setEnabled(false);
-                    textFechaNacimiento.setEnabled(false);
+                    texFechaNacimiento.setEnabled(false);
                     comboBoxEstadoBeneficiario.setEnabled(false);
                     comboBoxBarrio.setEnabled(false);
                 }
             }
         });
-
+        
+        //
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormatter dateFormatter = new DateFormatter(format);
+        texFechaNacimiento = new JFormattedTextField(dateFormatter);
+        texFechaNacimiento.setBounds(188, 221, 200, 20);
+        getContentPane().add(texFechaNacimiento);
+        
         comboBoxTipoUsuario.setModel(new DefaultComboBoxModel<String>(new String[]{"Beneficiario", "Repartidor"}));
-        comboBoxTipoUsuario.setBounds(188, 111, 200, 22);
+        comboBoxTipoUsuario.setBounds(188, 125, 200, 22);
         getContentPane().add(comboBoxTipoUsuario);
 
         JLabel lblTipoDeUsuario = new JLabel("Tipo de usuario");
-        lblTipoDeUsuario.setBounds(34, 110, 134, 22);
+        lblTipoDeUsuario.setBounds(34, 125, 134, 22);
         getContentPane().add(lblTipoDeUsuario);
 
         JLabel lblNombre = new JLabel("Nombre");
@@ -90,22 +107,17 @@ public class AltaUsuario extends JInternalFrame {
         textDireccion.setBounds(188, 190, 200, 20);
         getContentPane().add(textDireccion);
         textDireccion.setColumns(10);
-
-        textFechaNacimiento = new JTextField();
-        textFechaNacimiento.setBounds(188, 223, 200, 20);
-        getContentPane().add(textFechaNacimiento);
-        textFechaNacimiento.setColumns(10);
         
         JFormattedTextField formattedTextField = new JFormattedTextField();
         formattedTextField.setBounds(0, 0, 11, 26);
         getContentPane().add(formattedTextField);
 
         comboBoxEstadoBeneficiario = new JComboBox<EstadoBeneficiario>(EstadoBeneficiario.values());
-        comboBoxEstadoBeneficiario.setBounds(56, 262, 200, 22);
+        comboBoxEstadoBeneficiario.setBounds(188, 285, 200, 22);
         getContentPane().add(comboBoxEstadoBeneficiario);
 
         comboBoxBarrio = new JComboBox<Barrio>(Barrio.values());
-        comboBoxBarrio.setBounds(56, 296, 200, 22);
+        comboBoxBarrio.setBounds(188, 252, 200, 22);
         getContentPane().add(comboBoxBarrio);
 
         JButton btnAceptar = new JButton("Aceptar");
@@ -135,8 +147,16 @@ public class AltaUsuario extends JInternalFrame {
         getContentPane().add(lblDireccion);
         
         lblFechaNacimiento = new JLabel("Fecha de nacimiento");
-        lblFechaNacimiento.setBounds(34, 222, 134, 22);
+        lblFechaNacimiento.setBounds(34, 222, 134, 20);
         getContentPane().add(lblFechaNacimiento);
+        
+        JLabel lblBarrio = new JLabel("Barrio");
+        lblBarrio.setBounds(34, 256, 46, 14);
+        getContentPane().add(lblBarrio);
+        
+        JLabel lblEstadoBenef = new JLabel("Estado");
+        lblEstadoBenef.setBounds(34, 289, 46, 14);
+        getContentPane().add(lblEstadoBenef);
     }
 
     protected void agregarUsuarioAceptarActionPerformed(ActionEvent arg0) {
@@ -147,7 +167,14 @@ public class AltaUsuario extends JInternalFrame {
 
         if (selectedItem.equals("Beneficiario")) {
             String direccion = this.textDireccion.getText();
-            LocalDateTime fechaNacimiento = LocalDateTime.parse(this.textFechaNacimiento.getText());
+            LocalDateTime fechaNacimiento = null;
+            try {
+                //
+                fechaNacimiento = LocalDate.parse(this.texFechaNacimiento.getText(), dateTimeFormatter).atStartOfDay();
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             EstadoBeneficiario estado = (EstadoBeneficiario) comboBoxEstadoBeneficiario.getSelectedItem();
             Barrio barrio = (Barrio) comboBoxBarrio.getSelectedItem();
             usuario = new DtBeneficiario(nombre, email, direccion, fechaNacimiento, estado, barrio);
@@ -177,7 +204,7 @@ public class AltaUsuario extends JInternalFrame {
         textEmail.setText("");
         textNumeroLicencia.setText("");
         textDireccion.setText("");
-        textFechaNacimiento.setText("");
+        texFechaNacimiento.setValue(null);
         comboBoxEstadoBeneficiario.setSelectedIndex(0);
         comboBoxBarrio.setSelectedIndex(0);
     }
