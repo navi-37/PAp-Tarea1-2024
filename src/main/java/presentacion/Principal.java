@@ -17,6 +17,7 @@ public class Principal {
 
 	private JFrame frame;
 	private AltaDonacion agregarDonacionInternalFrame;
+	private AltaDistribucion agregarDistribucionInternalFrame;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -49,6 +50,15 @@ public class Principal {
 				(desktopSize.height - jInternalFrameSize.height)/2);
 		agregarDonacionInternalFrame.setVisible(false);
 		frame.getContentPane().add(agregarDonacionInternalFrame);
+		
+		
+		agregarDistribucionInternalFrame = new AltaDistribucion(icon);
+		agregarDistribucionInternalFrame.setClosable(true);
+		jInternalFrameSize = agregarDistribucionInternalFrame.getSize();
+		agregarDistribucionInternalFrame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+				(desktopSize.height - jInternalFrameSize.height)/2);
+		agregarDistribucionInternalFrame.setVisible(false);
+		frame.getContentPane().add(agregarDistribucionInternalFrame);
 	}
 
 	
@@ -79,6 +89,11 @@ public class Principal {
 		menuAltas.add(menuItemDonacion);
 		
 		JMenuItem menuItemDist = new JMenuItem("Distribución");
+		menuItemDist.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				agregarDistribucionInternalFrame.setVisible(true);
+			}
+		});
 		menuAltas.add(menuItemDist);
 		
 		JMenu menuModificar = new JMenu("Modificaciones");
