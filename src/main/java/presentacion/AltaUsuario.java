@@ -107,10 +107,6 @@ public class AltaUsuario extends JInternalFrame {
         textDireccion.setBounds(188, 190, 200, 20);
         getContentPane().add(textDireccion);
         textDireccion.setColumns(10);
-        
-        JFormattedTextField formattedTextField = new JFormattedTextField();
-        formattedTextField.setBounds(0, 0, 11, 26);
-        getContentPane().add(formattedTextField);
 
         comboBoxEstadoBeneficiario = new JComboBox<EstadoBeneficiario>(EstadoBeneficiario.values());
         comboBoxEstadoBeneficiario.setBounds(188, 285, 200, 22);
