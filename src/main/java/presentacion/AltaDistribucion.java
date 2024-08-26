@@ -51,26 +51,7 @@ public class AltaDistribucion extends JInternalFrame {
 	private JComboBox<String> cBAnoFechaE;
 	
 	
-	
-	/**
-	 * Launch the application.
-	 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AltaDistribucion frame = new AltaDistribucion();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
 	public AltaDistribucion(IControlador icon) {
 		this.icon = icon;
 		setBounds(100, 100, 450, 300);
@@ -212,7 +193,6 @@ public class AltaDistribucion extends JInternalFrame {
 	protected void agregarDistribucionCancelarActionPerformed(ActionEvent arg0) {
         limpiarFormulario();
         setVisible(false);
-		
 	} 
 	
 	private void limpiarFormulario() {
