@@ -120,6 +120,24 @@ public class Controlador implements IControlador{
         }
 		return distribuciones_ret;
 	}
+
+	@Override
+	public ArrayList<DtBeneficiario> ListaBeneficiarios() {
+		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+		ArrayList<DtBeneficiario> ListaBeneficiarios = new ArrayList<DtBeneficiario>();
+		
+		ArrayList<Usuario> usuarios = mU.listaUsuarios();  
+				
+		for (Usuario u :usuarios) {					// importar Usuarios y cargar la lista a DtUsuarios
+			if (u instanceof Beneficiario) {
+				Beneficiario ben = (Beneficiario) u;
+				DtBeneficiario dtben = new DtBeneficiario(
+						ben.getNombre(), ben.getEmail(), ben.getDireccion(), ben.getFechaNacimiento(), ben.getEstado(), ben.getBarrio());
+			ListaBeneficiarios.add(dtben);
+			}
+		}
+	return ListaBeneficiarios;
+	}
 	
 
 	

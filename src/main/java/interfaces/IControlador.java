@@ -1,7 +1,7 @@
 package interfaces;
 
 import datatypes.DtDonacion;
-
+import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
 import datatypes.DtUsuario;
 import datatypes.EstadoDistribucion;
@@ -26,4 +26,6 @@ public interface IControlador {
 	public ArrayList<DtDistribucion> listarDistribucionesFiltradas(EstadoDistribucion estado);
 	
 	public Integer[] listarDistribucionesPorID();
+	
+	public ArrayList<DtBeneficiario> ListaBeneficiarios();
 }
