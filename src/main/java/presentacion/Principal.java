@@ -20,6 +20,7 @@ public class Principal {
 	private AltaDonacion agregarDonacionInternalFrame;
 	private AltaUsuario agregarUsuarioInternalFrame;
 	private AltaDistribucion agregarDistribucionInternalFrame;
+	private ListarDistribuciones listarDistribucionesInternalFrame;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -69,6 +70,14 @@ public class Principal {
 		agregarDistribucionInternalFrame.setVisible(false);
 		frame.getContentPane().add(agregarDistribucionInternalFrame);
 
+		
+		listarDistribucionesInternalFrame = new ListarDistribuciones(icon);
+		listarDistribucionesInternalFrame.setClosable(true);
+		jInternalFrameSize = listarDistribucionesInternalFrame.getSize();
+		listarDistribucionesInternalFrame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+				(desktopSize.height - jInternalFrameSize.height)/2);
+		listarDistribucionesInternalFrame.setVisible(false);
+		frame.getContentPane().add(listarDistribucionesInternalFrame);
 	}
 
 	
@@ -116,6 +125,18 @@ public class Principal {
 		
 		JMenu menuListar = new JMenu("Listar");
 		menuBar.add(menuListar);
+		
+		JMenuItem mntmDistribuciones = new JMenuItem("Distribuciones");
+		mntmDistribuciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				listarDistribucionesInternalFrame.iniciarlizarComboBoxes();
+				listarDistribucionesInternalFrame.setVisible(true);
+			}
+		});
+		menuListar.add(mntmDistribuciones);
+		
+		JMenuItem mntmBeneficiarios = new JMenuItem("Beneficiarios");
+		menuListar.add(mntmBeneficiarios);
 		
 		JMenu menuReporte = new JMenu("Reporte");
 		menuBar.add(menuReporte);

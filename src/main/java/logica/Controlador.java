@@ -1,5 +1,7 @@
 package logica;
 
+import java.util.ArrayList;
+
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
 import datatypes.DtBeneficiario;
@@ -53,7 +55,7 @@ public class Controlador implements IControlador{
 			throw new DonacionNoExisteExc("La donación no existe");
 		}else if (mU.buscarUsuario(dtdistribucion.getBeneficiario().getEmail()) == null){
 			//exc error
-			throw new UsuarioNOBeneficiarioExc("El usuario no es beneficiario");
+			throw new UsuarioNOBeneficiarioExc("El usuario no es beneficiario o no existe");
 		}else {
 			Beneficiario beneficiario = null;
 			Donacion donacion = mDon.buscarDonacion(dtdistribucion.getDonacion().getId());
@@ -84,4 +86,41 @@ public class Controlador implements IControlador{
 		}
 	}
 
+	@Override
+	public ArrayList<DtDistribucion> listarDistribuciones() { 
+		ArrayList<DtDistribucion> distribuciones = new ArrayList<>();
+		ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
+		distribuciones = mD.obtenerDistribuciones();
+		return distribuciones;
+	}
+	
+	@Override
+	public ArrayList<DtDistribucion> listarDistribucionesFiltradas(EstadoDistribucion estado) { 
+		ArrayList<DtDistribucion> distribuciones = new ArrayList<>();
+		ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
+		distribuciones = mD.obtenerDistribuciones();
+		for(DtDistribucion d: distribuciones) {
+			if(d.getEstado() == estado) {
+				distribuciones.add(d);
+			}
+		}
+		return distribuciones;
+	}
+	
+	@Override
+	public Integer[] listarDistribucionesPorID() {
+		ArrayList<Integer> id_distribuciones;
+		ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
+		id_distribuciones = mD.obtenerIDDistribuciones();
+		Integer[] distribuciones_ret = new Integer[id_distribuciones.size()];
+        int i=0;
+        for(Integer id:id_distribuciones) {
+        	distribuciones_ret[i] = id;
+        	i++;
+        }
+		return distribuciones_ret;
+	}
+	
+
+	
 }

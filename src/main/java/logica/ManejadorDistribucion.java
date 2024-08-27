@@ -1,6 +1,5 @@
 package logica;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,5 +40,15 @@ public class ManejadorDistribucion {
 		}
 		return retorno;
 	}
+	
+	public ArrayList<Integer> obtenerIDDistribuciones(){
+		ArrayList<Integer> retorno = new ArrayList<>();
+		for(Distribucion d: distribuciones) {
+			int indice = d.getId();
+			retorno.add(indice);
+		}
+		return retorno;
+	}
+	
 	
 }
