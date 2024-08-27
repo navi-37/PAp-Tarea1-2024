@@ -55,7 +55,7 @@ public class Controlador implements IControlador{
 			throw new DonacionNoExisteExc("La donación no existe");
 		}else if (mU.buscarUsuario(dtdistribucion.getBeneficiario().getEmail()) == null){
 			//exc error
-			throw new UsuarioNOBeneficiarioExc("El usuario no es beneficiario");
+			throw new UsuarioNOBeneficiarioExc("El usuario no es beneficiario o no existe");
 		}else {
 			Beneficiario beneficiario = null;
 			Donacion donacion = mDon.buscarDonacion(dtdistribucion.getDonacion().getId());
@@ -118,7 +118,6 @@ public class Controlador implements IControlador{
         	distribuciones_ret[i] = id;
         	i++;
         }
-		
 		return distribuciones_ret;
 	}
 	

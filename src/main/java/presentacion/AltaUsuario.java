@@ -59,19 +59,21 @@ public class AltaUsuario extends JInternalFrame {
         comboBoxTipoUsuario.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String selectedItem = (String) comboBoxTipoUsuario.getSelectedItem();
-                if (selectedItem.equals("Beneficiario")) {
-                    textNumeroLicencia.setEnabled(false);
-                    textDireccion.setEnabled(true);
-                    texFechaNacimiento.setEnabled(true);
-                    comboBoxEstadoBeneficiario.setEnabled(true);
-                    comboBoxBarrio.setEnabled(true);
-                } else if (selectedItem.equals("Repartidor")) {
-                    textNumeroLicencia.setEnabled(true);
-                    textDireccion.setEnabled(false);
-                    texFechaNacimiento.setEnabled(false);
-                    comboBoxEstadoBeneficiario.setEnabled(false);
-                    comboBoxBarrio.setEnabled(false);
-                }
+                if (selectedItem != null) {
+                	if (selectedItem.equals("Beneficiario")) {
+                        textNumeroLicencia.setEnabled(false);
+                        textDireccion.setEnabled(true);
+                        texFechaNacimiento.setEnabled(true);
+                        comboBoxEstadoBeneficiario.setEnabled(true);
+                        comboBoxBarrio.setEnabled(true);
+                    } else if (selectedItem.equals("Repartidor")) {
+                        textNumeroLicencia.setEnabled(true);
+                        textDireccion.setEnabled(false);
+                        texFechaNacimiento.setEnabled(false);
+                        comboBoxEstadoBeneficiario.setEnabled(false);
+                        comboBoxBarrio.setEnabled(false);
+                    }
+                }  
             }
         });
         
@@ -153,6 +155,8 @@ public class AltaUsuario extends JInternalFrame {
         JLabel lblEstadoBenef = new JLabel("Estado");
         lblEstadoBenef.setBounds(34, 289, 46, 14);
         getContentPane().add(lblEstadoBenef);
+        
+        limpiarFormulario();
     }
 
     protected void agregarUsuarioAceptarActionPerformed(ActionEvent arg0) {
@@ -201,7 +205,8 @@ public class AltaUsuario extends JInternalFrame {
         textNumeroLicencia.setText("");
         textDireccion.setText("");
         texFechaNacimiento.setValue(null);
-        comboBoxEstadoBeneficiario.setSelectedIndex(0);
-        comboBoxBarrio.setSelectedIndex(0);
+        comboBoxTipoUsuario.setSelectedItem(null);
+        comboBoxEstadoBeneficiario.setSelectedItem(null);
+        comboBoxBarrio.setSelectedItem(null);
     }
 }

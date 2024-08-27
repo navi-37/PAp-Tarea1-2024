@@ -1,6 +1,6 @@
 package presentacion;
 
-import java.awt.EventQueue;
+
 
 import javax.swing.JInternalFrame;
 
@@ -42,7 +42,7 @@ public class AltaDistribucion extends JInternalFrame {
 	private IControlador icon;
 	private JTextField textDonacion;
 	private JTextField textBeneficiario;
-	private JTextField textid;
+	private JTextField textId;
 	private JComboBox<String> cBDiaFechaP;
 	private JComboBox<String> cBDiaFechaE;
 	private JComboBox<String> cBMesFechaP;
@@ -109,10 +109,10 @@ public class AltaDistribucion extends JInternalFrame {
 		lblid.setBounds(33, 33, 57, 13);
 		getContentPane().add(lblid);
 		
-		textid = new JTextField();
-		textid.setBounds(94, 33, 96, 19);
-		getContentPane().add(textid);
-		textid.setColumns(10);
+		textId = new JTextField();
+		textId.setBounds(94, 33, 96, 19);
+		getContentPane().add(textId);
+		textId.setColumns(10);
 		
 		cBDiaFechaP = new JComboBox<String>();
 		cBDiaFechaP.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
@@ -144,12 +144,10 @@ public class AltaDistribucion extends JInternalFrame {
 		cBAnoFechaE.setBounds(312, 165, 59, 21);
 		getContentPane().add(cBAnoFechaE);
 		
+		limpiarFormulario();
 	}
 	protected void agregarDistribucionAceptarActionPerformed(ActionEvent arg0) {
-		//ManejadorDonacion mDon = ManejadorDonacion.getInstancia();
-		//ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-		
-		int id_distribucion = Integer.parseInt(this.textDonacion.getText());
+		int id_distribucion = Integer.parseInt(this.textId.getText());
 		Integer id_donacion = Integer.valueOf(this.textDonacion.getText());
 		String email_beneficiario = this.textBeneficiario.getText();
 		
@@ -198,7 +196,7 @@ public class AltaDistribucion extends JInternalFrame {
 	private void limpiarFormulario() {
 		textDonacion.setText("");
 		textBeneficiario.setText("");
-		textid.setText("");
+		textId.setText("");
 		cBDiaFechaE.setSelectedItem(null);
 		cBMesFechaE.setSelectedItem(null);
 		cBAnoFechaE.setSelectedItem(null);

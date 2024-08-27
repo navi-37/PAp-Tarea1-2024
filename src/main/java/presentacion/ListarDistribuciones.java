@@ -27,7 +27,7 @@ public class ListarDistribuciones extends JInternalFrame {
 	private JTextField txtFechaP;
 	private JTextField txtFechaE;
 	private JTextField txtEstado;
-	private JComboBox comboBoxDistribuciones;
+	private JComboBox<Integer> comboBoxDistribuciones;
 
 	
 	public ListarDistribuciones(IControlador icon) {
@@ -35,19 +35,52 @@ public class ListarDistribuciones extends JInternalFrame {
 		setBounds(100, 100, 532, 389);
 		getContentPane().setLayout(null);
 		
-		JRadioButton rdbtnTodas = new JRadioButton("Todas");
+		rdbtnTodas = new JRadioButton("Todas");
+		rdbtnPendientes = new JRadioButton("Pendientes");
+		rdbtnEnCamino = new JRadioButton("En camino");
+		rdbtnEntregadas = new JRadioButton("Entregadas");
+		
+		//Todas
+		rdbtnTodas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnPendientes.setSelected(false);
+				rdbtnEnCamino.setSelected(false);
+				rdbtnEntregadas.setSelected(false);
+				rdbtnTodas.setSelected(true);
+			}
+		});
 		rdbtnTodas.setBounds(8, 39, 83, 23);
 		getContentPane().add(rdbtnTodas);
 		
-		JRadioButton rdbtnPendientes = new JRadioButton("Pendientes");
+		//Pendientes
+		rdbtnPendientes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnEnCamino.setSelected(false);
+				rdbtnEntregadas.setSelected(false);
+				rdbtnTodas.setSelected(false);
+			}
+		});
 		rdbtnPendientes.setBounds(97, 39, 108, 23);
 		getContentPane().add(rdbtnPendientes);
 		
-		JRadioButton rdbtnEnCamino = new JRadioButton("En camino");
+		//EnCamino
+		rdbtnEnCamino.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnTodas.setSelected(false);
+				rdbtnPendientes.setSelected(false);
+				rdbtnEntregadas.setSelected(false);
+			}
+		});
 		rdbtnEnCamino.setBounds(212, 39, 108, 23);
 		getContentPane().add(rdbtnEnCamino);
 		
-		JRadioButton rdbtnEntregadas = new JRadioButton("Entregadas");
+		//Entregadas
+		rdbtnEntregadas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rdbtnTodas.setSelected(false);
+				rdbtnPendientes.setSelected(false);
+				rdbtnEnCamino.setSelected(false);			}
+		});
 		rdbtnEntregadas.setBounds(316, 39, 149, 23);
 		getContentPane().add(rdbtnEntregadas);
 		

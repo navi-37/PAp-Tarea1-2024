@@ -51,19 +51,20 @@ public class AltaDonacion extends JInternalFrame {
 		comboBoxTipoDonacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String selectedItem = (String) comboBoxTipoDonacion.getSelectedItem();
-				if (selectedItem.equals("Alimento")) {
-					// despliego las que corresponden (setenabled(false) a las que no van
-					// y setenabled(true) a las que si
-					textCantElem.setEnabled(true);
-					textPeso.setEnabled(false);
-					textDimensiones.setEnabled(false);
-				} else if (selectedItem.equals("Artículo")) {
-					//al revé
-					textCantElem.setEnabled(false);
-					textPeso.setEnabled(true);
-					textDimensiones.setEnabled(true);
+				if (selectedItem != null) { // nos fijamos que la combobox no esté vacía
+					if (selectedItem.equals("Alimento")) {
+						// despliego las que corresponden (setenabled(false) a las que no van
+						// y setenabled(true) a las que si
+						textCantElem.setEnabled(true);
+						textPeso.setEnabled(false);
+						textDimensiones.setEnabled(false);
+					} else if (selectedItem.equals("Artículo")) {
+						//al revé
+						textCantElem.setEnabled(false);
+						textPeso.setEnabled(true);
+						textDimensiones.setEnabled(true);
+					}
 				}
-				
 			}
 		});
 		
@@ -133,12 +134,12 @@ public class AltaDonacion extends JInternalFrame {
 		});
 		btnCancelar.setBounds(298, 319, 117, 25);
 		getContentPane().add(btnCancelar);
-
+		
+		limpiarFormulario();
 	}
 	
 	protected void agregarDonacionAceptarActionPerformed(ActionEvent arg0) {
 		Integer id = Integer.valueOf(this.textid.getText());
-        //String fecha = this.textFechaIngreso.getText();
 		LocalDateTime fecha = LocalDateTime.now();
         String selectedItem = (String) comboBoxTipoDonacion.getSelectedItem();
         DtDonacion dt = null;
@@ -175,5 +176,6 @@ public class AltaDonacion extends JInternalFrame {
         textPeso.setText("");
         textDescripcion.setText("");
         textCantElem.setText("");
+        comboBoxTipoDonacion.setSelectedItem(null);
 	}
 }
