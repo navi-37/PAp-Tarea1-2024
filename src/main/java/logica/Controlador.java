@@ -2,6 +2,7 @@ package logica;
 
 import java.util.ArrayList;
 
+import datatypes.Barrio;
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
 import datatypes.DtBeneficiario;
@@ -104,14 +105,22 @@ public class Controlador implements IControlador{
 		return retorno;
 	}
 	
+	// hice esto para no sobrecargar el if de listarLasDistribucionesFiltradas, retorna true si 
+	// corresponde añadir la id de la distrubución a la combobox de distribuciones a listar.
+	private boolean distribucionCumpleCondiciones(DtDistribucion dt_dist, EstadoDistribucion estado, Barrio zona) {
+		boolean filtroEstado = (estado == null || dt_dist.getEstado() == estado);
+		boolean filtroZona = (zona == null || dt_dist.getBeneficiario() != null && zona.equals(dt_dist.getBeneficiario().getBarrio()));
+		return (filtroEstado && filtroZona);
+	}
+	
 	@Override
-	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado) {
+	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona) {
 	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
 	    ArrayList<DtDistribucion> todasLasDistribuciones = mD.obtenerDistribuciones();
 	    ArrayList<Integer> id_distribuciones = new ArrayList<>();
 
 	    for (DtDistribucion d : todasLasDistribuciones) {
-	        if (estado == null || d.getEstado() == estado) {
+	        if (distribucionCumpleCondiciones(d, estado, zona)) {
 	            id_distribuciones.add(d.getId());
 	        }
 	    }
@@ -121,5 +130,4 @@ public class Controlador implements IControlador{
 
 	    return distribuciones_ret;
 	}
-	
 }

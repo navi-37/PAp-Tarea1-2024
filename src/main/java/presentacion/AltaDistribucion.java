@@ -154,6 +154,7 @@ public class AltaDistribucion extends JInternalFrame {
 		Donacion donacion = new Donacion(id_donacion, null);
 		Beneficiario beneficiario = new Beneficiario(null, email_beneficiario, null, null, null, null);
 
+		// transformar en funcion esto pa reusar en altausuario
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		String anoFechaP = (String) cBAnoFechaP.getSelectedItem();
 		String mesFechaP = (String) cBMesFechaP.getSelectedItem();
@@ -169,7 +170,7 @@ public class AltaDistribucion extends JInternalFrame {
 			fechaP = formatter.parse(string_fechaP);
 			fechaE = formatter.parse(string_fechaE);
 		} catch (ParseException e) {
-			e.printStackTrace(); //??que es
+			e.printStackTrace(); 
 		}
 		EstadoDistribucion estado = EstadoDistribucion.PENDIENTE;
 		DtDistribucion dt = null;
