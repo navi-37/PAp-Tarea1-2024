@@ -78,20 +78,14 @@ public class ListarBeneficiarios extends JInternalFrame {
 	}
 	
 	public void cargarBeneficiarios() {
-		ArrayList<DtBeneficiario> beneficiarios = icon.ListaBeneficiarios(); 
+		DefaultComboBoxModel<DtBeneficiario> model = new DefaultComboBoxModel<>();
+		comboBoxBeneficiarios.setModel(model);
 		
-			DefaultComboBoxModel<DtBeneficiario> model = new DefaultComboBoxModel<>(); 
-			
+		for (DtBeneficiario beneificiario : icon.ListaBeneficiarios()) {	// necesario para operar con setModel con arrayList
+			model.addElement(beneificiario);
+		}
+		comboBoxBeneficiarios.setModel(model);
 	}
-		/* try {
-			DefaultComboBoxModel<DtBeneficiario> model = new DefaultComboBoxModel<>();
-
-			for (DtBeneficiario beneficiario : ) {
-			    model.addElement(beneficiario);
-			}
-
-			comboBoxBeneficiarios.setModel(model);
-			comboBoxBeneficiarios.setModel(model);
-		} */
+	
 	}
-}
+
