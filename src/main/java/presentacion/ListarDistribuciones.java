@@ -2,10 +2,13 @@ package presentacion;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
+import datatypes.DtDistribucion;
+import datatypes.EstadoDistribucion;
 import interfaces.IControlador;
 
 import javax.swing.DefaultComboBoxModel;
@@ -47,6 +50,9 @@ public class ListarDistribuciones extends JInternalFrame {
 				rdbtnEnCamino.setSelected(false);
 				rdbtnEntregadas.setSelected(false);
 				rdbtnTodas.setSelected(true);
+				EstadoDistribucion estado = null;
+				DefaultComboBoxModel<Integer> listaDistTodas = new DefaultComboBoxModel<Integer>(icon.listarLasDistribucionesFiltradas(estado));
+				comboBoxDistribuciones.setModel(listaDistTodas);
 			}
 		});
 		rdbtnTodas.setBounds(8, 39, 83, 23);
@@ -58,6 +64,9 @@ public class ListarDistribuciones extends JInternalFrame {
 				rdbtnEnCamino.setSelected(false);
 				rdbtnEntregadas.setSelected(false);
 				rdbtnTodas.setSelected(false);
+				EstadoDistribucion estado = EstadoDistribucion.PENDIENTE;
+				DefaultComboBoxModel<Integer> listaDistPendientes = new DefaultComboBoxModel<Integer>(icon.listarLasDistribucionesFiltradas(estado)); 
+				comboBoxDistribuciones.setModel(listaDistPendientes);
 			}
 		});
 		rdbtnPendientes.setBounds(97, 39, 108, 23);
@@ -69,6 +78,10 @@ public class ListarDistribuciones extends JInternalFrame {
 				rdbtnTodas.setSelected(false);
 				rdbtnPendientes.setSelected(false);
 				rdbtnEntregadas.setSelected(false);
+				EstadoDistribucion estado = EstadoDistribucion.EN_CAMINO;
+				DefaultComboBoxModel<Integer> listaDistEnCamino = new DefaultComboBoxModel<Integer>(icon.listarLasDistribucionesFiltradas(estado)); 
+				comboBoxDistribuciones.setModel(listaDistEnCamino);
+				
 			}
 		});
 		rdbtnEnCamino.setBounds(212, 39, 108, 23);
@@ -79,7 +92,11 @@ public class ListarDistribuciones extends JInternalFrame {
 			public void actionPerformed(ActionEvent e) {
 				rdbtnTodas.setSelected(false);
 				rdbtnPendientes.setSelected(false);
-				rdbtnEnCamino.setSelected(false);			}
+				rdbtnEnCamino.setSelected(false);
+				EstadoDistribucion estado = EstadoDistribucion.ENTREGADO;
+				DefaultComboBoxModel<Integer> listaDistEntregadas = new DefaultComboBoxModel<Integer>(icon.listarLasDistribucionesFiltradas(estado)); 
+				comboBoxDistribuciones.setModel(listaDistEntregadas);
+			}
 		});
 		rdbtnEntregadas.setBounds(316, 39, 149, 23);
 		getContentPane().add(rdbtnEntregadas);
@@ -162,9 +179,19 @@ public class ListarDistribuciones extends JInternalFrame {
 	}
 	
 	public void listarDistribucionesActionPerformed(ActionEvent e){
-		limpiarFormulario();
-		String strId = this.comboBoxDistribuciones.getSelectedItem().toString();
-		 
+		if (checkFormulario()) {
+			DtDistribucion dist;
+			String strId = this.comboBoxDistribuciones.getSelectedItem().toString();
+			int id = Integer.parseInt(strId);
+			
+			dist = this.icon.getDistribucion(id);
+		
+			txtBeneficiario.setText(dist.getBeneficiario().getEmail());
+			txtDonacion.setText(dist.getDonacion().getId().toString());
+			txtFechaE.setText(dist.getFechaEntrega().toString());
+			txtFechaP.setText(dist.getFechaPreparacion().toString());
+			txtEstado.setText(dist.getEstado().toString());
+		}
 	}
 	
 	private void limpiarFormulario() {
@@ -185,8 +212,13 @@ public class ListarDistribuciones extends JInternalFrame {
         setVisible(false);
 	} 
 	
-	public void iniciarlizarComboBoxes() {
-		DefaultComboBoxModel<Integer> listaDist = new DefaultComboBoxModel<Integer>(icon.listarDistribucionesPorID());
-		comboBoxDistribuciones.setModel(listaDist);
-	}	
+	private boolean checkFormulario() {
+        if (this.comboBoxDistribuciones.getSelectedItem()==null) {
+        	JOptionPane.showMessageDialog(this, "Se debe seleccionar una distribución", "Listar Distribuciones",
+                    JOptionPane.ERROR_MESSAGE);
+        	return false;
+        } 
+        return true;
+    }
+	
 }
