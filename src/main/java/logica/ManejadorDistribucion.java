@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import datatypes.DtDistribucion;
+import datatypes.EstadoDistribucion;
 
 public class ManejadorDistribucion {
 	private static ManejadorDistribucion instancia = null;
@@ -49,6 +50,5 @@ public class ManejadorDistribucion {
 		}
 		return retorno;
 	}
-	
 	
 }

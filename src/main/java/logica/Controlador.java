@@ -85,42 +85,41 @@ public class Controlador implements IControlador{
 			mU.agregarUsuario(nuevoUsuario);
 		}
 	}
-
-	@Override
-	public ArrayList<DtDistribucion> listarDistribuciones() { 
-		ArrayList<DtDistribucion> distribuciones = new ArrayList<>();
-		ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
-		distribuciones = mD.obtenerDistribuciones();
-		return distribuciones;
-	}
 	
 	@Override
-	public ArrayList<DtDistribucion> listarDistribucionesFiltradas(EstadoDistribucion estado) { 
-		ArrayList<DtDistribucion> distribuciones = new ArrayList<>();
+	public DtDistribucion getDistribucion(int idDist) {
 		ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
-		distribuciones = mD.obtenerDistribuciones();
-		for(DtDistribucion d: distribuciones) {
-			if(d.getEstado() == estado) {
-				distribuciones.add(d);
+		ArrayList<DtDistribucion> todasLasDistribuciones = mD.obtenerDistribuciones();
+		DtDistribucion retorno = new DtDistribucion(idDist, null, null, null, null, null);
+		
+		for (DtDistribucion d : todasLasDistribuciones) {
+			if (d.getId() == idDist) {
+				retorno.setFechaPreparacion(d.getFechaPreparacion());
+				retorno.setFechaEntrega(d.getFechaEntrega());
+				retorno.setEstado(d.getEstado());
+				retorno.setBeneficiario(d.getBeneficiario());
+				retorno.setDonacion(d.getDonacion());
 			}
-		}
-		return distribuciones;
+	    }
+		return retorno;
 	}
 	
 	@Override
-	public Integer[] listarDistribucionesPorID() {
-		ArrayList<Integer> id_distribuciones;
-		ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
-		id_distribuciones = mD.obtenerIDDistribuciones();
-		Integer[] distribuciones_ret = new Integer[id_distribuciones.size()];
-        int i=0;
-        for(Integer id:id_distribuciones) {
-        	distribuciones_ret[i] = id;
-        	i++;
-        }
-		return distribuciones_ret;
-	}
-	
+	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado) {
+	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
+	    ArrayList<DtDistribucion> todasLasDistribuciones = mD.obtenerDistribuciones();
+	    ArrayList<Integer> id_distribuciones = new ArrayList<>();
 
+	    for (DtDistribucion d : todasLasDistribuciones) {
+	        if (estado == null || d.getEstado() == estado) {
+	            id_distribuciones.add(d.getId());
+	        }
+	    }
+
+	    Integer[] distribuciones_ret = new Integer[id_distribuciones.size()];
+	    distribuciones_ret = id_distribuciones.toArray(distribuciones_ret);
+
+	    return distribuciones_ret;
+	}
 	
 }

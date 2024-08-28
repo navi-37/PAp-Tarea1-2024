@@ -129,7 +129,7 @@ public class Principal {
 		JMenuItem mntmDistribuciones = new JMenuItem("Distribuciones");
 		mntmDistribuciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				listarDistribucionesInternalFrame.iniciarlizarComboBoxes();
+				//listarDistribucionesInternalFrame.iniciarlizarComboBoxes();
 				listarDistribucionesInternalFrame.setVisible(true);
 			}
 		});
