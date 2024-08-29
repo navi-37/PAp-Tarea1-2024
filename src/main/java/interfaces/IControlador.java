@@ -24,5 +24,7 @@ public interface IControlador {
 	
 	public DtDistribucion getDistribucion(int idDist);
 	
-	//public Integer[] listarDistribucionesPorZona(Barrio zona);
+	public DtDonacion getDonacion(Integer idDon);
+	
+	public Integer [] listarDonaciones();
 }

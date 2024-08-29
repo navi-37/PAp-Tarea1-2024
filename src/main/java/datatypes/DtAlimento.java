@@ -19,5 +19,13 @@ public class DtAlimento extends DtDonacion {
 	public Integer getCantElementos() {
 		return cantElementos;
 	}
+
+	public void setDescripcionProductos(String descripcionProductos) {
+		this.descripcionProductos = descripcionProductos;
+	}
+
+	public void setCantElementos(Integer cantElementos) {
+		this.cantElementos = cantElementos;
+	}
 	
 }

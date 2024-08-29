@@ -130,4 +130,43 @@ public class Controlador implements IControlador{
 
 	    return distribuciones_ret;
 	}
+	
+	@Override
+	public Integer [] listarDonaciones() {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+	    ArrayList<DtDonacion> todasLasDonaciones = mD.obtenerDonaciones();
+	    ArrayList <Integer> id_donaciones = new ArrayList<>();
+	    
+	    for (DtDonacion d : todasLasDonaciones) {
+	        if (d.getId() != null) {
+	            id_donaciones.add(d.getId());
+	        }
+	    }
+	    
+		Integer[] retorno = new Integer[id_donaciones.size()];
+	    retorno = id_donaciones.toArray(retorno);
+
+		return retorno;	
+	}
+	
+	@Override
+	public DtDonacion getDonacion(Integer idDon) {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+		ArrayList<DtDonacion> todasLasDonaciones = mD.obtenerDonaciones();
+		DtDonacion retorno = null;
+		
+		for (DtDonacion d : todasLasDonaciones) {
+			if (d.getId() == idDon) {
+				if (d instanceof DtArticulo) {
+					DtArticulo articulo = (DtArticulo) d;
+					retorno = new DtArticulo(idDon, articulo.getFechaIngresada(), articulo.getDescripcion(), articulo.getPeso(), articulo.getDimensiones());
+				} else if (d instanceof DtAlimento) {
+					DtAlimento alimento = (DtAlimento) d;
+					retorno = new DtAlimento(idDon, alimento.getFechaIngresada(), alimento.getDescripcionProductos(), alimento.getCantElementos());
+				}
+			}
+	    }
+		return retorno;
+	}
+
 }

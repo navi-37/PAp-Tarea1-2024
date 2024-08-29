@@ -3,6 +3,9 @@ package logica;
 import java.util.ArrayList;
 import java.util.List;
 
+import datatypes.DtDistribucion;
+import datatypes.DtDonacion;
+
 public class ManejadorDonacion {
 	private static ManejadorDonacion instancia = null;
 	private List<Donacion> donaciones = new ArrayList<>();
@@ -29,4 +32,15 @@ public class ManejadorDonacion {
 		}
 		return retorno;
 	}
+
+	public ArrayList<DtDonacion> obtenerDonaciones(){
+		ArrayList<DtDonacion> retorno = new ArrayList<>();
+		for(Donacion d: donaciones) {
+			DtDonacion dt_don = new DtDonacion(d.getId(), d.getFechaIngresada());
+			retorno.add(dt_don);
+		}
+		return retorno;
+	}
+	
+	
 }

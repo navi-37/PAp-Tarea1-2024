@@ -25,5 +25,17 @@ public class DtArticulo extends DtDonacion{
 	public String getDimensiones() {
 		return dimensiones;
 	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public void setPeso(float peso) {
+		this.peso = peso;
+	}
+
+	public void setDimensiones(String dimensiones) {
+		this.dimensiones = dimensiones;
+	}
 	
 }
