@@ -37,7 +37,7 @@ public class DtBeneficiario extends DtUsuario {
 	public String toString() {
 		return super.toString() +
 		"\nDireccion: " + direccion +
-		"\nFecha de nacimiento: " + fechaNacimiento +
+		// "\nFecha de nacimiento: " + fechaNacimiento +  --> dato no usado por ninguna función de listar
 		"\nEstado: " + estado +
 		"\nBarrio: " + barrio;
 	}
