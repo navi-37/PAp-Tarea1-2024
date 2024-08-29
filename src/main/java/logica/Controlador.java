@@ -14,6 +14,7 @@ import datatypes.EstadoDistribucion;
 
 import excepciones.DonacionRepetidaExc;
 import excepciones.UsuarioRepetidoExc;
+import excepciones.DistribucionNoEncontradaExc;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
 import excepciones.UsuarioNOBeneficiarioExc;
@@ -150,6 +151,26 @@ public class Controlador implements IControlador{
 	return ListaBeneficiarios;
 	}
 	
+	@Override
+	public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
+	    ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
+	    Distribucion distribucionExistente = mDist.buscarDistribucion(dtdistribucion.getId());
 
-	 
+	    if (distribucionExistente == null) {
+	        throw new DistribucionNoEncontradaExc("Distribución no encontrada con el ID: " + dtdistribucion.getId());
+	    } else {
+	        // Modificar los campos de la distribución existente
+	        distribucionExistente.setFechaPreparacion(dtdistribucion.getFechaPreparacion());
+	        distribucionExistente.setFechaEntrega(dtdistribucion.getFechaEntrega());
+	        distribucionExistente.setEstado(dtdistribucion.getEstado());
+
+	        Beneficiario beneficiario = dtdistribucion.getBeneficiario();
+	        Donacion donacion = dtdistribucion.getDonacion();
+	        
+	        distribucionExistente.setBeneficiario(beneficiario);
+	        distribucionExistente.setDonacion(donacion);
+
+	    }
+	}
+
 }
