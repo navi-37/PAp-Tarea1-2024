@@ -252,7 +252,7 @@ public class ListarDistribuciones extends JInternalFrame {
 	private void limpiarFormulario() {
 		grupo_de_rdbtn.clearSelection();
 		comboBoxDistribuciones.setSelectedItem(null);
-		comboBoxDistribuciones.setModel(new DefaultComboBoxModel<Integer>());
+		//comboBoxDistribuciones.setModel(new DefaultComboBoxModel<Integer>());
 		comboBoxZona.setSelectedItem(null);
 		txtBeneficiario.setText("");
 		txtDonacion.setText("");

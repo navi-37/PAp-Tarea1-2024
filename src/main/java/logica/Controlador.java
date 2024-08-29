@@ -156,7 +156,7 @@ public class Controlador implements IControlador{
 		DtDonacion retorno = null;
 		
 		for (DtDonacion d : todasLasDonaciones) {
-			if (d.getId() == idDon) {
+			if (d.getId().equals(idDon)) {
 				if (d instanceof DtArticulo) {
 					DtArticulo articulo = (DtArticulo) d;
 					retorno = new DtArticulo(idDon, articulo.getFechaIngresada(), articulo.getDescripcion(), articulo.getPeso(), articulo.getDimensiones());

@@ -20,11 +20,13 @@ public interface IControlador {
   
 	public void altaDistribucion(DtDistribucion distribucion) throws DistribucionRepetidaExc, UsuarioNOBeneficiarioExc, DonacionNoExisteExc;
 	
-	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona);
 	
+
 	public DtDistribucion getDistribucion(int idDist);
 	
 	public DtDonacion getDonacion(Integer idDon);
+	
+	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona);
 	
 	public Integer [] listarDonaciones();
 }
