@@ -107,7 +107,11 @@ public class ModificarDistribucion extends JInternalFrame {
 		comboBoxDistribuciones.setBounds(97, 85, 140, 24);
 		getContentPane().add(comboBoxDistribuciones);
 		
-		comboEstado = new JComboBox<EstadoDistribucion>(EstadoDistribucion.values());
+		comboEstado = new JComboBox<EstadoDistribucion>();
+		comboEstado.addItem(null); 
+		for (EstadoDistribucion estado : EstadoDistribucion.values()) {
+		    comboEstado.addItem(estado);
+		}
 		comboEstado.setBounds(97, 250, 140, 19);
 		getContentPane().add(comboEstado);
 		
