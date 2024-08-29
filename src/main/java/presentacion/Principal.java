@@ -21,6 +21,8 @@ public class Principal {
 	private AltaUsuario agregarUsuarioInternalFrame;
 	private AltaDistribucion agregarDistribucionInternalFrame;
 	private ListarDistribuciones listarDistribucionesInternalFrame;
+	
+	private ListarBeneficiarios lisBeneInternalFrame;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -78,6 +80,12 @@ public class Principal {
 				(desktopSize.height - jInternalFrameSize.height)/2);
 		listarDistribucionesInternalFrame.setVisible(false);
 		frame.getContentPane().add(listarDistribucionesInternalFrame);
+		
+		lisBeneInternalFrame = new ListarBeneficiarios(icon); 
+		lisBeneInternalFrame.setVisible(false);
+		frame.getContentPane().add(lisBeneInternalFrame);
+		
+		
 	}
 
 	
@@ -135,11 +143,17 @@ public class Principal {
 		});
 		menuListar.add(mntmDistribuciones);
 		
-		JMenuItem mntmBeneficiarios = new JMenuItem("Beneficiarios");
-		menuListar.add(mntmBeneficiarios);
-		
 		JMenu menuReporte = new JMenu("Reporte");
 		menuBar.add(menuReporte);
+		
+		JMenuItem mntmListaBeneficiarios = new JMenuItem("Beneficiarios");
+		mntmListaBeneficiarios.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	lisBeneInternalFrame.cargarBeneficiarios();
+            	lisBeneInternalFrame.setVisible(true);
+            }
+        });
+        menuListar.add(mntmListaBeneficiarios);
 
 
 	}

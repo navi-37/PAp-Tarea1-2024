@@ -5,7 +5,7 @@ import java.util.List;
 
 public class ManejadorUsuario {
 	private static ManejadorUsuario instancia = null;
-	private List<Usuario> usuarios = new ArrayList<>();
+	private ArrayList<Usuario> usuarios = new ArrayList<>();
 	
 	private ManejadorUsuario() {} //privado para que no sea instanciable salvo usando getInstancia una unica vez
 	
@@ -28,5 +28,9 @@ public class ManejadorUsuario {
 			}
 		}
 		return retorno;
+	}
+	
+	public ArrayList<Usuario> listaUsuarios() {
+		return usuarios;
 	}
 }

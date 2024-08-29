@@ -1,7 +1,13 @@
 package interfaces;
 
 import datatypes.DtDonacion;
+
+import java.util.ArrayList;
+
 import datatypes.Barrio;
+
+import datatypes.DtBeneficiario;
+
 import datatypes.DtDistribucion;
 import datatypes.DtUsuario;
 import datatypes.EstadoDistribucion;
@@ -20,9 +26,12 @@ public interface IControlador {
   
 	public void altaDistribucion(DtDistribucion distribucion) throws DistribucionRepetidaExc, UsuarioNOBeneficiarioExc, DonacionNoExisteExc;
 	
+
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona);
 	
 	public DtDistribucion getDistribucion(int idDist);
 	
-	//public Integer[] listarDistribucionesPorZona(Barrio zona);
+	
+	public ArrayList<DtBeneficiario> ListaBeneficiarios();
+
 }

@@ -114,11 +114,11 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
+
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona) {
 	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
 	    ArrayList<DtDistribucion> todasLasDistribuciones = mD.obtenerDistribuciones();
 	    ArrayList<Integer> id_distribuciones = new ArrayList<>();
-
 	    for (DtDistribucion d : todasLasDistribuciones) {
 	        if (distribucionCumpleCondiciones(d, estado, zona)) {
 	            id_distribuciones.add(d.getId());
@@ -130,4 +130,26 @@ public class Controlador implements IControlador{
 
 	    return distribuciones_ret;
 	}
+
+
+	@Override
+	public ArrayList<DtBeneficiario> ListaBeneficiarios() {
+		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+		ArrayList<DtBeneficiario> ListaBeneficiarios = new ArrayList<DtBeneficiario>();
+		
+		ArrayList<Usuario> usuarios = mU.listaUsuarios();  
+				
+		for (Usuario u :usuarios) {					// importar Usuarios y cargar la lista a DtUsuarios
+			if (u instanceof Beneficiario) {
+				Beneficiario ben = (Beneficiario) u;
+				DtBeneficiario dtben = new DtBeneficiario(
+						ben.getNombre(), ben.getEmail(), ben.getDireccion(), ben.getFechaNacimiento(), ben.getEstado(), ben.getBarrio());
+			ListaBeneficiarios.add(dtben);
+			}
+		}
+	return ListaBeneficiarios;
+	}
+	
+
+	 
 }
