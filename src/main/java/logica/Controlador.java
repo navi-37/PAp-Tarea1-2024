@@ -168,5 +168,32 @@ public class Controlador implements IControlador{
 	    }
 		return retorno;
 	}
-
+	
+	@Override
+	public void modificarDonacion(DtDonacion donacion) {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+		Donacion donacionAModificar = mD.buscarDonacion(donacion.getId());
+		
+		if (donacionAModificar == null) {
+			//error
+		} else {
+			if (donacion instanceof DtAlimento) {
+				DtAlimento alimento = (DtAlimento) donacion;
+				Alimento alimentoAModificar = (Alimento) donacionAModificar;
+				alimentoAModificar.setId(alimento.getId());
+				alimentoAModificar.setFechaIngresada(alimento.getFechaIngresada());
+				alimentoAModificar.setDescripcionProductos(alimento.getDescripcionProductos());
+				alimentoAModificar.setCantElementos(alimento.getCantElementos());		
+			} else if (donacion instanceof DtArticulo) {
+				DtArticulo articulo = (DtArticulo) donacion;
+				Articulo articuloAModificar = (Articulo) donacionAModificar;
+				articuloAModificar.setId(articulo.getId());
+				articuloAModificar.setFechaIngresada(articulo.getFechaIngresada());
+				articuloAModificar.setDescripcion(articulo.getDescripcion());
+				articuloAModificar.setPeso(articulo.getPeso());
+				articuloAModificar.setDimensiones(articulo.getDimensiones());	
+			}
+		}
+	}
+	
 }

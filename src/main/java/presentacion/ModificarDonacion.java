@@ -19,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.awt.event.ActionEvent;
 
 
@@ -161,7 +163,7 @@ public class ModificarDonacion extends JInternalFrame {
 	//en este caso se convierte LocalDateTime a string
 	public String convertirFechaADiaMesAnio(LocalDateTime fecha) {
 	    Date date = Date.from(fecha.atZone(ZoneId.systemDefault()).toInstant());
-	    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+	    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	    return formatoFecha.format(date);
 	}
 	
@@ -177,20 +179,44 @@ public class ModificarDonacion extends JInternalFrame {
 	public void modificarDatos() {
 		//acá habría que llamar un checkformulario que se fije que las cosas esten en orden
 		//
+		
+		// id y fecha no se ven afectados por el tipo de donación
 		Integer id = (Integer) comboBoxDonaciones.getSelectedItem();
-		String nuevaFechaHoraIngreso = textFieldFechaIng.getText();
+		
+		DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+		LocalDateTime nuevaFechaHoraIngreso = null;
+		try {
+	        nuevaFechaHoraIngreso = LocalDateTime.parse(textFieldFechaIng.getText(), formatoFecha);
+	    } catch (DateTimeParseException e) {
+	        // si el formato del string no es válido
+	        e.printStackTrace();
+	        // Mostrar mensaje de error o manejar según la lógica de tu aplicación
+	        return;
+	    }
+		
+		//descripción tienen ambos aunque con distinto nombre, acá se pueden compartir
 		String nuevaDescripcion = textFieldDescripcion.getText();
-	    Integer nuevaCantElem = null;
-	    if (!textFieldCantElem.getText().isEmpty()) {
-	        nuevaCantElem = Integer.parseInt(textFieldCantElem.getText());
-	    }
-	    Float nuevoPeso = null;
-	    if (!textFieldPeso.getText().isEmpty()) {
-	        nuevoPeso = Float.parseFloat(textFieldPeso.getText());
-	    }
-		String nuevasDimensiones = textFieldDimensiones.getText();
 		
-		//acá quedé, me fui a mimir
+		String tipoDonacion = textFieldTipoDonacion.getText();
 		
+		if (tipoDonacion.equals("Alimento")) {
+		    Integer nuevaCantElem = null;
+		    if (!textFieldCantElem.getText().isEmpty()) {
+		        nuevaCantElem = Integer.parseInt(textFieldCantElem.getText());
+		    }
+			DtAlimento donacion = new DtAlimento(id, nuevaFechaHoraIngreso, nuevaDescripcion, nuevaCantElem);
+			this.icon.modificarDonacion(donacion);
+		    
+		} else if (tipoDonacion.equals("Artículo")) {
+			Float nuevoPeso = null;
+		    if (!textFieldPeso.getText().isEmpty()) {
+		        nuevoPeso = Float.parseFloat(textFieldPeso.getText());
+		    }
+			String nuevasDimensiones = textFieldDimensiones.getText();
+			DtArticulo donacion = new DtArticulo(id, nuevaFechaHoraIngreso, nuevaDescripcion, nuevoPeso, nuevasDimensiones);
+			this.icon.modificarDonacion(donacion);
+		}	
+	
 	}
+	
 }

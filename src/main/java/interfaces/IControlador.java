@@ -20,6 +20,7 @@ public interface IControlador {
   
 	public void altaDistribucion(DtDistribucion distribucion) throws DistribucionRepetidaExc, UsuarioNOBeneficiarioExc, DonacionNoExisteExc;
 	
+	public void modificarDonacion(DtDonacion donacion);
 	
 
 	public DtDistribucion getDistribucion(int idDist);
