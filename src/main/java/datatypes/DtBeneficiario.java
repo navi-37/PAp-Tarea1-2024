@@ -36,9 +36,9 @@ public class DtBeneficiario extends DtUsuario {
 	@Override
 	public String toString() {
 		return super.toString() +
-		"\nDireccion: " + direccion +
+		"\nDireccion: " + direccion + "\n  " +
 		// "\nFecha de nacimiento: " + fechaNacimiento +  --> dato no usado por ninguna función de listar
-		"\nEstado: " + estado +
+		"\nEstado: " + estado + "\n " +
 		"\nBarrio: " + barrio;
 	}
 }
