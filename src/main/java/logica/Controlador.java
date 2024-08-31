@@ -172,5 +172,70 @@ public class Controlador implements IControlador{
 
 	    }
 	}
+	
+	@Override
+	public Integer [] listarDonaciones() {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+	    ArrayList<DtDonacion> todasLasDonaciones = mD.obtenerDonaciones();
+	    ArrayList <Integer> id_donaciones = new ArrayList<>();
+	    
+	    for (DtDonacion d : todasLasDonaciones) {
+	        if (d.getId() != null) {
+	            id_donaciones.add(d.getId());
+	        }
+	    }
+	    
+		Integer[] retorno = new Integer[id_donaciones.size()];
+	    retorno = id_donaciones.toArray(retorno);
 
+		return retorno;	
+	}
+	
+	@Override
+	public DtDonacion getDonacion(Integer idDon) {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+		ArrayList<DtDonacion> todasLasDonaciones = mD.obtenerDonaciones();
+		DtDonacion retorno = null;
+		
+		for (DtDonacion d : todasLasDonaciones) {
+			if (d.getId().equals(idDon)) {
+				if (d instanceof DtArticulo) {
+					DtArticulo articulo = (DtArticulo) d;
+					retorno = new DtArticulo(idDon, articulo.getFechaIngresada(), articulo.getDescripcion(), articulo.getPeso(), articulo.getDimensiones());
+				} else if (d instanceof DtAlimento) {
+					DtAlimento alimento = (DtAlimento) d;
+					retorno = new DtAlimento(idDon, alimento.getFechaIngresada(), alimento.getDescripcionProductos(), alimento.getCantElementos());
+				}
+			}
+	    }
+		return retorno;
+	}
+	
+	@Override
+	public void modificarDonacion(DtDonacion donacion) {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+		Donacion donacionAModificar = mD.buscarDonacion(donacion.getId());
+		
+		if (donacionAModificar == null) {
+			//error
+		} else {
+			if (donacion instanceof DtAlimento) {
+				DtAlimento alimento = (DtAlimento) donacion;
+				Alimento alimentoAModificar = (Alimento) donacionAModificar;
+				alimentoAModificar.setId(alimento.getId());
+				alimentoAModificar.setFechaIngresada(alimento.getFechaIngresada());
+				alimentoAModificar.setDescripcionProductos(alimento.getDescripcionProductos());
+				alimentoAModificar.setCantElementos(alimento.getCantElementos());		
+			} else if (donacion instanceof DtArticulo) {
+				DtArticulo articulo = (DtArticulo) donacion;
+				Articulo articuloAModificar = (Articulo) donacionAModificar;
+				articuloAModificar.setId(articulo.getId());
+				articuloAModificar.setFechaIngresada(articulo.getFechaIngresada());
+				articuloAModificar.setDescripcion(articulo.getDescripcion());
+				articuloAModificar.setPeso(articulo.getPeso());
+				articuloAModificar.setDimensiones(articulo.getDimensiones());	
+			}
+		}
+	}
+	
 }

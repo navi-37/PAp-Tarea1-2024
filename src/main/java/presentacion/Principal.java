@@ -22,13 +22,11 @@ public class Principal {
 	private AltaDistribucion agregarDistribucionInternalFrame;
 	private ListarDistribuciones listarDistribucionesInternalFrame;
 	private ListarBeneficiarios lisBeneInternalFrame;
-
 	private ListarBenZona lisBeneZonaInternalFrame;
-
+	private ModificarDonacion modificarDonacionInternalFrame;
 	private ModificarDistribucion modificarDistribucion;
 
 
-	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -86,6 +84,7 @@ public class Principal {
 		listarDistribucionesInternalFrame.setVisible(false);
 		frame.getContentPane().add(listarDistribucionesInternalFrame);
 		
+		
 		lisBeneInternalFrame = new ListarBeneficiarios(icon); 
 		lisBeneInternalFrame.setVisible(false);
 		frame.getContentPane().add(lisBeneInternalFrame);
@@ -102,6 +101,16 @@ public class Principal {
                 (desktopSize.height - jInternalFrameSize.height) / 2);
         modificarDistribucion.setVisible(false);
         frame.getContentPane().add(modificarDistribucion);
+
+        
+		modificarDonacionInternalFrame = new ModificarDonacion(icon);
+		modificarDonacionInternalFrame.setClosable(true);
+		jInternalFrameSize = modificarDonacionInternalFrame.getSize();
+		modificarDonacionInternalFrame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+				(desktopSize.height - jInternalFrameSize.height)/2);
+		modificarDonacionInternalFrame.setVisible(false);
+		frame.getContentPane().add(modificarDonacionInternalFrame);
+
 	}
 
 	
@@ -147,6 +156,7 @@ public class Principal {
 		JMenu menuModificar = new JMenu("Modificar");
 		menuBar.add(menuModificar);
 		
+
 		JMenuItem menuItemModificarDist = new JMenuItem("Modificar Distribución");
         menuItemModificarDist.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -156,6 +166,16 @@ public class Principal {
         });
         menuModificar.add(menuItemModificarDist);
         
+
+		JMenuItem mntmDonacion = new JMenuItem("Donación");
+		mntmDonacion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificarDonacionInternalFrame.actualizarDonaciones();
+				modificarDonacionInternalFrame.setVisible(true);
+			}
+		});
+		menuModificar.add(mntmDonacion);
+
 		
 		JMenu menuListar = new JMenu("Listar");
 		menuBar.add(menuListar);
@@ -163,7 +183,7 @@ public class Principal {
 		JMenuItem mntmDistribuciones = new JMenuItem("Distribuciones");
 		mntmDistribuciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//listarDistribucionesInternalFrame.iniciarlizarComboBoxes();
+				//listarDistribucionesInternalFrame.inicializarComboBoxes();
 				listarDistribucionesInternalFrame.setVisible(true);
 			}
 		});

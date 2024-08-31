@@ -20,5 +20,13 @@ public class DtDonacion {
 		return fechaIngresada;
 	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public void setFechaIngresada(LocalDateTime fechaIngresada) {
+		this.fechaIngresada = fechaIngresada;
+	}
+
 	
 }
