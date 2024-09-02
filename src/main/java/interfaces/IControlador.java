@@ -10,6 +10,7 @@ import datatypes.DtBeneficiario;
 
 import datatypes.DtDistribucion;
 import datatypes.DtUsuario;
+import datatypes.EstadoBeneficiario;
 import datatypes.EstadoDistribucion;
 import excepciones.DonacionRepetidaExc;
 import excepciones.UsuarioRepetidoExc;
@@ -35,6 +36,8 @@ public interface IControlador {
 	public DtDistribucion getDistribucion(int idDist);
 	
 	public ArrayList<DtBeneficiario> ListaBeneficiarios();
+	
+    public ArrayList<DtBeneficiario> listarBeneficiariosPorEstado(EstadoBeneficiario estado);
 
 	public DtDonacion getDonacion(Integer idDon);
 	

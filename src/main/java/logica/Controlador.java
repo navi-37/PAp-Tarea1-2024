@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import datatypes.Barrio;
 import datatypes.DtAlimento;
@@ -9,6 +10,7 @@ import datatypes.DtBeneficiario;
 import datatypes.DtDonacion;
 import datatypes.DtRepartidor;
 import datatypes.DtUsuario;
+import datatypes.EstadoBeneficiario;
 import datatypes.DtDistribucion;
 import datatypes.EstadoDistribucion;
 
@@ -150,6 +152,14 @@ public class Controlador implements IControlador{
 		}
 	return ListaBeneficiarios;
 	}
+	
+	@Override
+    public ArrayList<DtBeneficiario> listarBeneficiariosPorEstado(EstadoBeneficiario estado) {
+        ArrayList<DtBeneficiario> beneficiarios = ListaBeneficiarios();
+        return (ArrayList<DtBeneficiario>) beneficiarios.stream()
+                .filter(beneficiario -> beneficiario.getEstado().equals(estado))
+                .collect(Collectors.toList());
+    }
 	
 	@Override
 	public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
