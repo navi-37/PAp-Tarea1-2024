@@ -12,6 +12,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
 import datatypes.DtBeneficiario;
+import datatypes.EstadoBeneficiario;
 import excepciones.UsuarioNOBeneficiarioExc;
 import interfaces.IControlador;
 
@@ -53,9 +54,19 @@ public class ListarBeneficiarios extends JInternalFrame {
 		
 		JLabel lblBeneficiarios = new JLabel("Beneficiarios");
 		lblBeneficiarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblBeneficiarios.setBounds(172, 11, 167, 14);
+		lblBeneficiarios.setBounds(34, 12, 167, 14);
 		getContentPane().add(lblBeneficiarios);
+		
+		JComboBox<String> estadoComboBox = new JComboBox<>(new String[] {"Seleccione un estado", EstadoBeneficiario.ACTIVO.name(), EstadoBeneficiario.SUSPENDIDO.name()});
+	    estadoComboBox.setBounds(149, 8, 226, 27);
+	    getContentPane().add(estadoComboBox);
 
+	    estadoComboBox.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            String estadoSeleccionado = (String) estadoComboBox.getSelectedItem();
+	            filtrarBeneficiariosPorEstado(estadoSeleccionado);
+	        }
+	    });
 	}
 	
 	public void cargarBeneficiarios() {
@@ -68,5 +79,17 @@ public class ListarBeneficiarios extends JInternalFrame {
 		comboBoxBeneficiarios.setModel(model);
 	}
 	
+	private void filtrarBeneficiariosPorEstado(String estado) {
+	    DefaultComboBoxModel<DtBeneficiario> model = new DefaultComboBoxModel<>();
+	    comboBoxBeneficiarios.setModel(model);
+
+	    for (DtBeneficiario beneficiario : icon.ListaBeneficiarios()) {
+	        if (estado.equals("Seleccione un estado") || beneficiario.getEstado().name().equals(estado)) {
+	            model.addElement(beneficiario);
+	        }
+	    }
+
+	    comboBoxBeneficiarios.setModel(model);
 	}
+}
 
