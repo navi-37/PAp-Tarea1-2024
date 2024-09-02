@@ -37,7 +37,7 @@ public interface IControlador {
 	
 	public ArrayList<DtBeneficiario> ListaBeneficiarios();
 	
-    public ArrayList<DtBeneficiario> listarBeneficiariosPorEstado(EstadoBeneficiario estado);
+	public ArrayList<DtBeneficiario> listarBeneficiariosPorEstadoYBarrio(EstadoBeneficiario estado, Barrio barrio);
 
 	public DtDonacion getDonacion(Integer idDon);
 	
