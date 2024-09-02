@@ -154,10 +154,10 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-    public ArrayList<DtBeneficiario> listarBeneficiariosPorEstado(EstadoBeneficiario estado) {
+    public ArrayList<DtBeneficiario> listarBeneficiariosPorEstadoYBarrio(EstadoBeneficiario estado, Barrio barrio) {
         ArrayList<DtBeneficiario> beneficiarios = ListaBeneficiarios();
         return (ArrayList<DtBeneficiario>) beneficiarios.stream()
-                .filter(beneficiario -> beneficiario.getEstado().equals(estado))
+                .filter(beneficiario -> beneficiario.getEstado().equals(estado) && beneficiario.getBarrio().equals(barrio))
                 .collect(Collectors.toList());
     }
 	
