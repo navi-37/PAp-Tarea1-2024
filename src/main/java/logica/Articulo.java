@@ -12,6 +12,8 @@ public class Articulo extends Donacion {
 	private float peso;
 	private String dimensiones;
 	
+	public Articulo() {}
+	
 	public Articulo(Integer id, LocalDateTime fechaIngresada, String descripcion, float peso, String dimensiones) {
 		super(id, fechaIngresada);
 		this.descripcion = descripcion;

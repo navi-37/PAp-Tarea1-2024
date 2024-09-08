@@ -10,7 +10,7 @@ public abstract class Usuario {
 	private String email;
 	
 	public Usuario() {
-		super();
+		//super();
 	}
 
 	public Usuario(String nombre, String email) {

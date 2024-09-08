@@ -7,7 +7,9 @@ import javax.persistence.Table;
 @Table(name = "repartidores")
 public class Repartidor extends Usuario {
 	private String numeroLicencia;
-
+	
+	public Repartidor() {}
+	
 	public Repartidor(String nombre, String email, String numeroLicencia) {
 		super(nombre, email);
 		this.numeroLicencia = numeroLicencia;

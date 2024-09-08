@@ -14,6 +14,8 @@ public class Donacion {
 	private Integer id;
 	private LocalDateTime fechaIngresada;
 	
+	public Donacion() {}
+	
 	public Donacion(Integer id, LocalDateTime fechaIngresada) {
 		super();
 		this.id = id;

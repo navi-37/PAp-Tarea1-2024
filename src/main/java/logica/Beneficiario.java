@@ -20,6 +20,8 @@ public class Beneficiario extends Usuario{
 	@Enumerated(EnumType.STRING)
 	private Barrio barrio;
 	
+	public Beneficiario() {}
+	
 	public Beneficiario(String nombre, String email, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio) {
 		super(nombre, email);
 		this.direccion = direccion;

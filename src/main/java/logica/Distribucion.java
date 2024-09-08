@@ -28,6 +28,8 @@ public class Distribucion {
 	@JoinColumn(name = "donacion_id", nullable = false)
 	private Donacion donacion;
 	
+	public Distribucion() {}
+	
 	public Distribucion(int id, Date fechaPreparacion, Date fechaEntrega, EstadoDistribucion estado, Beneficiario beneficiario, Donacion donacion) {
 		super();
 		this.id = id;
