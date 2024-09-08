@@ -2,7 +2,15 @@ package logica;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+
+//@Entity
+@MappedSuperclass
 public class Donacion {
+	@Id
 	private Integer id;
 	private LocalDateTime fechaIngresada;
 	

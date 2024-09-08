@@ -2,6 +2,9 @@ package logica;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Articulo extends Donacion {
 	private String descripcion;
 	private float peso;

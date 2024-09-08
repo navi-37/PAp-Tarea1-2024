@@ -3,6 +3,8 @@ package logica;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityManager;
+
 import datatypes.Barrio;
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
@@ -22,6 +24,7 @@ import excepciones.DonacionNoExisteExc;
 import excepciones.UsuarioNOBeneficiarioExc;
 
 import interfaces.IControlador;
+import persistencia.Conexion;
 
 public class Controlador implements IControlador{
 
@@ -43,6 +46,12 @@ public class Controlador implements IControlador{
 				nuevaDonacion = new Articulo(donacion.getId(), donacion.getFechaIngresada(), ((DtArticulo)donacion).getDescripcion(), ((DtArticulo)donacion).getPeso(), ((DtArticulo)donacion).getDimensiones());
 			}
 			mD.agregarDonacion(nuevaDonacion);
+			
+			Conexion conexion = Conexion.getInstancia();
+			EntityManager em = conexion.getEntityManager();
+			em.getTransaction().begin();
+			em.persist(nuevaDonacion);
+			em.getTransaction().commit();			
 		}
 	}
 	
