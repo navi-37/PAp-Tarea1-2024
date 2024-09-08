@@ -4,10 +4,10 @@
 		<class>logica.Donacion</class>
 		<class>logica.Alimento</class>
 		<class>logica.Articulo</class>
-		<!--<class>logica.Usuario</class>
+		<class>logica.Usuario</class>
 		<class>logica.Beneficiario</class>
 		<class>logica.Repartidor</class>
-		  -->
+		<class>logica.Distribucion</class>
 		<properties>	
 			<property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
 			<property name="hibernate.hbm2ddl.auto" value="create"/>

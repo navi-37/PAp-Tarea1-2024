@@ -1,14 +1,23 @@
 package logica;
 
 import java.time.LocalDateTime;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Table;
+
 import datatypes.EstadoBeneficiario;
 import datatypes.Barrio;
 
-
+@Entity
+@Table(name = "beneficiarios")
 public class Beneficiario extends Usuario{
 	private String direccion;
 	private LocalDateTime fechaNacimiento;
+	@Enumerated(EnumType.STRING) //esto lo hago porque por defecto hibernate mapea los enums como enteros, entonces en la bd se ve un numero en lugar del nombre del barrio, de esta forma se soluciona eso.
 	private EstadoBeneficiario estado;
+	@Enumerated(EnumType.STRING)
 	private Barrio barrio;
 	
 	public Beneficiario(String nombre, String email, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio) {

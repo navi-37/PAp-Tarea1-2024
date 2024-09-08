@@ -1,5 +1,10 @@
 package logica;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "repartidores")
 public class Repartidor extends Usuario {
 	private String numeroLicencia;
 

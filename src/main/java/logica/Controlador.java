@@ -79,6 +79,13 @@ public class Controlador implements IControlador{
 			
 			Distribucion nuevaDistribucion = new Distribucion(dtdistribucion.getId(), dtdistribucion.getFechaPreparacion(), dtdistribucion.getFechaEntrega(), dtdistribucion.getEstado(), beneficiario, donacion);
 			mDist.agregarDistribucion(nuevaDistribucion);
+			
+			Conexion conexion = Conexion.getInstancia();
+			EntityManager em = conexion.getEntityManager();
+			em.getTransaction().begin();
+			em.persist(nuevaDistribucion);
+			em.getTransaction().commit();
+			
 		}
 	}
 
@@ -96,6 +103,12 @@ public class Controlador implements IControlador{
 				nuevoUsuario = new Repartidor(usuario.getNombre(), usuario.getEmail(), ((DtRepartidor) usuario).getNumeroDeLicencia());
 			}
 			mU.agregarUsuario(nuevoUsuario);
+			
+			Conexion conexion = Conexion.getInstancia();
+			EntityManager em = conexion.getEntityManager();
+			em.getTransaction().begin();
+			em.persist(nuevoUsuario);
+			em.getTransaction().commit();
 		}
 	}
 	

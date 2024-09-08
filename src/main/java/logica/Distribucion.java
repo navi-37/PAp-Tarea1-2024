@@ -1,14 +1,31 @@
 package logica;
 
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import datatypes.EstadoDistribucion;
 
+@Entity
+@Table(name = "distribuciones")
 public class Distribucion {
+	@Id
 	private int id;
 	private Date fechaPreparacion;
 	private Date fechaEntrega;
+	@Enumerated(EnumType.STRING)
 	private EstadoDistribucion estado;
+	@ManyToOne
+	@JoinColumn(name = "beneficiario_id", nullable = false)
 	private Beneficiario beneficiario;
+	@ManyToOne
+	@JoinColumn(name = "donacion_id", nullable = false)
 	private Donacion donacion;
 	
 	public Distribucion(int id, Date fechaPreparacion, Date fechaEntrega, EstadoDistribucion estado, Beneficiario beneficiario, Donacion donacion) {

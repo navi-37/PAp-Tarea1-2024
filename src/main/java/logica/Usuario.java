@@ -1,7 +1,12 @@
 package logica;
 
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Usuario {
 	private String nombre;
+	@Id
 	private String email;
 	
 	public Usuario() {

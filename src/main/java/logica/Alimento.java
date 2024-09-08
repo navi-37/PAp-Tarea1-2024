@@ -3,8 +3,10 @@ package logica;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "alimentos")
 public class Alimento extends Donacion {
 	private String descripcionProductos;
 	private Integer cantElementos;
