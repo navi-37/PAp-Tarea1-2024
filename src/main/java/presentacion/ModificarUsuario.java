@@ -160,7 +160,7 @@ public class ModificarUsuario extends JInternalFrame {
 			DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
 		
 			textFieldNombreUsuario.setText(dtu.getNombre());
-			textFieldNombreUsuario.setText(dtu.getEmail());
+			textFieldCorreo.setText(dtu.getEmail());
 		}
 	}
 	
