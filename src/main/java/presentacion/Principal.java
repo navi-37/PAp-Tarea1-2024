@@ -25,6 +25,7 @@ public class Principal {
 	private ListarBenZona lisBeneZonaInternalFrame;
 	private ModificarDonacion modificarDonacionInternalFrame;
 	private ModificarDistribucion modificarDistribucion;
+	private ModificarUsuario modificarUsuarioInternalFrame; 
 
 
 	public static void main(String[] args) {
@@ -110,6 +111,10 @@ public class Principal {
 				(desktopSize.height - jInternalFrameSize.height)/2);
 		modificarDonacionInternalFrame.setVisible(false);
 		frame.getContentPane().add(modificarDonacionInternalFrame);
+		
+		modificarUsuarioInternalFrame = new ModificarUsuario(icon);
+		modificarUsuarioInternalFrame.setVisible(false);
+		frame.getContentPane().add(modificarUsuarioInternalFrame);
 
 	}
 
@@ -175,6 +180,15 @@ public class Principal {
 			}
 		});
 		menuModificar.add(mntmDonacion);
+		
+		JMenuItem mntmUsuario = new JMenuItem("Usuario");
+		mntmUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificarUsuarioInternalFrame.setVisible(true);
+			}
+		});
+		menuModificar.add(mntmUsuario);
+		
 
 		
 		JMenu menuListar = new JMenu("Listar");

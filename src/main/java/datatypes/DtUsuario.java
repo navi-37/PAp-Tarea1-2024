@@ -24,6 +24,6 @@ public class DtUsuario{
 	
 	@Override
 	public String toString() {
-		return "Nombre: " + nombre + "\nEmail: " + email;
+		return "Nombre: " + nombre + "\n  " + "\nEmail: " + email;
 	}
 }

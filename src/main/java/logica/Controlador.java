@@ -238,4 +238,28 @@ public class Controlador implements IControlador{
 		}
 	}
 	
+	public ArrayList<DtRepartidor> ListaRepartidores(){
+		ArrayList<DtRepartidor> repartidores = new ArrayList<DtRepartidor>();
+		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+		ArrayList<Usuario> usuarios = mU.listaUsuarios(); 
+		for (Usuario u :usuarios) {					// importar Usuarios y cargar la lista a DtUsuarios
+			if (u instanceof Repartidor) {
+				Repartidor rep = (Repartidor) u;	// evaluar si es usuario clase repartidor
+				DtRepartidor dtrep = new DtRepartidor(
+						rep.getNombre(), rep.getEmail(), rep.getNumeroLicencia());
+				repartidores.add(dtrep);
+			}
+		}
+		return repartidores;
+	}
+	
+	public DtUsuario getUsuario(String email) {
+		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+		DtUsuario dtu = new DtUsuario(mU.buscarUsuario(email).getNombre(),mU.buscarUsuario(email).getEmail());
+		
+		return dtu;
+	}
+	
+
+	
 }

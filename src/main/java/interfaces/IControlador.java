@@ -1,6 +1,7 @@
 package interfaces;
 
 import datatypes.DtDonacion;
+import datatypes.DtRepartidor;
 
 import java.util.ArrayList;
 
@@ -41,5 +42,9 @@ public interface IControlador {
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona);
 	
 	public Integer [] listarDonaciones();
+	
+	public ArrayList<DtRepartidor> ListaRepartidores();
+
+	public DtUsuario getUsuario(String email);
 
 }
