@@ -3,10 +3,13 @@ package logica;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
 import datatypes.DtDistribucion;
 import datatypes.DtDonacion;
+import persistencia.Conexion;
 
 public class ManejadorDonacion {
 	private static ManejadorDonacion instancia = null;
@@ -26,25 +29,12 @@ public class ManejadorDonacion {
 	}
 	
 	public Donacion buscarDonacion(Integer id) {
-		Donacion retorno = null;
-		for (Donacion d : donaciones) {
-			if (d.getId().equals(id)) {
-				retorno = d;
-			}
-		}
-		return retorno;
-	}
+        Conexion conexion = Conexion.getInstancia();
+        EntityManager em = conexion.getEntityManager();
 
-	/*
-	public ArrayList<DtDonacion> obtenerDonaciones(){
-		ArrayList<DtDonacion> retorno = new ArrayList<>();
-		for(Donacion d: donaciones) {
-			DtDonacion dt_don = new DtDonacion(d.getId(), d.getFechaIngresada());
-			retorno.add(dt_don);
-		}
-		return retorno;
-	}
-	*/
+        Donacion donacion = em.find(Donacion.class, id);
+        return donacion;
+    }
 	
 	public ArrayList<DtDonacion> obtenerDonaciones() {
 	    ArrayList<DtDonacion> retorno = new ArrayList<>();
