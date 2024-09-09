@@ -10,26 +10,18 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import datatypes.DtAlimento;
-import datatypes.DtArticulo;
 import datatypes.DtDistribucion;
-import datatypes.DtDonacion;
 import datatypes.EstadoDistribucion;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
-import excepciones.DonacionRepetidaExc;
 import excepciones.UsuarioNOBeneficiarioExc;
 import logica.Beneficiario;
 import logica.Donacion;
-import logica.ManejadorDonacion;
-import logica.ManejadorUsuario;
-import logica.Usuario;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;

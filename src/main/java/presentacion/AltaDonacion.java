@@ -1,9 +1,7 @@
 package presentacion;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JTextPane;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
@@ -11,18 +9,13 @@ import datatypes.DtDonacion;
 import excepciones.DonacionRepetidaExc;
 import interfaces.IControlador;
 
-//import excepciones.SocioRepetidoExcepcion;
-
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JFormattedTextField;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JButton;
 
 public class AltaDonacion extends JInternalFrame {

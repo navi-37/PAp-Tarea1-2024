@@ -8,14 +8,13 @@ import javax.persistence.Query;
 
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
-import datatypes.DtDistribucion;
 import datatypes.DtDonacion;
 import persistencia.Conexion;
 
 public class ManejadorDonacion {
 	private static ManejadorDonacion instancia = null;
 	
-	private ManejadorDonacion() {} //privado para que no sea instanciable salvo usando getInstancia una unica vez
+	private ManejadorDonacion() {}
 	
 	public static ManejadorDonacion getInstancia() {
 		if (instancia == null) {
@@ -28,9 +27,7 @@ public class ManejadorDonacion {
 		Conexion conexion = Conexion.getInstancia();
 		EntityManager em = conexion.getEntityManager();
 		em.getTransaction().begin();
-		
 		em.persist(donacion);
-		
 		em.getTransaction().commit();
 	}
 	

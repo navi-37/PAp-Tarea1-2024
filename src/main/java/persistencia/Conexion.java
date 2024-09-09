@@ -4,9 +4,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import interfaces.Fabrica;
-import interfaces.IControlador;
-import logica.Controlador;
 
 public class Conexion {
 	private static Conexion instancia = null;
@@ -25,12 +22,12 @@ public class Conexion {
 	}
 	
 	public EntityManager getEntityManager() {
-		return this.em;
+		return Conexion.em;
 	}
 	
 	public void close() {
-		this.em.close();
-		this.emf.close();
+		Conexion.em.close();
+		Conexion.emf.close();
 	}
 
 }

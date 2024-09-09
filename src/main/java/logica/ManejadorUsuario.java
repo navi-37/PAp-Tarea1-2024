@@ -11,7 +11,7 @@ import persistencia.Conexion;
 public class ManejadorUsuario {
 	private static ManejadorUsuario instancia = null;
 	
-	private ManejadorUsuario() {} //privado para que no sea instanciable salvo usando getInstancia una unica vez
+	private ManejadorUsuario() {}
 	
 	public static ManejadorUsuario getInstancia() {
 		if (instancia == null) {

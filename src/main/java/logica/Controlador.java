@@ -58,10 +58,8 @@ public class Controlador implements IControlador{
 		if (mDist.buscarDistribucion(dtdistribucion.getId()) != null) {
 			throw new DistribucionRepetidaExc("Ya existe una distribución con este ID");
 		}else if (mDon.buscarDonacion(dtdistribucion.getDonacion().getId()) == null) {
-			//exc error
 			throw new DonacionNoExisteExc("La donación no existe");
 		}else if (mU.buscarUsuario(dtdistribucion.getBeneficiario().getEmail()) == null){
-			//exc error
 			throw new UsuarioNOBeneficiarioExc("El usuario no es beneficiario o no existe");
 		}else {
 			Beneficiario beneficiario = null;
@@ -90,14 +88,6 @@ public class Controlador implements IControlador{
 				nuevoUsuario = new Repartidor(usuario.getNombre(), usuario.getEmail(), ((DtRepartidor) usuario).getNumeroDeLicencia());
 			}
 			mU.agregarUsuario(nuevoUsuario);
-			
-			/*
-			Conexion conexion = Conexion.getInstancia();
-			EntityManager em = conexion.getEntityManager();
-			em.getTransaction().begin();
-			em.persist(nuevoUsuario);
-			em.getTransaction().commit();
-			*/
 		}
 	}
 	
@@ -189,7 +179,12 @@ public class Controlador implements IControlador{
 	        
 	        distribucionExistente.setBeneficiario(beneficiario);
 	        distribucionExistente.setDonacion(donacion);
-
+	        
+	        Conexion conexion = Conexion.getInstancia();
+			EntityManager em = conexion.getEntityManager();
+			em.getTransaction().begin();
+	        em.merge(distribucionExistente);
+	        em.getTransaction().commit();
 	    }
 	}
 	
@@ -255,6 +250,12 @@ public class Controlador implements IControlador{
 				articuloAModificar.setPeso(articulo.getPeso());
 				articuloAModificar.setDimensiones(articulo.getDimensiones());	
 			}
+			
+			Conexion conexion = Conexion.getInstancia();
+			EntityManager em = conexion.getEntityManager();
+			em.getTransaction().begin();
+	        em.merge(donacionAModificar);
+	        em.getTransaction().commit();
 		}
 	}
 	
