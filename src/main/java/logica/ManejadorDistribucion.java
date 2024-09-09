@@ -2,13 +2,13 @@ package logica;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import datatypes.DtDistribucion;
-import datatypes.EstadoDistribucion;
+import persistencia.Conexion;
 
 public class ManejadorDistribucion {
 	private static ManejadorDistribucion instancia = null;
-	private List<Distribucion> distribuciones = new ArrayList<>();
 
 	private ManejadorDistribucion() {} 
 
@@ -20,35 +20,52 @@ public class ManejadorDistribucion {
 	}
 
 	public void agregarDistribucion(Distribucion distribucion) {
-		distribuciones.add(distribucion);
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		em.getTransaction().begin();
+		em.persist(distribucion);
+		em.getTransaction().commit();
 	}
 
 	public Distribucion buscarDistribucion(int idDistribucion) {
-		Distribucion retorno = null;
-		for (Distribucion d : distribuciones) {
-			if (d.getId() == idDistribucion) {
-				retorno = d;
-			}
-		}
-		return retorno;
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		
+		Distribucion distribucion = em.find(Distribucion.class, idDistribucion);
+		return distribucion;
 	}
 	
 	public ArrayList<DtDistribucion> obtenerDistribuciones(){
-		ArrayList<DtDistribucion> retorno = new ArrayList<>();
-		for(Distribucion d: distribuciones) {
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		
+		Query query = em.createQuery("select d from Distribucion d");
+		
+		@SuppressWarnings("unchecked")
+		List<Distribucion> listDistribucion = (List<Distribucion>) query.getResultList();
+		
+		ArrayList<DtDistribucion> aRetornar = new ArrayList<>();
+		for(Distribucion d: listDistribucion) {
 			DtDistribucion dtdist = new DtDistribucion(d.getId(), d.getFechaPreparacion(),d.getFechaEntrega(),d.getEstado(),d.getBeneficiario(), d.getDonacion());
-			retorno.add(dtdist);
+			aRetornar.add(dtdist);
 		}
-		return retorno;
+		return aRetornar;
 	}
 	
 	public ArrayList<Integer> obtenerIDDistribuciones(){
-		ArrayList<Integer> retorno = new ArrayList<>();
-		for(Distribucion d: distribuciones) {
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		
+		Query query = em.createQuery("select d from Distribucion d");
+		
+		@SuppressWarnings("unchecked")
+		List<Distribucion> listDistribucion = (List<Distribucion>) query.getResultList();
+		
+		ArrayList<Integer> aRetornar = new ArrayList<>();
+		for(Distribucion d: listDistribucion) {
 			int indice = d.getId();
-			retorno.add(indice);
+			aRetornar.add(indice);
 		}
-		return retorno;
+		return aRetornar;
 	}
-	
 }

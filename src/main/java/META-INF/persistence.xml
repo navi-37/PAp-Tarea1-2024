@@ -17,6 +17,4 @@
 			<property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
 		</properties>	
 	</persistence-unit>
-	
-	
 </persistence>
