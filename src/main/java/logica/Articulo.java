@@ -2,10 +2,17 @@ package logica;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "articulos")
 public class Articulo extends Donacion {
 	private String descripcion;
 	private float peso;
 	private String dimensiones;
+	
+	public Articulo() {}
 	
 	public Articulo(Integer id, LocalDateTime fechaIngresada, String descripcion, float peso, String dimensiones) {
 		super(id, fechaIngresada);

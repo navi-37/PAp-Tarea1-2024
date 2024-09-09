@@ -2,9 +2,19 @@ package logica;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Donacion {
+	@Id
 	private Integer id;
 	private LocalDateTime fechaIngresada;
+	
+	public Donacion() {}
 	
 	public Donacion(Integer id, LocalDateTime fechaIngresada) {
 		super();

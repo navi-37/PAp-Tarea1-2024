@@ -14,7 +14,6 @@ import datatypes.EstadoBeneficiario;
 import datatypes.EstadoDistribucion;
 import excepciones.DonacionRepetidaExc;
 import excepciones.UsuarioRepetidoExc;
-import logica.Distribucion;
 import excepciones.DistribucionNoEncontradaExc;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
