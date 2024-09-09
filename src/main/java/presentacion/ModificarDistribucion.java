@@ -16,11 +16,9 @@ import logica.Beneficiario;
 import logica.Donacion;
 
 import javax.swing.DefaultComboBoxModel;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.awt.event.ActionEvent;
 

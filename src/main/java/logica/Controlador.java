@@ -78,14 +78,7 @@ public class Controlador implements IControlador{
 			}
 			
 			Distribucion nuevaDistribucion = new Distribucion(dtdistribucion.getId(), dtdistribucion.getFechaPreparacion(), dtdistribucion.getFechaEntrega(), dtdistribucion.getEstado(), beneficiario, donacion);
-			mDist.agregarDistribucion(nuevaDistribucion);
-			
-			Conexion conexion = Conexion.getInstancia();
-			EntityManager em = conexion.getEntityManager();
-			em.getTransaction().begin();
-			em.persist(nuevaDistribucion);
-			em.getTransaction().commit();
-			
+			mDist.agregarDistribucion(nuevaDistribucion);	
 		}
 	}
 
@@ -104,11 +97,13 @@ public class Controlador implements IControlador{
 			}
 			mU.agregarUsuario(nuevoUsuario);
 			
+			/*
 			Conexion conexion = Conexion.getInstancia();
 			EntityManager em = conexion.getEntityManager();
 			em.getTransaction().begin();
 			em.persist(nuevoUsuario);
 			em.getTransaction().commit();
+			*/
 		}
 	}
 	
@@ -139,7 +134,6 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona) {
 	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
 	    ArrayList<DtDistribucion> todasLasDistribuciones = mD.obtenerDistribuciones();
