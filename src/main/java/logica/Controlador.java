@@ -45,13 +45,7 @@ public class Controlador implements IControlador{
 			if (donacion instanceof DtArticulo) {
 				nuevaDonacion = new Articulo(donacion.getId(), donacion.getFechaIngresada(), ((DtArticulo)donacion).getDescripcion(), ((DtArticulo)donacion).getPeso(), ((DtArticulo)donacion).getDimensiones());
 			}
-			mD.agregarDonacion(nuevaDonacion);
-			
-			Conexion conexion = Conexion.getInstancia();
-			EntityManager em = conexion.getEntityManager();
-			em.getTransaction().begin();
-			em.persist(nuevaDonacion);
-			em.getTransaction().commit();			
+			mD.agregarDonacion(nuevaDonacion);			
 		}
 	}
 	
