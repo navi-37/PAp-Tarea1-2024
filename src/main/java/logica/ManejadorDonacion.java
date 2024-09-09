@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
@@ -13,7 +14,6 @@ import persistencia.Conexion;
 
 public class ManejadorDonacion {
 	private static ManejadorDonacion instancia = null;
-	private List<Donacion> donaciones = new ArrayList<>();
 	
 	private ManejadorDonacion() {} //privado para que no sea instanciable salvo usando getInstancia una unica vez
 	
@@ -25,21 +25,35 @@ public class ManejadorDonacion {
 	}
 	
 	public void agregarDonacion(Donacion donacion) {
-		donaciones.add(donacion);
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		em.getTransaction().begin();
+		
+		em.persist(donacion);
+		
+		em.getTransaction().commit();
 	}
 	
 	public Donacion buscarDonacion(Integer id) {
-        Conexion conexion = Conexion.getInstancia();
-        EntityManager em = conexion.getEntityManager();
-
-        Donacion donacion = em.find(Donacion.class, id);
-        return donacion;
-    }
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		
+		Donacion donacion = em.find(Donacion.class, id);
+		return donacion;
+	}
 	
-	public ArrayList<DtDonacion> obtenerDonaciones() {
-	    ArrayList<DtDonacion> retorno = new ArrayList<>();
-	    for (Donacion d : donaciones) {
-	        if (d instanceof Alimento) {
+	public ArrayList<DtDonacion> obtenerDonaciones() {		
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+	
+		Query query = em.createQuery("select d from Donacion d");
+		
+		@SuppressWarnings("unchecked")
+		List<Donacion> donaciones = (List<Donacion>) query.getResultList();
+		
+		ArrayList<DtDonacion> retorno = new ArrayList<>();
+		for(Donacion d: donaciones) {
+			if (d instanceof Alimento) {
 	            Alimento donacionAlimento = (Alimento) d;
 	            DtAlimento dt_alimento = new DtAlimento(
 	                donacionAlimento.getId(),
@@ -59,8 +73,8 @@ public class ManejadorDonacion {
 	            );
 	            retorno.add(dt_articulo);
 	        }
-	    }
-	    return retorno;
+		}
+		return retorno;
 	}
 	
 }
