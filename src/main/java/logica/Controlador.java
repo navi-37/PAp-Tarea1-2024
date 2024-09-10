@@ -1,6 +1,9 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityManager;
 
 import datatypes.Barrio;
 import datatypes.DtAlimento;
@@ -9,6 +12,7 @@ import datatypes.DtBeneficiario;
 import datatypes.DtDonacion;
 import datatypes.DtRepartidor;
 import datatypes.DtUsuario;
+import datatypes.EstadoBeneficiario;
 import datatypes.DtDistribucion;
 import datatypes.EstadoDistribucion;
 
@@ -20,6 +24,7 @@ import excepciones.DonacionNoExisteExc;
 import excepciones.UsuarioNOBeneficiarioExc;
 
 import interfaces.IControlador;
+import persistencia.Conexion;
 
 public class Controlador implements IControlador{
 
@@ -40,7 +45,7 @@ public class Controlador implements IControlador{
 			if (donacion instanceof DtArticulo) {
 				nuevaDonacion = new Articulo(donacion.getId(), donacion.getFechaIngresada(), ((DtArticulo)donacion).getDescripcion(), ((DtArticulo)donacion).getPeso(), ((DtArticulo)donacion).getDimensiones());
 			}
-			mD.agregarDonacion(nuevaDonacion);
+			mD.agregarDonacion(nuevaDonacion);			
 		}
 	}
 	
@@ -53,10 +58,8 @@ public class Controlador implements IControlador{
 		if (mDist.buscarDistribucion(dtdistribucion.getId()) != null) {
 			throw new DistribucionRepetidaExc("Ya existe una distribución con este ID");
 		}else if (mDon.buscarDonacion(dtdistribucion.getDonacion().getId()) == null) {
-			//exc error
 			throw new DonacionNoExisteExc("La donación no existe");
 		}else if (mU.buscarUsuario(dtdistribucion.getBeneficiario().getEmail()) == null){
-			//exc error
 			throw new UsuarioNOBeneficiarioExc("El usuario no es beneficiario o no existe");
 		}else {
 			Beneficiario beneficiario = null;
@@ -67,7 +70,7 @@ public class Controlador implements IControlador{
 			}
 			
 			Distribucion nuevaDistribucion = new Distribucion(dtdistribucion.getId(), dtdistribucion.getFechaPreparacion(), dtdistribucion.getFechaEntrega(), dtdistribucion.getEstado(), beneficiario, donacion);
-			mDist.agregarDistribucion(nuevaDistribucion);
+			mDist.agregarDistribucion(nuevaDistribucion);	
 		}
 	}
 
@@ -115,7 +118,6 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona) {
 	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
 	    ArrayList<DtDistribucion> todasLasDistribuciones = mD.obtenerDistribuciones();
@@ -152,6 +154,14 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
+    public ArrayList<DtBeneficiario> listarBeneficiariosPorEstadoYBarrio(EstadoBeneficiario estado, Barrio barrio) {
+        ArrayList<DtBeneficiario> beneficiarios = ListaBeneficiarios();
+        return (ArrayList<DtBeneficiario>) beneficiarios.stream()
+                .filter(beneficiario -> beneficiario.getEstado().equals(estado) && beneficiario.getBarrio().equals(barrio))
+                .collect(Collectors.toList());
+    }
+	
+	@Override
 	public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
 	    ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
 	    Distribucion distribucionExistente = mDist.buscarDistribucion(dtdistribucion.getId());
@@ -169,7 +179,12 @@ public class Controlador implements IControlador{
 	        
 	        distribucionExistente.setBeneficiario(beneficiario);
 	        distribucionExistente.setDonacion(donacion);
-
+	        
+	        Conexion conexion = Conexion.getInstancia();
+			EntityManager em = conexion.getEntityManager();
+			em.getTransaction().begin();
+	        em.merge(distribucionExistente);
+	        em.getTransaction().commit();
 	    }
 	}
 	
@@ -235,6 +250,12 @@ public class Controlador implements IControlador{
 				articuloAModificar.setPeso(articulo.getPeso());
 				articuloAModificar.setDimensiones(articulo.getDimensiones());	
 			}
+			
+			Conexion conexion = Conexion.getInstancia();
+			EntityManager em = conexion.getEntityManager();
+			em.getTransaction().begin();
+	        em.merge(donacionAModificar);
+	        em.getTransaction().commit();
 		}
 	}
 	

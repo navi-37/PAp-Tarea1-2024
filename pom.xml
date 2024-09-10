@@ -8,4 +8,37 @@
   	<maven.compiler.source>21</maven.compiler.source>
   	<maven.compiler.target>21</maven.compiler.target>
   </properties>
+  <dependencies>
+  	<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+	<dependency>
+	    <groupId>org.postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+	    <version>42.7.4</version>
+	</dependency>
+ 	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-core -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-core</artifactId>
+	    <version>6.6.0.Final</version>
+	    <type>pom</type>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager -->
+	<dependency>
+	    <groupId>org.hibernate</groupId>
+	    <artifactId>hibernate-entitymanager</artifactId>
+	    <version>5.6.15.Final</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/org.hibernate.javax.persistence/hibernate-jpa-2.1-api -->
+	<dependency>
+	    <groupId>org.hibernate.javax.persistence</groupId>
+	    <artifactId>hibernate-jpa-2.1-api</artifactId>
+	    <version>1.0.2.Final</version>
+	</dependency>
+	<!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
+	<dependency>
+	    <groupId>postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+	    <version>8.1-404.jdbc3</version>
+	</dependency>
+  </dependencies>
 </project>

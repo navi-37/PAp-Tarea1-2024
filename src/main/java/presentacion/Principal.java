@@ -22,7 +22,6 @@ public class Principal {
 	private AltaDistribucion agregarDistribucionInternalFrame;
 	private ListarDistribuciones listarDistribucionesInternalFrame;
 	private ListarBeneficiarios lisBeneInternalFrame;
-	private ListarBenZona lisBeneZonaInternalFrame;
 	private ModificarDonacion modificarDonacionInternalFrame;
 	private ModificarDistribucion modificarDistribucion;
 	private ModificarUsuario modificarUsuarioInternalFrame; 
@@ -89,11 +88,7 @@ public class Principal {
 		lisBeneInternalFrame = new ListarBeneficiarios(icon); 
 		lisBeneInternalFrame.setVisible(false);
 		frame.getContentPane().add(lisBeneInternalFrame);
-		
 
-		lisBeneZonaInternalFrame = new ListarBenZona(icon); 
-		lisBeneZonaInternalFrame.setVisible(false);
-		frame.getContentPane().add(lisBeneZonaInternalFrame);
 		
 		modificarDistribucion = new ModificarDistribucion(icon);
         modificarDistribucion.setClosable(true);
@@ -214,14 +209,5 @@ public class Principal {
             }
         });
         menuListar.add(mntmListaBeneficiarios);
-
-        JMenuItem mntmListaBenZona = new JMenuItem("Beneficiarios por Zona");
-        mntmListaBenZona.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		lisBeneZonaInternalFrame.actualizarListaBeneficiarios(); 
-        		lisBeneZonaInternalFrame.setVisible(true);
-        	}
-        });
-        menuListar.add(mntmListaBenZona); 
 	}
 }
