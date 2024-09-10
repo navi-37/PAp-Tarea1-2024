@@ -228,10 +228,7 @@ public class ModificarUsuario extends JInternalFrame {
 		        		"Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);	
 	        } else {
 	        	JOptionPane.showMessageDialog(this, "No ha ingresado nuevos datos para el usuario seleccionado", "Sin Modificación", JOptionPane.INFORMATION_MESSAGE);
-	        }
-	        	
-	        
-	                
+	        }             
 	    }
 	}
 }
