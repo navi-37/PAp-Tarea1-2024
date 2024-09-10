@@ -47,4 +47,5 @@ public interface IControlador {
 
 	public DtUsuario getUsuario(String email);
 
+	public void modificarUsuario(DtUsuario dtu, String email, String nombre);
 }

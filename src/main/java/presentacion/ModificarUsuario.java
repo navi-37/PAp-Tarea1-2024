@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -140,6 +142,12 @@ public class ModificarUsuario extends JInternalFrame {
 		JButton btnModificar = new JButton("Modificar");
 		btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnModificar.setBounds(281, 259, 115, 32);
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modificarDatosUsuario(e);
+				borrarSeleccion();
+			}
+		});
 		getContentPane().add(btnModificar);
 		
 		// mostrar info del usuario seleccionado
@@ -156,12 +164,13 @@ public class ModificarUsuario extends JInternalFrame {
 	}
 	
 	public void mostrarInfo(ActionEvent e) {
-		if (this.comboBoxUsuarios.getSelectedItem() != null) { // verificar que hay algo seleccionado
-			DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
-		
-			textFieldNombreUsuario.setText(dtu.getNombre());
-			textFieldCorreo.setText(dtu.getEmail());
-		}
+	    if (this.comboBoxUsuarios.getSelectedItem() != null) { // verificar que hay algo seleccionado
+	        DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
+	        
+	        // Actualizar los campos de texto con la información del usuario seleccionado
+	        textFieldNombreUsuario.setText(dtu.getNombre());
+	        textFieldCorreo.setText(dtu.getEmail());
+	    }
 	}
 	
 	public void borrarSeleccion() {
@@ -173,5 +182,56 @@ public class ModificarUsuario extends JInternalFrame {
 		comboBoxUsuarios.setSelectedItem(null);
 	}
 	
-	public void mostrarInfoUsuario(ActionEvent e) {}
+	private void actualizarComboBoxUsuarios() {
+	    if (rdbtnBeneficiario.isSelected()) {
+	        // Actualizo combobox para beneficiarios
+	        List<DtBeneficiario> beneficiarios = icon.ListaBeneficiarios();
+	        DefaultComboBoxModel<DtUsuario> listaUsuarios = new DefaultComboBoxModel<>();
+	        
+	        for (DtBeneficiario beneficiario : beneficiarios) {
+	            listaUsuarios.addElement((DtUsuario) beneficiario); 
+	        }
+	        comboBoxUsuarios.setModel(listaUsuarios);
+	        
+	    } else if (rdbtnRepartidor.isSelected()) {
+	    	// para repartidores
+	        List<DtRepartidor> repartidores = icon.ListaRepartidores();
+	        DefaultComboBoxModel<DtUsuario> listaUsuarios = new DefaultComboBoxModel<>();
+	        
+	        for (DtRepartidor repartidor : repartidores) {
+	            listaUsuarios.addElement((DtUsuario) repartidor); 
+	        }
+	        comboBoxUsuarios.setModel(listaUsuarios);
+	    }
+	}
+	
+
+	public void modificarDatosUsuario(ActionEvent e) {
+	    if (this.comboBoxUsuarios.getSelectedItem() != null) {
+	        DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
+	        
+	        String email = textFieldCorreo.getText();
+	        String nombre = textFieldNombreUsuario.getText();
+	        if ((!dtu.getEmail().equals(email)) || (!dtu.getNombre().equals(nombre))) { //evaluar si cambió algo
+		        this.icon.modificarUsuario(dtu, email, nombre); // modificar usuario
+	
+		        // Actualizar el ComboBox
+		        actualizarComboBoxUsuarios();
+		        
+		        // checkear si el email es el mismo. sino, busca el nuevo email
+		        DtUsuario usuarioActualizado = icon.getUsuario(email);
+		        if (usuarioActualizado != null) {
+		            this.comboBoxUsuarios.setSelectedItem(usuarioActualizado);
+		        }
+		        
+		        JOptionPane.showMessageDialog(this, "Los datos del usuario han sido modificados con éxito.", 
+		        		"Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);	
+	        } else {
+	        	JOptionPane.showMessageDialog(this, "No ha ingresado nuevos datos para el usuario seleccionado", "Sin Modificación", JOptionPane.INFORMATION_MESSAGE);
+	        }
+	        	
+	        
+	                
+	    }
+	}
 }

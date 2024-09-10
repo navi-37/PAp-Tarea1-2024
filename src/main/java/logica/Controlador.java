@@ -260,6 +260,18 @@ public class Controlador implements IControlador{
 		return dtu;
 	}
 	
-
-	
+	public void modificarUsuario(DtUsuario dtu, String email, String nombre) {
+		
+		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+						
+		if (!email.equals(dtu.getEmail())) { // si se cambia correo
+		    mU.buscarUsuario(dtu.getEmail()).setEmail(email);
+		    if (!nombre.equals(dtu.getNombre())) { // y si se cambia el nombre
+		    	mU.buscarUsuario(email).setNombre(nombre);
+		    }
+		} else	// si no se cambia correo pero sí el nombre
+			if (!nombre.equals(dtu.getNombre())) { 
+			    mU.buscarUsuario(dtu.getEmail()).setNombre(nombre);
+			}	
+	}
 }
