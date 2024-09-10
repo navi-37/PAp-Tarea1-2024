@@ -3,6 +3,7 @@ package interfaces;
 import datatypes.DtDonacion;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import datatypes.Barrio;
 
@@ -43,5 +44,7 @@ public interface IControlador {
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona);
 	
 	public Integer [] listarDonaciones();
+	
+	public void reporte(Date fechaInicial, Date fechaFinal); 
 
 }

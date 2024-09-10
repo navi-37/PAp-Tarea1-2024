@@ -1,6 +1,7 @@
 package logica;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
@@ -259,4 +260,58 @@ public class Controlador implements IControlador{
 		}
 	}
 	
+	/*
+	Se ingresan 2 fechas 
+	en la diferencia entre ambas hay que listar
+	Para cada zona:
+	1 - cantidad de distribuciones realizadas en dicha zona
+	2 - beneficiarios que se vieron afectados en dichas distribuciones
+	3 - 
+	
+	 */
+	
+	@Override
+	public void reporte(Date fechaInicial, Date fechaFinal) {
+		ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
+	    ArrayList<DtDistribucion> distribucionesEnElIntervalo = mDist.obtenerDistribucionesEnIntervalo(fechaInicial, fechaFinal);
+	    
+	    ArrayList<DtDistribucion> distCordon = new ArrayList<>();
+	    ArrayList<DtDistribucion> distCentro = new ArrayList<>();
+	    ArrayList<DtDistribucion> distParqueRodo = new ArrayList<>();
+	    ArrayList<DtDistribucion> distPalermo = new ArrayList<>();
+	    ArrayList<DtDistribucion> distCiudadVieja = new ArrayList<>();
+	    
+	    int cantCordon = 0;
+	    int cantCentro = 0;
+	    int cantParqueRodo = 0;
+	    int cantPalermo = 0;
+	    int cantCiudadVieja = 0;
+	    
+	    //iterar y separar zonas
+	    for (DtDistribucion dtDist : distribucionesEnElIntervalo) {
+	    	Barrio zona = dtDist.getBeneficiario().getBarrio();
+	    	if(zona == Barrio.CORDON) {
+	    		distCordon.add(dtDist);
+	    		cantCordon = cantCordon++;
+	    	} else if (zona == Barrio.CENTRO) {
+	    		distCentro.add(dtDist);
+	    		cantCentro = cantCentro++;
+	    	} else if (zona == Barrio.PARQUE_RODO) {
+	    		distParqueRodo.add(dtDist);
+	    		cantParqueRodo = cantParqueRodo++;
+	    	} else if (zona == Barrio.PALERMO) {
+	    		distPalermo.add(dtDist);
+	    		cantPalermo = cantPalermo++;
+	    	} else if (zona == Barrio.CIUDAD_VIEJA) {
+	    		distCiudadVieja.add(dtDist);
+	    		cantCiudadVieja = cantCiudadVieja++;
+	    	}
+	    }
+	    
+	    for (DtDistribucion d : distParqueRodo) {
+	    	System.out.println(d.getId() + " " + d.getBeneficiario().getEmail());
+	    }
+	    System.out.println(cantParqueRodo);
+			
+	}
 }

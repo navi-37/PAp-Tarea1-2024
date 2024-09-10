@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -16,6 +17,9 @@ import interfaces.IControlador;
 public class Principal {
 
 	private JFrame frame;
+	
+	//borrar
+	private IControlador icon;
   
 	private AltaDonacion agregarDonacionInternalFrame;
 	private AltaUsuario agregarUsuarioInternalFrame;
@@ -45,6 +49,8 @@ public class Principal {
 		Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
 		
+        //borrar
+      		this.icon = icon;
 		Dimension desktopSize = frame.getSize();
 		Dimension jInternalFrameSize;
 		
@@ -109,7 +115,7 @@ public class Principal {
 	}
 
 	
-	private void initialize() {
+	private void initialize() {		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 800, 550);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -186,6 +192,17 @@ public class Principal {
 		
 		JMenu menuReporte = new JMenu("Reporte");
 		menuBar.add(menuReporte);
+		
+		JMenuItem mntmReportePrueba = new JMenuItem("Reporte prueba");
+		mntmReportePrueba.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				@SuppressWarnings("deprecation")
+				Date fechaInicial = new Date(2024,1,1);
+				Date fechaFinal = new Date(2024,6,6);
+				icon.reporte(fechaInicial, fechaFinal);
+			}
+		});
+		menuReporte.add(mntmReportePrueba);
 		
 		JMenuItem mntmListaBeneficiarios = new JMenuItem("Beneficiarios");
 		mntmListaBeneficiarios.addActionListener(new ActionListener() {
