@@ -164,7 +164,13 @@ public class AltaUsuario extends JInternalFrame {
         String email = this.textEmail.getText();
         DtUsuario usuario = null;
         String selectedItem = (String) comboBoxTipoUsuario.getSelectedItem();
-
+        String emailRegex = "^[\\w-\\.]+@[\\w-]+(\\.[\\w-]+)+$";
+        
+        if (!email.matches(emailRegex)) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un correo electrónico válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if (selectedItem.equals("Beneficiario")) {
             String direccion = this.textDireccion.getText();
             LocalDateTime fechaNacimiento = null;
