@@ -390,15 +390,20 @@ public class Controlador implements IControlador{
                 System.out.println("Beneficiarios: ");
                 ArrayList<String> beneficiarios = new ArrayList<>();
                 for (DtDistribucion d : distribuciones) {
-                    if (!beneficiarios.contains(d.getBeneficiario().getEmail())) {
+                    if (!beneficiarios.contains(d.getBeneficiario().getEmail())) { //para que no se repitan los mails
                         beneficiarios.add(d.getBeneficiario().getEmail());
                     }
                 }
                 String todosBeneficiarios = "";
                 for (String b : beneficiarios) {
                 	todosBeneficiarios = reporteZona.getBeneficiarios();
-                	reporteZona.setBeneficiarios(todosBeneficiarios + b);
-                    System.out.println(b);
+                	if (todosBeneficiarios != null) {
+	                	reporteZona.setBeneficiarios(todosBeneficiarios + " - " + b); //vamos concatenando los emails restantes
+	                    System.out.println(b);
+                	} else {
+                		reporteZona.setBeneficiarios(b); //seteamos el valor inicial
+                	}
+                
                 }
                 retorno.add(reporteZona);
             }

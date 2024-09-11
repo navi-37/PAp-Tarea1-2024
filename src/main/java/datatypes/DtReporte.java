@@ -40,7 +40,7 @@ public class DtReporte {
 	
 	@Override
     public String toString() {
-        return "Barrio: " + barrio + " Distribuciones: " + cantDist + " Beneficiarios: " + beneficiarios;
+        return "Barrio: " + barrio + "\nDistribuciones: " + cantDist + "\nBeneficiarios: " + beneficiarios + "\n";
     }
 	
 }

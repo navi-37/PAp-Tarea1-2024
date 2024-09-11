@@ -9,6 +9,7 @@ import javax.persistence.Query;
 import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
 import datatypes.DtDonacion;
+import datatypes.EstadoDistribucion;
 import persistencia.Conexion;
 
 public class ManejadorDistribucion {
@@ -95,12 +96,14 @@ public class ManejadorDistribucion {
 		for(Distribucion d: listDistribucion) {
 			Date fecha = d.getFechaEntrega();
 			if (estaEnIntervalo(fecha, fechaInicial, fechaFinal)) {
-				Beneficiario ben = d.getBeneficiario();
-				DtBeneficiario beneficiario = new DtBeneficiario(ben.getNombre(), ben.getEmail(), ben.getDireccion(), ben.getFechaNacimiento(), ben.getEstado(), ben.getBarrio());
-				Donacion don = d.getDonacion();
-				DtDonacion donacion = new DtDonacion(don.getId(), don.getFechaIngresada());
-				DtDistribucion dtdist = new DtDistribucion(d.getId(), d.getFechaPreparacion(),d.getFechaEntrega(),d.getEstado(),beneficiario, donacion);
-				aRetornar.add(dtdist);
+				if(d.getEstado() == EstadoDistribucion.ENTREGADO) { //Para el reporte solo tomamos en cuenta las distribuciones entregadas
+					Beneficiario ben = d.getBeneficiario();
+					DtBeneficiario beneficiario = new DtBeneficiario(ben.getNombre(), ben.getEmail(), ben.getDireccion(), ben.getFechaNacimiento(), ben.getEstado(), ben.getBarrio());
+					Donacion don = d.getDonacion();
+					DtDonacion donacion = new DtDonacion(don.getId(), don.getFechaIngresada());
+					DtDistribucion dtdist = new DtDistribucion(d.getId(), d.getFechaPreparacion(),d.getFechaEntrega(),d.getEstado(),beneficiario, donacion);
+					aRetornar.add(dtdist);
+				}
 			}
 		}
 		return aRetornar;

@@ -1,6 +1,5 @@
 package presentacion;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -8,17 +7,14 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
 import javax.swing.JInternalFrame;
 
-import datatypes.DtBeneficiario;
-import datatypes.DtDonacion;
 import datatypes.DtReporte;
 import interfaces.IControlador;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import javax.swing.JList;
+import javax.swing.JTextPane;
 
 
 public class ReporteZona extends JInternalFrame {
@@ -31,7 +27,7 @@ public class ReporteZona extends JInternalFrame {
 	private JComboBox<String> cBMesFechaE;
 	private JComboBox<String> cBAnoFechaP;
 	private JComboBox<String> cBAnoFechaE;
-	private JList<String> listReporte;
+	private JTextPane listReporte;
 
 	
 	
@@ -39,6 +35,11 @@ public class ReporteZona extends JInternalFrame {
 		this.icon = icon;
 		setBounds(100, 100, 800, 550);
 		getContentPane().setLayout(null);
+		setTitle("Hola");
+		//setTitle("Modificar Usuario existente");
+		setIconifiable(true);
+		//setMaximizable(true);
+		//setClosable(true);
 		
 		cBDiaFechaP = new JComboBox<String>();
 		cBDiaFechaP.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
@@ -79,8 +80,8 @@ public class ReporteZona extends JInternalFrame {
 		btnAceptar.setBounds(612, 441, 117, 25);
 		getContentPane().add(btnAceptar);
 		
-		listReporte = new JList<String>();
-		listReporte.setBounds(80, 87, 616, 325);
+		listReporte = new JTextPane();
+		listReporte.setBounds(66, 84, 646, 332);
 		getContentPane().add(listReporte);
 	}
 	
@@ -107,12 +108,15 @@ public class ReporteZona extends JInternalFrame {
 		
 		ArrayList<DtReporte> reportez = new ArrayList<DtReporte>();
 		reportez = icon.reporte(fechaP, fechaE);
-		
-	    DefaultListModel<String> listModelReporte = new DefaultListModel<>();
+		listReporte.setText("");
+	    String datos = "REPORTE DE ZONAS CON MÁS DISTRIBUCIONES";
 	    for (DtReporte reporte : reportez) {
-	        listModelReporte.addElement(reporte.toString());
+	    	datos = datos + "\n\n" + reporte.toString();
 	    }
-	    listReporte.setModel(listModelReporte);
+	    listReporte.setText(datos);
+	    
+	    
 		
 	}	
+
 }

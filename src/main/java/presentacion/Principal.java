@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 
 import interfaces.Fabrica;
 import interfaces.IControlador;
+import javax.swing.JDesktopPane;
+import javax.swing.JPanel;
 
 public class Principal {
 
