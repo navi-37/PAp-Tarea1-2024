@@ -10,13 +10,13 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
+import datatypes.DtDonacion;
 import datatypes.EstadoDistribucion;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
 import excepciones.UsuarioNOBeneficiarioExc;
-import logica.Beneficiario;
-import logica.Donacion;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -143,8 +143,11 @@ public class AltaDistribucion extends JInternalFrame {
 		Integer id_donacion = Integer.valueOf(this.textDonacion.getText());
 		String email_beneficiario = this.textBeneficiario.getText();
 		
-		Donacion donacion = new Donacion(id_donacion, null);
-		Beneficiario beneficiario = new Beneficiario(null, email_beneficiario, null, null, null, null);
+		// funcion icon getDtDonacion y getDtBeneficiario
+		DtBeneficiario beneficiario = icon.getBeneficiario(email_beneficiario);
+		DtDonacion donacion = icon.getDonacion(id_donacion);
+		//DtDonacion donacion = new DtDonacion(id_donacion, null);
+		//DtBeneficiario beneficiario = new DtBeneficiario(null, email_beneficiario, null, null, null, null);
 
 		// transformar en funcion esto pa reusar en altausuario
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

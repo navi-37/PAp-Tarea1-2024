@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
+import datatypes.DtDonacion;
 import persistencia.Conexion;
 
 public class ManejadorDistribucion {
@@ -46,7 +49,11 @@ public class ManejadorDistribucion {
 		
 		ArrayList<DtDistribucion> aRetornar = new ArrayList<>();
 		for(Distribucion d: listDistribucion) {
-			DtDistribucion dtdist = new DtDistribucion(d.getId(), d.getFechaPreparacion(),d.getFechaEntrega(),d.getEstado(),d.getBeneficiario(), d.getDonacion());
+			Beneficiario ben = d.getBeneficiario();
+			DtBeneficiario beneficiario = new DtBeneficiario(ben.getNombre(), ben.getEmail(), ben.getDireccion(), ben.getFechaNacimiento(), ben.getEstado(), ben.getBarrio());
+			Donacion don = d.getDonacion();
+			DtDonacion donacion = new DtDonacion(don.getId(), don.getFechaIngresada());
+			DtDistribucion dtdist = new DtDistribucion(d.getId(), d.getFechaPreparacion(),d.getFechaEntrega(),d.getEstado(), beneficiario, donacion);
 			aRetornar.add(dtdist);
 		}
 		return aRetornar;

@@ -1,7 +1,5 @@
 package presentacion;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,9 +21,8 @@ import javax.swing.JButton;
 import datatypes.DtBeneficiario;
 import datatypes.DtRepartidor;
 import datatypes.DtUsuario;
-import datatypes.EstadoDistribucion;
 import interfaces.IControlador;
-import logica.Usuario; 
+
 
 public class ModificarUsuario extends JInternalFrame {
 

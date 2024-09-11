@@ -7,13 +7,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-
+import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
+import datatypes.DtDonacion;
 import datatypes.EstadoDistribucion;
 import excepciones.DistribucionNoEncontradaExc;
 import interfaces.IControlador;
-import logica.Beneficiario;
-import logica.Donacion;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -219,8 +218,8 @@ public class ModificarDistribucion extends JInternalFrame {
 	            EstadoDistribucion estado = (EstadoDistribucion) comboEstado.getSelectedItem(); 
 
 	            DtDistribucion dist = this.icon.getDistribucion(id);
-	            Beneficiario beneficiario = dist.getBeneficiario();
-	            Donacion donacion = dist.getDonacion();
+	            DtBeneficiario beneficiario = dist.getBeneficiario();
+	            DtDonacion donacion = dist.getDonacion();
 
 	            DtDistribucion nuevaDistribucion = new DtDistribucion(id, fechaP, fechaE, estado, beneficiario, donacion);
 

@@ -62,14 +62,15 @@ public class Controlador implements IControlador{
 		}else if (mU.buscarUsuario(dtdistribucion.getBeneficiario().getEmail()) == null){
 			throw new UsuarioNOBeneficiarioExc("El usuario no es beneficiario o no existe");
 		}else {
-			Beneficiario beneficiario = null;
-			Donacion donacion = mDon.buscarDonacion(dtdistribucion.getDonacion().getId());
+			Beneficiario b = null;
+			Donacion d = mDon.buscarDonacion(dtdistribucion.getDonacion().getId());
 			Usuario usuarioBeneficiario = mU.buscarUsuario(dtdistribucion.getBeneficiario().getEmail());
 			if (usuarioBeneficiario instanceof Beneficiario) {
-			    beneficiario = (Beneficiario) usuarioBeneficiario;
+			    b = (Beneficiario) usuarioBeneficiario;
 			}
-			
-			Distribucion nuevaDistribucion = new Distribucion(dtdistribucion.getId(), dtdistribucion.getFechaPreparacion(), dtdistribucion.getFechaEntrega(), dtdistribucion.getEstado(), beneficiario, donacion);
+			//DtBeneficiario beneficiario = new DtBeneficiario(b.getNombre(), b.getEmail(), b.getDireccion(), b.getFechaNacimiento(), b.getEstado(), b.getBarrio());
+			//DtDonacion donacion = new DtDonacion(d.getId(), d.getFechaIngresada());
+			Distribucion nuevaDistribucion = new Distribucion(dtdistribucion.getId(), dtdistribucion.getFechaPreparacion(), dtdistribucion.getFechaEntrega(), dtdistribucion.getEstado(), b, d);
 			mDist.agregarDistribucion(nuevaDistribucion);	
 		}
 	}
@@ -174,8 +175,8 @@ public class Controlador implements IControlador{
 	        distribucionExistente.setFechaEntrega(dtdistribucion.getFechaEntrega());
 	        distribucionExistente.setEstado(dtdistribucion.getEstado());
 
-	        Beneficiario beneficiario = dtdistribucion.getBeneficiario();
-	        Donacion donacion = dtdistribucion.getDonacion();
+	        Beneficiario beneficiario = distribucionExistente.getBeneficiario();
+	        Donacion donacion = distribucionExistente.getDonacion();
 	        
 	        distribucionExistente.setBeneficiario(beneficiario);
 	        distribucionExistente.setDonacion(donacion);
@@ -224,6 +225,15 @@ public class Controlador implements IControlador{
 			}
 	    }
 		return retorno;
+	}
+	
+	@Override
+	public DtBeneficiario getBeneficiario(String email) {
+		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+		Usuario usr = mU.buscarUsuario(email);
+		Beneficiario usrb = (Beneficiario) usr;
+		DtBeneficiario dtBen = new DtBeneficiario(usrb.getNombre(), usrb.getEmail(), usrb.getDireccion(), usrb.getFechaNacimiento(), usrb.getEstado(), usrb.getBarrio());
+		return dtBen;
 	}
 	
 	@Override
