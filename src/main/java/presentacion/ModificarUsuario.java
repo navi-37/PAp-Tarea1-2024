@@ -40,7 +40,6 @@ public class ModificarUsuario extends JInternalFrame {
 	public ModificarUsuario(IControlador icon) {
 		this.icon = icon;
 		setTitle("Modificar Usuario existente");
-		setIconifiable(true);
 		setMaximizable(true);
 		setClosable(true);
 		setBounds(100, 100, 640, 401);
