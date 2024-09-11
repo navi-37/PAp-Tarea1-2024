@@ -211,7 +211,7 @@ public class ModificarDistribucion extends JInternalFrame {
 	        try {
 	            String strId = this.comboBoxDistribuciones.getSelectedItem().toString();
 	            int id = Integer.parseInt(strId);
-	            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+	            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 
 	            Date fechaP = formatoFecha.parse(txtFechaP.getText());
 	            Date fechaE = formatoFecha.parse(txtFechaE.getText());
@@ -235,7 +235,7 @@ public class ModificarDistribucion extends JInternalFrame {
 	        } catch (IllegalArgumentException ex) {
 	            JOptionPane.showMessageDialog(this, "Estado de distribución inválido.", "Error", JOptionPane.ERROR_MESSAGE);
 	        } catch (Exception ex) {
-	            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Por favor, usa el formato dd-MM-yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
+	            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Por favor, usa el formato dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
 	        }
 	    }
 	}
@@ -253,7 +253,7 @@ public class ModificarDistribucion extends JInternalFrame {
 		comboEstado.setSelectedItem(null);
 	}
 	private String convertirFechaADiaMesAnio(Date fecha) {
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         return formatoFecha.format(fecha);
     }
 	
