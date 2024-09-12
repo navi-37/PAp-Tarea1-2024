@@ -39,8 +39,10 @@ public class ModificarDistribucion extends JInternalFrame {
 	
 	public ModificarDistribucion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 532, 389);
+		setBounds(100, 100, 800, 550);
 		getContentPane().setLayout(null);
+		setTitle("MODIFICAR DISTRIBUCIÓN");
+		setClosable(true);
 		
 		rdbtnTodas = new JRadioButton("Todas");
 		rdbtnPendientes = new JRadioButton("Pendientes");
@@ -155,10 +157,6 @@ public class ModificarDistribucion extends JInternalFrame {
 		txtFechaE.setBounds(204, 216, 140, 19);
 		getContentPane().add(txtFechaE);
 		txtFechaE.setColumns(10);
-		
-		JLabel lblListarDistribuciones = new JLabel("Modificar Distribucion");
-		lblListarDistribuciones.setBounds(170, 12, 176, 15);
-		getContentPane().add(lblListarDistribuciones);
 		
 		JButton btnVerInformacin = new JButton("Ver información");
 		btnVerInformacin.addActionListener(new ActionListener() {
