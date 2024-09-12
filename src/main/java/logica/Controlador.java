@@ -293,7 +293,8 @@ public class Controlador implements IControlador{
 	
 	public DtUsuario getUsuario(String email) {
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-		DtUsuario dtu = new DtUsuario(mU.buscarUsuario(email).getNombre(),mU.buscarUsuario(email).getEmail());
+		Usuario usr = mU.buscarUsuario(email);
+		DtUsuario dtu = new DtUsuario(usr.getNombre(), usr.getEmail());
 		
 		return dtu;
 	}
@@ -313,10 +314,8 @@ public class Controlador implements IControlador{
 	        
 	        if (!(emailNuevo.equals(emailActual))) { // si el correo cambia
 	            usuarioAModificar.setEmail(emailNuevo);
-	            if (!(nombreNuevo.equals(nombreActual))) { // y si se cambia el nombre también
-	                usuarioAModificar.setNombre(nombreNuevo);
-	            }
-	        } else if (!(nombreNuevo.equals(nombreActual))) { // si no se cambia correo pero sí el nombre
+	        }
+	        if (!(nombreNuevo.equals(nombreActual))) { // si cambia el nombre
 	            usuarioAModificar.setNombre(nombreNuevo);
 	        }
 	        
@@ -328,7 +327,7 @@ public class Controlador implements IControlador{
 	        }
 	        e.printStackTrace();
 	    } finally {
-	        em.close();  // Cerrar el EntityManager
+	        //em.close();  // Cerrar el EntityManager
 	    }
 	}
 	
