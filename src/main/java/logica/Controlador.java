@@ -298,19 +298,38 @@ public class Controlador implements IControlador{
 		return dtu;
 	}
 	
-	public void modificarUsuario(DtUsuario dtu, String email, String nombre) {
-		
-		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-						
-		if (!email.equals(dtu.getEmail())) { // si se cambia correo
-		    mU.buscarUsuario(dtu.getEmail()).setEmail(email);
-		    if (!nombre.equals(dtu.getNombre())) { // y si se cambia el nombre
-		    	mU.buscarUsuario(email).setNombre(nombre);
-		    }
-		} else	// si no se cambia correo pero sí el nombre
-			if (!nombre.equals(dtu.getNombre())) { 
-			    mU.buscarUsuario(dtu.getEmail()).setNombre(nombre);
-			}	
+		public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
+	    String nombreActual = dtu.getNombre();
+	    String emailActual = dtu.getEmail();
+	    
+	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+	    Usuario usuarioAModificar = mU.buscarUsuario(emailActual);
+	    
+	    Conexion conexion = Conexion.getInstancia();
+	    EntityManager em = conexion.getEntityManager();
+	    
+	    try {
+	        em.getTransaction().begin();
+	        
+	        if (!(emailNuevo.equals(emailActual))) { // si el correo cambia
+	            usuarioAModificar.setEmail(emailNuevo);
+	            if (!(nombreNuevo.equals(nombreActual))) { // y si se cambia el nombre también
+	                usuarioAModificar.setNombre(nombreNuevo);
+	            }
+	        } else if (!(nombreNuevo.equals(nombreActual))) { // si no se cambia correo pero sí el nombre
+	            usuarioAModificar.setNombre(nombreNuevo);
+	        }
+	        
+	        em.merge(usuarioAModificar);  
+	        em.getTransaction().commit();  // sincronizar y confirmar  en la base de datos
+	    } catch (Exception e) {
+	        if (em.getTransaction().isActive()) { // cancelar si hay error
+	            em.getTransaction().rollback();  
+	        }
+	        e.printStackTrace();
+	    } finally {
+	        em.close();  // Cerrar el EntityManager
+	    }
 	}
 	
 	@Override
@@ -492,3 +511,4 @@ public class Controlador implements IControlador{
 	    
 	    */
 }
+
