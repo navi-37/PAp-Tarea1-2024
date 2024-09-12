@@ -36,13 +36,10 @@ public class ListarBeneficiarios extends JInternalFrame {
 	public ListarBeneficiarios(IControlador icont) {
 		icon = icont;
 		
-		setResizable(true);
-		setMaximizable(true);
+		setBounds(100, 100, 800, 550);
+		getContentPane().setLayout(null);
+		setTitle("LISTAR BENEFICIARIOS");
 		setClosable(true);
-		setIconifiable(true);
-		setBounds(100, 100, 600, 400);
-		setTitle("Lista de Beneficiarios");
-		getContentPane().setLayout(null); 
 		
 		btnCerrar = new JButton("Cerrar");
         btnCerrar.setBounds(44, 331, 89, 23);

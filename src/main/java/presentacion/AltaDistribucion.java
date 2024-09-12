@@ -46,8 +46,10 @@ public class AltaDistribucion extends JInternalFrame {
 
 	public AltaDistribucion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 800, 550);
 		getContentPane().setLayout(null);
+		setTitle("ALTA DISTRIBUCIÓN");
+		setClosable(true);
 		
 		JLabel lblDonacion = new JLabel("Donación (ID)");
 		lblDonacion.setBounds(33, 74, 108, 13);
@@ -92,10 +94,6 @@ public class AltaDistribucion extends JInternalFrame {
 		});
 		btnCancelar.setBounds(237, 217, 85, 21);
 		getContentPane().add(btnCancelar);
-		
-		JLabel lblNewLabel = new JLabel("Alta de Distribución");
-		lblNewLabel.setBounds(33, 10, 205, 13);
-		getContentPane().add(lblNewLabel);
 		
 		JLabel lblid = new JLabel("ID");
 		lblid.setBounds(33, 33, 57, 13);

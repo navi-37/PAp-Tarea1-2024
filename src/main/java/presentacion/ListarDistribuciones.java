@@ -42,8 +42,10 @@ public class ListarDistribuciones extends JInternalFrame {
 	
 	public ListarDistribuciones(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 580, 410);
+		setBounds(100, 100, 800, 550);
 		getContentPane().setLayout(null);
+		setTitle("LISTAR DISTRIBUCIONES");
+		setClosable(true);
 		
 		rdbtnTodas = new JRadioButton("Todas");
 		rdbtnPendientes = new JRadioButton("Pendientes");
@@ -175,11 +177,6 @@ public class ListarDistribuciones extends JInternalFrame {
 		txtEstado.setBounds(170, 336, 114, 19);
 		getContentPane().add(txtEstado);
 		txtEstado.setColumns(10);
-		
-		JLabel lblListarDistribuciones = new JLabel("Listar Distribuciones");
-		lblListarDistribuciones.setFont(new Font("Tahoma", Font.BOLD, 12));
-		lblListarDistribuciones.setBounds(21, 11, 176, 15);
-		getContentPane().add(lblListarDistribuciones);
 		
 		JButton btnVerInformacin = new JButton("Ver información");
 		btnVerInformacin.addActionListener(new ActionListener() {

@@ -43,8 +43,10 @@ public class AltaUsuario extends JInternalFrame {
 
     public AltaUsuario(IControlador icon) {
         this.icon = icon;
-        setBounds(100, 100, 547, 402);
-        getContentPane().setLayout(null);
+        setBounds(100, 100, 800, 550);
+		getContentPane().setLayout(null);
+		setTitle("ALTA USUARIO");
+		setClosable(true);
 
         textNombre = new JTextField();
         textNombre.setBounds(103, 32, 200, 20);
