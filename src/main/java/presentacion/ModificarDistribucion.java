@@ -7,13 +7,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-
+import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
+import datatypes.DtDonacion;
 import datatypes.EstadoDistribucion;
 import excepciones.DistribucionNoEncontradaExc;
 import interfaces.IControlador;
-import logica.Beneficiario;
-import logica.Donacion;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -40,8 +39,10 @@ public class ModificarDistribucion extends JInternalFrame {
 	
 	public ModificarDistribucion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 532, 389);
+		setBounds(100, 100, 800, 550);
 		getContentPane().setLayout(null);
+		setTitle("MODIFICAR DISTRIBUCIÓN");
+		setClosable(true);
 		
 		rdbtnTodas = new JRadioButton("Todas");
 		rdbtnPendientes = new JRadioButton("Pendientes");
@@ -157,10 +158,6 @@ public class ModificarDistribucion extends JInternalFrame {
 		getContentPane().add(txtFechaE);
 		txtFechaE.setColumns(10);
 		
-		JLabel lblListarDistribuciones = new JLabel("Modificar Distribucion");
-		lblListarDistribuciones.setBounds(170, 12, 176, 15);
-		getContentPane().add(lblListarDistribuciones);
-		
 		JButton btnVerInformacin = new JButton("Ver información");
 		btnVerInformacin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -212,15 +209,15 @@ public class ModificarDistribucion extends JInternalFrame {
 	        try {
 	            String strId = this.comboBoxDistribuciones.getSelectedItem().toString();
 	            int id = Integer.parseInt(strId);
-	            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+	            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
 
 	            Date fechaP = formatoFecha.parse(txtFechaP.getText());
 	            Date fechaE = formatoFecha.parse(txtFechaE.getText());
 	            EstadoDistribucion estado = (EstadoDistribucion) comboEstado.getSelectedItem(); 
 
 	            DtDistribucion dist = this.icon.getDistribucion(id);
-	            Beneficiario beneficiario = dist.getBeneficiario();
-	            Donacion donacion = dist.getDonacion();
+	            DtBeneficiario beneficiario = dist.getBeneficiario();
+	            DtDonacion donacion = dist.getDonacion();
 
 	            DtDistribucion nuevaDistribucion = new DtDistribucion(id, fechaP, fechaE, estado, beneficiario, donacion);
 
@@ -236,7 +233,7 @@ public class ModificarDistribucion extends JInternalFrame {
 	        } catch (IllegalArgumentException ex) {
 	            JOptionPane.showMessageDialog(this, "Estado de distribución inválido.", "Error", JOptionPane.ERROR_MESSAGE);
 	        } catch (Exception ex) {
-	            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Por favor, usa el formato dd-MM-yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
+	            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Por favor, usa el formato dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
 	        }
 	    }
 	}
@@ -254,7 +251,7 @@ public class ModificarDistribucion extends JInternalFrame {
 		comboEstado.setSelectedItem(null);
 	}
 	private String convertirFechaADiaMesAnio(Date fecha) {
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         return formatoFecha.format(fecha);
     }
 	

@@ -31,8 +31,10 @@ public class AltaDonacion extends JInternalFrame {
 
 	public AltaDonacion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 547, 402);
+		setBounds(100, 100, 800, 550);
 		getContentPane().setLayout(null);
+		setTitle("ALTA DONACIÓN");
+		setClosable(true);
 		
 		textid = new JTextField();
 		textid.setBounds(56, 33, 60, 20);

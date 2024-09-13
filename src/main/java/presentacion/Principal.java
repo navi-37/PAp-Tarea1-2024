@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 
 import interfaces.Fabrica;
 import interfaces.IControlador;
+import javax.swing.JDesktopPane;
+import javax.swing.JPanel;
 
 public class Principal {
 
@@ -25,6 +27,7 @@ public class Principal {
 	private ModificarDonacion modificarDonacionInternalFrame;
 	private ModificarDistribucion modificarDistribucion;
 	private ModificarUsuario modificarUsuarioInternalFrame; 
+	private ReporteZona reporteZonasInternalFrame;
 
 
 	public static void main(String[] args) {
@@ -110,13 +113,21 @@ public class Principal {
 		modificarUsuarioInternalFrame = new ModificarUsuario(icon);
 		modificarUsuarioInternalFrame.setVisible(false);
 		frame.getContentPane().add(modificarUsuarioInternalFrame);
+		
+		reporteZonasInternalFrame = new ReporteZona(icon);
+		reporteZonasInternalFrame.setClosable(true);
+		jInternalFrameSize = reporteZonasInternalFrame.getSize();
+		reporteZonasInternalFrame.setLocation((desktopSize.width - jInternalFrameSize.width)/2,
+				(desktopSize.height - jInternalFrameSize.height)/2);
+		reporteZonasInternalFrame.setVisible(false);
+		frame.getContentPane().add(reporteZonasInternalFrame);
 
 	}
 
 	
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 800, 550);
+		frame.setBounds(100, 100, 1200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -157,7 +168,7 @@ public class Principal {
 		menuBar.add(menuModificar);
 		
 
-		JMenuItem menuItemModificarDist = new JMenuItem("Modificar Distribución");
+		JMenuItem menuItemModificarDist = new JMenuItem("Distribución");
         menuItemModificarDist.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
             	modificarDistribucion.setVisible(true);
@@ -200,6 +211,14 @@ public class Principal {
 		
 		JMenu menuReporte = new JMenu("Reporte");
 		menuBar.add(menuReporte);
+		
+		JMenuItem mntmZonasConMs = new JMenuItem("Zonas con más distribuciones");
+		mntmZonasConMs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				reporteZonasInternalFrame.setVisible(true);
+			}
+		});
+		menuReporte.add(mntmZonasConMs);
 		
 		JMenuItem mntmListaBeneficiarios = new JMenuItem("Beneficiarios");
 		mntmListaBeneficiarios.addActionListener(new ActionListener() {

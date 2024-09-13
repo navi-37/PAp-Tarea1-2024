@@ -7,6 +7,7 @@ import datatypes.DtRepartidor;
 import datatypes.DtBeneficiario;
 import datatypes.Barrio;
 import datatypes.EstadoBeneficiario;
+import excepciones.FechaInvalidaExc;
 import excepciones.UsuarioRepetidoExc;
 import interfaces.IControlador;
 
@@ -42,8 +43,10 @@ public class AltaUsuario extends JInternalFrame {
 
     public AltaUsuario(IControlador icon) {
         this.icon = icon;
-        setBounds(100, 100, 547, 402);
-        getContentPane().setLayout(null);
+        setBounds(100, 100, 800, 550);
+		getContentPane().setLayout(null);
+		setTitle("ALTA USUARIO");
+		setClosable(true);
 
         textNombre = new JTextField();
         textNombre.setBounds(103, 32, 200, 20);
@@ -164,13 +167,22 @@ public class AltaUsuario extends JInternalFrame {
         String email = this.textEmail.getText();
         DtUsuario usuario = null;
         String selectedItem = (String) comboBoxTipoUsuario.getSelectedItem();
-
+        String emailRegex = "^[\\w-\\.]+@[\\w-]+(\\.[\\w-]+)+$";
+        
+        if (!email.matches(emailRegex)) {
+            JOptionPane.showMessageDialog(this, "Por favor ingrese un correo electrónico válido.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         if (selectedItem.equals("Beneficiario")) {
             String direccion = this.textDireccion.getText();
             LocalDateTime fechaNacimiento = null;
             try {
-                //
-                fechaNacimiento = LocalDate.parse(this.texFechaNacimiento.getText(), dateTimeFormatter).atStartOfDay();
+            	fechaNacimiento = LocalDate.parse(this.texFechaNacimiento.getText(), dateTimeFormatter).atStartOfDay();
+                validarFechaNacimiento(fechaNacimiento.toLocalDate());
+            } catch (FechaInvalidaExc e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Fecha", JOptionPane.ERROR_MESSAGE);
+                return;
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
@@ -193,7 +205,25 @@ public class AltaUsuario extends JInternalFrame {
         limpiarFormulario();
         setVisible(false);
     }
+    
+    public void validarFechaNacimiento(LocalDate fechaNacimiento) throws FechaInvalidaExc {
+        LocalDate hoy = LocalDate.now();
+        int anioActual = hoy.getYear();
+        
+        if (fechaNacimiento.getYear() > anioActual) {
+            throw new FechaInvalidaExc("El año no puede ser mayor al actual.");
+        }
+        
+        if (fechaNacimiento.getMonthValue() < 1 || fechaNacimiento.getMonthValue() > 12) {
+            throw new FechaInvalidaExc("El mes debe estar entre 1 y 12.");
+        }
 
+        int diasEnMes = fechaNacimiento.getMonth().length(fechaNacimiento.isLeapYear());
+        if (fechaNacimiento.getDayOfMonth() < 1 || fechaNacimiento.getDayOfMonth() > diasEnMes) {
+            throw new FechaInvalidaExc("Día inválido para el mes seleccionado.");
+        }
+    }
+    
     protected void agregarUsuarioCancelarActionPerformed(ActionEvent arg0) {
         limpiarFormulario();
         setVisible(false);

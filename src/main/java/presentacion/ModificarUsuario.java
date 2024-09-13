@@ -1,7 +1,5 @@
 package presentacion;
 
-import java.awt.EventQueue;
-
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -23,9 +21,8 @@ import javax.swing.JButton;
 import datatypes.DtBeneficiario;
 import datatypes.DtRepartidor;
 import datatypes.DtUsuario;
-import datatypes.EstadoDistribucion;
 import interfaces.IControlador;
-import logica.Usuario; 
+
 
 public class ModificarUsuario extends JInternalFrame {
 
@@ -42,12 +39,10 @@ public class ModificarUsuario extends JInternalFrame {
 
 	public ModificarUsuario(IControlador icon) {
 		this.icon = icon;
-		setTitle("Modificar Usuario existente");
-		setIconifiable(true);
-		setMaximizable(true);
-		setClosable(true);
-		setBounds(100, 100, 640, 401);
+		setBounds(100, 100, 800, 550);
 		getContentPane().setLayout(null);
+		setTitle("MODIFICAR USUARIO");
+		setClosable(true);
 		
 		JLabel lblTipoUsuario = new JLabel("Elegir tipo de Usuario a modificar");
 		lblTipoUsuario.setForeground(new Color(128, 128, 128));

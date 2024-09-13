@@ -2,8 +2,10 @@ package interfaces;
 
 import datatypes.DtDonacion;
 import datatypes.DtRepartidor;
+import datatypes.DtReporte;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import datatypes.Barrio;
 
@@ -50,4 +52,8 @@ public interface IControlador {
 	public DtUsuario getUsuario(String email);
 
 	public void modificarUsuario(DtUsuario dtu, String email, String nombre);
+	
+	public DtBeneficiario getBeneficiario(String email);
+	
+	public ArrayList<DtReporte> reporte(Date fechaInicial, Date fechaFinal);
 }

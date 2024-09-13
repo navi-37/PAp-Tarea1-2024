@@ -4,19 +4,16 @@ package datatypes;
 
 import java.util.Date;
 
-import logica.Beneficiario;
-import logica.Donacion;
-
 public class DtDistribucion {
 	private int id;
 	private Date fechaPreparacion;
 	private Date fechaEntrega;
 	private EstadoDistribucion estado;
-	private Beneficiario beneficiario;
-	private Donacion donacion;
+	private DtBeneficiario beneficiario;
+	private DtDonacion donacion;
 	
 	
-	public DtDistribucion(int id, Date fechaPreparacion, Date fechaEntrega, EstadoDistribucion estado, Beneficiario beneficiario, Donacion donacion) {
+	public DtDistribucion(int id, Date fechaPreparacion, Date fechaEntrega, EstadoDistribucion estado, DtBeneficiario beneficiario, DtDonacion donacion) {
 		super();
 		this.id = id;
 		this.fechaPreparacion = fechaPreparacion;
@@ -65,22 +62,22 @@ public class DtDistribucion {
 	}
 
 
-	public Beneficiario getBeneficiario() {
+	public DtBeneficiario getBeneficiario() {
 		return beneficiario;
 	}
 
 
-	public void setBeneficiario(Beneficiario beneficiario) {
+	public void setBeneficiario(DtBeneficiario beneficiario) {
 		this.beneficiario = beneficiario;
 	}
 
 
-	public Donacion getDonacion() {
+	public DtDonacion getDonacion() {
 		return donacion;
 	}
 
 
-	public void setDonacion(Donacion donacion) {
+	public void setDonacion(DtDonacion donacion) {
 		this.donacion = donacion;
 	}
 
