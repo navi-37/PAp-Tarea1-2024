@@ -204,6 +204,7 @@ public class ModificarUsuario extends JInternalFrame {
 	public void modificarDatosUsuario(ActionEvent e) {
 	    if (this.comboBoxUsuarios.getSelectedItem() != null) {
 	        DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
+	        String emailviejo = dtu.getEmail();
 	        
 	        String email = textFieldCorreo.getText();
 	        String nombre = textFieldNombreUsuario.getText();
@@ -214,7 +215,7 @@ public class ModificarUsuario extends JInternalFrame {
 		        actualizarComboBoxUsuarios();
 		        
 		        // checkear si el email es el mismo. sino, busca el nuevo email
-		        DtUsuario usuarioActualizado = icon.getUsuario(email);
+		        DtUsuario usuarioActualizado = icon.getUsuario(emailviejo);
 		        if (usuarioActualizado != null) {
 		            this.comboBoxUsuarios.setSelectedItem(usuarioActualizado);
 		        }
