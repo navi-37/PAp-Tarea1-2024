@@ -177,11 +177,12 @@ public class AltaDonacion extends JInternalFrame {
         String cantElem = this.textCantElem.getText();
         String tipoDon = (String) this.comboBoxTipoDonacion.getSelectedItem();
         
-        if (id.isEmpty() || tipoDon.isEmpty() || descripcion.isEmpty()) {
+        if (id.isEmpty() || descripcion.isEmpty() || (this.comboBoxTipoDonacion.getSelectedItem() == null)) {
             JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
+        
         if (tipoDon == "Artículo") {
         	if (peso.isEmpty() || dimensiones.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
