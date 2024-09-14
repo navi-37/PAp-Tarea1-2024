@@ -300,45 +300,69 @@ public class Controlador implements IControlador{
 	}
 	
 
-		public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
-
+	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
 	    String nombreActual = dtu.getNombre();
 	    String emailActual = dtu.getEmail();
 	    
 	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 	    Usuario usuarioAModificar = mU.buscarUsuario(emailActual);
-	    
+
 	    Conexion conexion = Conexion.getInstancia();
 	    EntityManager em = conexion.getEntityManager();
 	    
 	    try {
 	        em.getTransaction().begin();
-	        
-	        if (!(emailNuevo.equals(emailActual))) { // si el correo cambia
-	            usuarioAModificar.setEmail(emailNuevo);
 
-	            if (!(nombreNuevo.equals(nombreActual))) { // y si se cambia el nombre también
-	                usuarioAModificar.setNombre(nombreNuevo);
+	        Usuario nuevoUsuario = null;
+
+	        //si es Beneficiario 
+	        if (usuarioAModificar instanceof Beneficiario) {  
+	            Beneficiario beneficiario = (Beneficiario) usuarioAModificar;
+	            
+	            nuevoUsuario = new Beneficiario(nombreNuevo, emailNuevo, 
+	                            beneficiario.getDireccion(), 
+	                            beneficiario.getFechaNacimiento(), 
+	                            beneficiario.getEstado(), 
+	                            beneficiario.getBarrio());
+	        // si es repartidor
+	        } else if (usuarioAModificar instanceof Repartidor) {
+	            Repartidor repartidor = (Repartidor) usuarioAModificar;
+	            
+	            nuevoUsuario = new Repartidor(nombreNuevo, emailNuevo, 
+	                            repartidor.getNumeroLicencia());
+	        } 
+
+	        em.persist(nuevoUsuario);
+
+	        // modificar distribuciones que dependan del beneficiario 
+	        if (nuevoUsuario instanceof Beneficiario) {
+	            ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
+	            ArrayList<DtDistribucion> distribuciones = mD.obtenerDistribuciones();
+	            
+	            // provisoriamente crear nuevo DtBeneficiario con los datos nuevos para poder crear DtDistribucion pero capaz habría que modificar el creador de distribución para que sea un string al email y no al obj beneficiario
+	            Beneficiario beneficiario = (Beneficiario) nuevoUsuario;  
+	            DtBeneficiario dtben = new DtBeneficiario(beneficiario.getNombre(),
+	                beneficiario.getEmail(), beneficiario.getDireccion(), beneficiario.getFechaNacimiento(), beneficiario.getEstado(), beneficiario.getBarrio()
+	            );
+	            // DtBeneficiario(String nombre, String email, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio)
+	            
+	            for (DtDistribucion d : distribuciones) {
+	                if (d.getBeneficiario().getEmail().equals(emailActual)) {
+	                	DtDistribucion distNueva = new DtDistribucion(d.getId(), d.getFechaPreparacion(), d.getFechaEntrega(), d.getEstado(), dtben, d.getDonacion()); // dist nueva (sólo tiene beneficiario nuevo)
+	                	modificarDistribucion(distNueva);                }
 	            }
-	        } else if (!(nombreNuevo.equals(nombreActual))) { // si no se cambia correo pero sí el nombre
-
 	        }
-	        if (!(nombreNuevo.equals(nombreActual))) { // si cambia el nombre
 
-	            usuarioAModificar.setNombre(nombreNuevo);
-	        }
-	        
-	        em.merge(usuarioAModificar);  
-	        em.getTransaction().commit();  // sincronizar y confirmar  en la base de datos
+	        // sacar usuario antiguo
+	        em.remove(usuarioAModificar);
+	        em.getTransaction().commit();
 	    } catch (Exception e) {
-	        if (em.getTransaction().isActive()) { // cancelar si hay error
-	            em.getTransaction().rollback();  
+	        if (em.getTransaction().isActive()) {
+	            em.getTransaction().rollback();
 	        }
 	        e.printStackTrace();
 	    } finally {
-
-	        //em.close();  // Cerrar el EntityManager
-
+	        // em.close();  // Cerrar el EntityManager si es necesario
 	    }
 	}
 	
