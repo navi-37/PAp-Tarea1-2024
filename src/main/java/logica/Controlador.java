@@ -215,7 +215,7 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-	public DtDonacion getDonacion(Integer idDon) {
+	public DtDonacion getDonacion(Integer idDon) throws DonacionNoExisteExc{
 		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
 		ArrayList<DtDonacion> todasLasDonaciones = mD.obtenerDonaciones();
 		DtDonacion retorno = null;
@@ -231,6 +231,9 @@ public class Controlador implements IControlador{
 				}
 			}
 	    }
+		if (retorno == null) {
+			throw new DonacionNoExisteExc("La donación no existe");
+		}
 		return retorno;
 	}
 	

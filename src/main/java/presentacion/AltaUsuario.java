@@ -243,13 +243,13 @@ public class AltaUsuario extends JInternalFrame {
         String barrio = (String) this.comboBoxBarrio.getSelectedItem();
         String estado = (String) this.comboBoxEstadoBeneficiario.getSelectedItem();
         
-        if (nombre.isEmpty() || email.isEmpty() || fechaNac.isEmpty() || tipoUsr.isEmpty()) {
+        if (nombre.isEmpty() || email.isEmpty() || tipoUsr.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if (tipoUsr == "Beneficiario") {
-        	if (direccion.isEmpty() || barrio.isEmpty() || estado.isEmpty()) {
+        	if (direccion.isEmpty() || barrio.isEmpty() || estado.isEmpty() || fechaNac.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return false;
