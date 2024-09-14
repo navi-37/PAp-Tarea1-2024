@@ -41,7 +41,7 @@ public interface IControlador {
 	
 	public ArrayList<DtBeneficiario> listarBeneficiariosPorEstadoYBarrio(EstadoBeneficiario estado, Barrio barrio);
 
-	public DtDonacion getDonacion(Integer idDon);
+	public DtDonacion getDonacion(Integer idDon) throws DonacionNoExisteExc;
 	
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona);
 	

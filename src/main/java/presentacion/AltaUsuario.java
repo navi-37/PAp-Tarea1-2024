@@ -240,16 +240,14 @@ public class AltaUsuario extends JInternalFrame {
         String direccion = this.textDireccion.getText();
         String fechaNac = this.texFechaNacimiento.getText();
         String tipoUsr = (String) this.comboBoxTipoUsuario.getSelectedItem();
-        String barrio = (String) this.comboBoxBarrio.getSelectedItem();
-        String estado = (String) this.comboBoxEstadoBeneficiario.getSelectedItem();
         
-        if (nombre.isEmpty() || email.isEmpty() || fechaNac.isEmpty() || tipoUsr.isEmpty()) {
+        if (nombre.isEmpty() || email.isEmpty() || (this.comboBoxTipoUsuario.getSelectedItem() == null)) {
             JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
                     JOptionPane.ERROR_MESSAGE);
             return false;
         }
         if (tipoUsr == "Beneficiario") {
-        	if (direccion.isEmpty() || barrio.isEmpty() || estado.isEmpty()) {
+        	if (direccion.isEmpty() || fechaNac.isEmpty() || (this.comboBoxBarrio.getSelectedItem() == null) || (this.comboBoxEstadoBeneficiario.getSelectedItem() == null)) {
                 JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
                         JOptionPane.ERROR_MESSAGE);
                 return false;

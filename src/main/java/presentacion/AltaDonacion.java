@@ -134,36 +134,78 @@ public class AltaDonacion extends JInternalFrame {
 	}
 	
 	protected void agregarDonacionAceptarActionPerformed(ActionEvent arg0) {
-		Integer id = Integer.valueOf(this.textid.getText());
-		LocalDateTime fecha = LocalDateTime.now();
-        String selectedItem = (String) comboBoxTipoDonacion.getSelectedItem();
-        DtDonacion dt = null;
-		if (selectedItem.equals("Alimento")) {
-			String descripcionProductos = this.textDescripcion.getText();
-			Integer cantElementos = Integer.valueOf(this.textCantElem.getText());
-			dt = new DtAlimento(id, fecha, descripcionProductos, cantElementos);
-		} else if (selectedItem.equals("Artículo")) {
-			String descripcion = this.textDescripcion.getText();
-			float peso = Float.parseFloat(this.textPeso.getText());
-			String dimensiones = this.textDimensiones.getText();
-			dt = new DtArticulo(id, fecha, descripcion, peso, dimensiones);
+		
+		if (checkFormulario()) {
+			Integer id = Integer.valueOf(this.textid.getText());
+			LocalDateTime fecha = LocalDateTime.now();
+	        String selectedItem = (String) comboBoxTipoDonacion.getSelectedItem();
+	        DtDonacion dt = null;
+			if (selectedItem.equals("Alimento")) {
+				String descripcionProductos = this.textDescripcion.getText();
+				Integer cantElementos = Integer.valueOf(this.textCantElem.getText());
+				dt = new DtAlimento(id, fecha, descripcionProductos, cantElementos);
+			} else if (selectedItem.equals("Artículo")) {
+				String descripcion = this.textDescripcion.getText();
+				float peso = Float.parseFloat(this.textPeso.getText());
+				String dimensiones = this.textDimensiones.getText();
+				dt = new DtArticulo(id, fecha, descripcion, peso, dimensiones);
+			}
+	        //hay que usar la instancia de icon para que agregue el dt
+	        try {
+	        	this.icon.altaDonacion(dt);
+	        	JOptionPane.showMessageDialog(this, "Donación dada de alta con éxito", "Alta donación", JOptionPane.INFORMATION_MESSAGE);
+	        	limpiarFormulario();
+	            setVisible(false);
+	        	} catch (DonacionRepetidaExc e) {
+	            JOptionPane.showMessageDialog(this, e.getMessage(), "Alta donación", JOptionPane.ERROR_MESSAGE);
+	        	}
 		}
-        //hay que usar la instancia de icon para que agregue el dt
-        try {
-        	this.icon.altaDonacion(dt);
-        	JOptionPane.showMessageDialog(this, "Donación dada de alta con éxito", "Alta donación", JOptionPane.INFORMATION_MESSAGE);
-        	} catch (DonacionRepetidaExc e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Alta donación", JOptionPane.ERROR_MESSAGE);
-        	}
    
-        limpiarFormulario();
-        setVisible(false);
+        
 	} 
 	protected void agregarDonacionCancelarActionPerformed(ActionEvent arg0) {
         limpiarFormulario();
         setVisible(false);
 		
 	} 
+	
+	private boolean checkFormulario() {
+        String id = this.textid.getText();
+        String dimensiones = this.textDimensiones.getText();
+        String peso = this.textPeso.getText();
+        String descripcion = this.textDescripcion.getText();
+        String cantElem = this.textCantElem.getText();
+        String tipoDon = (String) this.comboBoxTipoDonacion.getSelectedItem();
+        
+        if (id.isEmpty() || descripcion.isEmpty() || (this.comboBoxTipoDonacion.getSelectedItem() == null)) {
+            JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        if (tipoDon == "Artículo") {
+        	if (peso.isEmpty() || dimensiones.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if (tipoDon == "Alimento") {
+        	if (cantElem.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        try {
+        	Integer.parseInt(cantElem);
+        	 
+        } catch (NumberFormatException e){
+        	JOptionPane.showMessageDialog(this, "La cantidad de elementos tiene que ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        return true;
+    }
 	
 	private void limpiarFormulario() {
         textid.setText("");

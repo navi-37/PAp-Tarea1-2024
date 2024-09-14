@@ -137,55 +137,103 @@ public class AltaDistribucion extends JInternalFrame {
 		limpiarFormulario();
 	}
 	protected void agregarDistribucionAceptarActionPerformed(ActionEvent arg0) {
-		int id_distribucion = Integer.parseInt(this.textId.getText());
-		Integer id_donacion = Integer.valueOf(this.textDonacion.getText());
-		String email_beneficiario = this.textBeneficiario.getText();
 		
-		// funcion icon getDtDonacion y getDtBeneficiario
-		DtBeneficiario beneficiario = icon.getBeneficiario(email_beneficiario);
-		DtDonacion donacion = icon.getDonacion(id_donacion);
-		//DtDonacion donacion = new DtDonacion(id_donacion, null);
-		//DtBeneficiario beneficiario = new DtBeneficiario(null, email_beneficiario, null, null, null, null);
+		if (checkFormulario()) {
+			int id_distribucion = Integer.parseInt(this.textId.getText());
+			Integer id_donacion = Integer.valueOf(this.textDonacion.getText());
+			String email_beneficiario = this.textBeneficiario.getText();
+			
+			
+			
+			// funcion icon getDtDonacion y getDtBeneficiario
+			DtBeneficiario beneficiario = null;
+			try {
+				beneficiario = icon.getBeneficiario(email_beneficiario);
+			} catch (NullPointerException e) {
+				JOptionPane.showMessageDialog(this, "El beneficiario no existe", "Error",
+	                    JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+			
+			DtDonacion donacion = null;
+			try {
+				donacion = icon.getDonacion(id_donacion);
+			} catch (DonacionNoExisteExc ee) {
+				JOptionPane.showMessageDialog(this, "La donación no existe", "Error",
+	                    JOptionPane.ERROR_MESSAGE);
+				return;
+			}
+	
 
-		// transformar en funcion esto pa reusar en altausuario
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		String anoFechaP = (String) cBAnoFechaP.getSelectedItem();
-		String mesFechaP = (String) cBMesFechaP.getSelectedItem();
-		String diaFechaP = (String) cBDiaFechaP.getSelectedItem();
-		String anoFechaE = (String) cBAnoFechaE.getSelectedItem();
-		String mesFechaE = (String) cBMesFechaE.getSelectedItem();
-		String diaFechaE = (String) cBDiaFechaE.getSelectedItem();
-		String string_fechaP = anoFechaP+"-"+mesFechaP+"-"+diaFechaP;
-		String string_fechaE = anoFechaE+"-"+mesFechaE+"-"+diaFechaE;
-		Date fechaP = null;
-		Date fechaE = null;
-		try {
-			fechaP = formatter.parse(string_fechaP);
-			fechaE = formatter.parse(string_fechaE);
-		} catch (ParseException e) {
-			e.printStackTrace(); 
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			String anoFechaP = (String) cBAnoFechaP.getSelectedItem();
+			String mesFechaP = (String) cBMesFechaP.getSelectedItem();
+			String diaFechaP = (String) cBDiaFechaP.getSelectedItem();
+			String anoFechaE = (String) cBAnoFechaE.getSelectedItem();
+			String mesFechaE = (String) cBMesFechaE.getSelectedItem();
+			String diaFechaE = (String) cBDiaFechaE.getSelectedItem();
+			String string_fechaP = anoFechaP+"-"+mesFechaP+"-"+diaFechaP;
+			String string_fechaE = anoFechaE+"-"+mesFechaE+"-"+diaFechaE;
+			Date fechaP = null;
+			Date fechaE = null;
+			try {
+				fechaP = formatter.parse(string_fechaP);
+				fechaE = formatter.parse(string_fechaE);
+			} catch (ParseException e) {
+				e.printStackTrace(); 
+			}
+			EstadoDistribucion estado = EstadoDistribucion.PENDIENTE;
+			DtDistribucion dt = null;
+			dt = new DtDistribucion(id_distribucion, fechaP, fechaE, estado, beneficiario, donacion);
+			try {
+	        	this.icon.altaDistribucion(dt);
+	        		JOptionPane.showMessageDialog(this, "Distribución dada de alta con éxito", "Alta distribución", JOptionPane.INFORMATION_MESSAGE);
+	        	} catch (DistribucionRepetidaExc e) {
+	        		JOptionPane.showMessageDialog(this, e.getMessage(), "Alta distribución", JOptionPane.ERROR_MESSAGE);
+	        	} catch (UsuarioNOBeneficiarioExc a) {
+	        		JOptionPane.showMessageDialog(this, a.getMessage(), "Alta distribución", JOptionPane.ERROR_MESSAGE);
+	        	} catch (DonacionNoExisteExc b) {
+	        		JOptionPane.showMessageDialog(this, b.getMessage(), "Alta distribución", JOptionPane.ERROR_MESSAGE);
+	        	}
+	        limpiarFormulario();
+	        setVisible(false);
 		}
-		EstadoDistribucion estado = EstadoDistribucion.PENDIENTE;
-		DtDistribucion dt = null;
-		dt = new DtDistribucion(id_distribucion, fechaP, fechaE, estado, beneficiario, donacion);
-		try {
-        	this.icon.altaDistribucion(dt);
-        		JOptionPane.showMessageDialog(this, "Distribución dada de alta con éxito", "Alta distribución", JOptionPane.INFORMATION_MESSAGE);
-        	} catch (DistribucionRepetidaExc e) {
-        		JOptionPane.showMessageDialog(this, e.getMessage(), "Alta distribución", JOptionPane.ERROR_MESSAGE);
-        	} catch (UsuarioNOBeneficiarioExc a) {
-        		JOptionPane.showMessageDialog(this, a.getMessage(), "Alta distribución", JOptionPane.ERROR_MESSAGE);
-        	} catch (DonacionNoExisteExc b) {
-        		JOptionPane.showMessageDialog(this, b.getMessage(), "Alta distribución", JOptionPane.ERROR_MESSAGE);
-        	}
-        limpiarFormulario();
-        setVisible(false);
 	}
 	
 	protected void agregarDistribucionCancelarActionPerformed(ActionEvent arg0) {
         limpiarFormulario();
         setVisible(false);
 	} 
+	
+	private boolean checkFormulario() {
+        String donacion = this.textDonacion.getText();
+        String beneficiario = this.textBeneficiario.getText();
+        String id = this.textId.getText();
+        
+        if (donacion.isEmpty() || beneficiario.isEmpty() || id.isEmpty() || (this.cBDiaFechaE.getSelectedItem() == null) || (this.cBMesFechaE.getSelectedItem() == null)|| (this.cBAnoFechaE.getSelectedItem() == null) || (this.cBDiaFechaP.getSelectedItem() == null) || (this.cBMesFechaP.getSelectedItem() == null) || (this.cBAnoFechaP.getSelectedItem() == null)) {
+            JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        
+        try {
+        	Integer.parseInt(id);
+        	 
+        } catch (NumberFormatException e){
+        	JOptionPane.showMessageDialog(this, "El ID tiene que ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        try {
+			//donacion = icon.getDonacion(id_donacion);
+			Integer.parseInt(donacion);
+		} catch (NumberFormatException e) {
+			JOptionPane.showMessageDialog(this, "El ID de la donación tiene que ser un número", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+        
+        return true;
+    }
 	
 	private void limpiarFormulario() {
 		textDonacion.setText("");
