@@ -169,41 +169,45 @@ public class AltaUsuario extends JInternalFrame {
         String selectedItem = (String) comboBoxTipoUsuario.getSelectedItem();
         String emailRegex = "^[\\w-\\.]+@[\\w-]+(\\.[\\w-]+)+$";
         
-        if (!email.matches(emailRegex)) {
-            JOptionPane.showMessageDialog(this, "Por favor ingrese un correo electrónico válido.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+        if (checkFormulario()) {
         
-        if (selectedItem.equals("Beneficiario")) {
-            String direccion = this.textDireccion.getText();
-            LocalDateTime fechaNacimiento = null;
-            try {
-            	fechaNacimiento = LocalDate.parse(this.texFechaNacimiento.getText(), dateTimeFormatter).atStartOfDay();
-                validarFechaNacimiento(fechaNacimiento.toLocalDate());
-            } catch (FechaInvalidaExc e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Fecha", JOptionPane.ERROR_MESSAGE);
-                return;
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            EstadoBeneficiario estado = (EstadoBeneficiario) comboBoxEstadoBeneficiario.getSelectedItem();
-            Barrio barrio = (Barrio) comboBoxBarrio.getSelectedItem();
-            usuario = new DtBeneficiario(nombre, email, direccion, fechaNacimiento, estado, barrio);
-        } else if (selectedItem.equals("Repartidor")) {
-            String numeroLicencia = this.textNumeroLicencia.getText();
-            usuario = new DtRepartidor(nombre, email, numeroLicencia);
+	        if (!email.matches(emailRegex)) {
+	            JOptionPane.showMessageDialog(this, "Por favor ingrese un correo electrónico válido.", "Error", JOptionPane.ERROR_MESSAGE);
+	            return;
+	        }
+	        
+	        if (selectedItem.equals("Beneficiario")) {
+	            String direccion = this.textDireccion.getText();
+	            LocalDateTime fechaNacimiento = null;
+	            try {
+	            	fechaNacimiento = LocalDate.parse(this.texFechaNacimiento.getText(), dateTimeFormatter).atStartOfDay();
+	                validarFechaNacimiento(fechaNacimiento.toLocalDate());
+	            } catch (FechaInvalidaExc e) {
+	                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Fecha", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            } catch (Exception e) {
+	                JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
+	                return;
+	            }
+	            EstadoBeneficiario estado = (EstadoBeneficiario) comboBoxEstadoBeneficiario.getSelectedItem();
+	            Barrio barrio = (Barrio) comboBoxBarrio.getSelectedItem();
+	            usuario = new DtBeneficiario(nombre, email, direccion, fechaNacimiento, estado, barrio);
+	        } else if (selectedItem.equals("Repartidor")) {
+	            String numeroLicencia = this.textNumeroLicencia.getText();
+	            usuario = new DtRepartidor(nombre, email, numeroLicencia);
+	        }
+	
+	        try {
+	            this.icon.altaUsuario(usuario);
+	            JOptionPane.showMessageDialog(this, "Usuario dado de alta con éxito", "Alta Usuario", JOptionPane.INFORMATION_MESSAGE);
+	        } catch (UsuarioRepetidoExc e) {
+	            JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Usuario", JOptionPane.ERROR_MESSAGE);
+	        }
+	        limpiarFormulario();
+	        setVisible(false);
         }
 
-        try {
-            this.icon.altaUsuario(usuario);
-            JOptionPane.showMessageDialog(this, "Usuario dado de alta con éxito", "Alta Usuario", JOptionPane.INFORMATION_MESSAGE);
-        } catch (UsuarioRepetidoExc e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Alta Usuario", JOptionPane.ERROR_MESSAGE);
-        }
-
-        limpiarFormulario();
-        setVisible(false);
+        
     }
     
     public void validarFechaNacimiento(LocalDate fechaNacimiento) throws FechaInvalidaExc {
@@ -227,6 +231,38 @@ public class AltaUsuario extends JInternalFrame {
     protected void agregarUsuarioCancelarActionPerformed(ActionEvent arg0) {
         limpiarFormulario();
         setVisible(false);
+    }
+    
+    private boolean checkFormulario() {
+        String nombre = this.textNombre.getText();
+        String email = this.textEmail.getText();
+        String nLicencia = this.textNumeroLicencia.getText();
+        String direccion = this.textDireccion.getText();
+        String fechaNac = this.texFechaNacimiento.getText();
+        String tipoUsr = (String) this.comboBoxTipoUsuario.getSelectedItem();
+        String barrio = (String) this.comboBoxBarrio.getSelectedItem();
+        String estado = (String) this.comboBoxEstadoBeneficiario.getSelectedItem();
+        
+        if (nombre.isEmpty() || email.isEmpty() || fechaNac.isEmpty() || tipoUsr.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+        if (tipoUsr == "Beneficiario") {
+        	if (direccion.isEmpty() || barrio.isEmpty() || estado.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        if (tipoUsr == "Repartidor") {
+        	if (nLicencia.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Faltan datos", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+        }
+        return true;
     }
 
     private void limpiarFormulario() {
