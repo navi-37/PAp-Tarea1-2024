@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import datatypes.Barrio;
 import datatypes.DtAlimento;
@@ -189,10 +190,15 @@ public class Controlador implements IControlador{
 	        distribucionExistente.setDonacion(donacion);
 	        
 	        Conexion conexion = Conexion.getInstancia();
-			EntityManager em = conexion.getEntityManager();
-			em.getTransaction().begin();
-	        em.merge(distribucionExistente);
-	        em.getTransaction().commit();
+	        EntityManager em = conexion.getEntityManager();
+
+	        try {
+	            // No iniciar nueva transacción, solo hacer el merge
+	            em.merge(distribucionExistente);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            throw e; // lanzar la excepción para que se maneje en el nivel superior si es necesario
+	        }
 	    }
 	}
 	
@@ -299,62 +305,92 @@ public class Controlador implements IControlador{
 		return dtu;
 	}
 	
+	public void modificarDistribucionesBeneficiario(Beneficiario viejoBeneficiario, Beneficiario nuevoBeneficiario, EntityManager em) { 
+	    // Obtener instancia del manejador de distribuciones
+	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
+
+	    // Buscar distribuciones asociadas al beneficiario viejo
+	    List<Distribucion> distribucionesViejas = mD.buscarDistribucionesPorBeneficiario(viejoBeneficiario.getEmail());
+
+	    if (!(distribucionesViejas.isEmpty())) {
+	        // Eliminar distribuciones viejas asociadas al beneficiario viejo
+	        for (Distribucion distribucion : distribucionesViejas) {
+	            em.remove(em.contains(distribucion) ? distribucion : em.merge(distribucion));
+	        }
+
+	        // ahora se puede eliminar el usuario de la base de datos
+	        if (viejoBeneficiario != null) {
+	            em.remove(viejoBeneficiario);
+	        }
+
+	        // persistir nuevo usuario
+	        em.persist(nuevoBeneficiario);
+	        em.flush(); // PROBAR EL FLUSH ACÁ! 
+
+	        // Crear nuevas distribuciones con el beneficiario nuevo
+	        for (Distribucion distribucionVieja : distribucionesViejas) {
+	            Distribucion nuevaDistribucion = new Distribucion(
+	                distribucionVieja.getId(),
+	                distribucionVieja.getFechaPreparacion(),
+	                distribucionVieja.getFechaEntrega(),
+	                distribucionVieja.getEstado(),
+	                nuevoBeneficiario,       // !!!
+	                distribucionVieja.getDonacion());
+
+	            // Persistir la nueva distribución en la base de datos
+	            em.persist(nuevaDistribucion);
+	        }
+	    }
+	}
+
 
 	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
-	    String nombreActual = dtu.getNombre();
 	    String emailActual = dtu.getEmail();
-	    
+
 	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 	    Usuario usuarioAModificar = mU.buscarUsuario(emailActual);
 
 	    Conexion conexion = Conexion.getInstancia();
 	    EntityManager em = conexion.getEntityManager();
-	    
+
 	    try {
 	        em.getTransaction().begin();
 
 	        Usuario nuevoUsuario = null;
 
-	        //si es Beneficiario 
-	        if (usuarioAModificar instanceof Beneficiario) {  
-	            Beneficiario beneficiario = (Beneficiario) usuarioAModificar;
-	            
-	            nuevoUsuario = new Beneficiario(nombreNuevo, emailNuevo, 
-	                            beneficiario.getDireccion(), 
-	                            beneficiario.getFechaNacimiento(), 
-	                            beneficiario.getEstado(), 
-	                            beneficiario.getBarrio());
-	        // si es repartidor
-	        } else if (usuarioAModificar instanceof Repartidor) {
-	            Repartidor repartidor = (Repartidor) usuarioAModificar;
-	            
-	            nuevoUsuario = new Repartidor(nombreNuevo, emailNuevo, 
-	                            repartidor.getNumeroLicencia());
-	        } 
+	        // Si es Beneficiario
+	        if (usuarioAModificar instanceof Beneficiario) {
+	            Beneficiario viejoBeneficiario = (Beneficiario) usuarioAModificar;
 
-	        em.persist(nuevoUsuario);
-
-	        // modificar distribuciones que dependan del beneficiario 
-	        if (nuevoUsuario instanceof Beneficiario) {
-	            ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
-	            ArrayList<DtDistribucion> distribuciones = mD.obtenerDistribuciones();
-	            
-	            // provisoriamente crear nuevo DtBeneficiario con los datos nuevos para poder crear DtDistribucion pero capaz habría que modificar el creador de distribución para que sea un string al email y no al obj beneficiario
-	            Beneficiario beneficiario = (Beneficiario) nuevoUsuario;  
-	            DtBeneficiario dtben = new DtBeneficiario(beneficiario.getNombre(),
-	                beneficiario.getEmail(), beneficiario.getDireccion(), beneficiario.getFechaNacimiento(), beneficiario.getEstado(), beneficiario.getBarrio()
+	            Beneficiario nuevoBeneficiario = new Beneficiario(
+	                nombreNuevo, emailNuevo, // nuevos email y nombre
+	                viejoBeneficiario.getDireccion(), // mismos datos extras
+	                viejoBeneficiario.getFechaNacimiento(), 
+	                viejoBeneficiario.getEstado(),
+	                viejoBeneficiario.getBarrio()
 	            );
-	            // DtBeneficiario(String nombre, String email, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio)
-	            
-	            for (DtDistribucion d : distribuciones) {
-	                if (d.getBeneficiario().getEmail().equals(emailActual)) {
-	                	DtDistribucion distNueva = new DtDistribucion(d.getId(), d.getFechaPreparacion(), d.getFechaEntrega(), d.getEstado(), dtben, d.getDonacion()); // dist nueva (sólo tiene beneficiario nuevo)
-	                	modificarDistribucion(distNueva);                }
-	            }
+
+	           // if (!(dtu.getEmail().equals(emailNuevo))) { // cambia email -> hace nuevo obj. Usuario
+	                // reasignar distribuciones asociadas
+	                modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí
+	            /*} else { // el email es el mismo y se puede simplemente mergear con el nuevo nombre sin conflicto con las distribuciones
+	                em.merge(nuevoBeneficiario);
+	            }*/
+	        } else if (usuarioAModificar instanceof Repartidor) { // Si es repartidor
+	            Repartidor repartidor = (Repartidor) usuarioAModificar;
+	            nuevoUsuario = new Repartidor(nombreNuevo, emailNuevo, repartidor.getNumeroLicencia());
+	         // ver si con merge acá funca bien
+		        em.merge(nuevoUsuario);
 	        }
 
-	        // sacar usuario antiguo
+	        // eliminar usuario antiguo después de actualizar las distribuciones
+	        if (!em.contains(usuarioAModificar)) {
+	            usuarioAModificar = em.merge(usuarioAModificar);  // Reanexamos si está detached
+	        }
+
+	        // Eliminar el usuario sólo si ya no tiene distribuciones asociadas
 	        em.remove(usuarioAModificar);
+
 	        em.getTransaction().commit();
 	    } catch (Exception e) {
 	        if (em.getTransaction().isActive()) {
@@ -362,9 +398,13 @@ public class Controlador implements IControlador{
 	        }
 	        e.printStackTrace();
 	    } finally {
-	        // em.close();  // Cerrar el EntityManager si es necesario
+	        // Cerrar el EntityManager si es necesario
+	        // em.close();
 	    }
 	}
+
+
+
 	
 	@Override
 	public ArrayList<DtReporte> reporte(Date fechaInicial, Date fechaFinal) {
