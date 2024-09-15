@@ -42,7 +42,8 @@ public class ListarDistribuciones extends JInternalFrame {
 	
 	public ListarDistribuciones(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 800, 550);
+		//setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("LISTAR DISTRIBUCIONES");
 		setClosable(true);
@@ -68,7 +69,7 @@ public class ListarDistribuciones extends JInternalFrame {
 			}
 		});
 		
-		comboBoxZona.setBounds(64, 85, 109, 22);
+		comboBoxZona.setBounds(148, 61, 338, 19);
 		comboBoxZona.setSelectedItem(null);
 		getContentPane().add(comboBoxZona);
 		
@@ -81,7 +82,7 @@ public class ListarDistribuciones extends JInternalFrame {
 				comboBoxDistribuciones.setModel(listaDistTodas);
 			}
 		});
-		rdbtnTodas.setBounds(21, 39, 83, 23);
+		rdbtnTodas.setBounds(148, 18, 63, 23);
 		getContentPane().add(rdbtnTodas);
 		
 		//Pendientes
@@ -93,7 +94,7 @@ public class ListarDistribuciones extends JInternalFrame {
 				comboBoxDistribuciones.setModel(listaDistPendientes);
 			}
 		});
-		rdbtnPendientes.setBounds(101, 39, 108, 23);
+		rdbtnPendientes.setBounds(210, 18, 90, 23);
 		getContentPane().add(rdbtnPendientes);
 		
 		//EnCamino
@@ -106,7 +107,7 @@ public class ListarDistribuciones extends JInternalFrame {
 				
 			}
 		});
-		rdbtnEnCamino.setBounds(210, 39, 92, 23);
+		rdbtnEnCamino.setBounds(306, 18, 85, 23);
 		getContentPane().add(rdbtnEnCamino);
 		
 		//Entregadas
@@ -118,82 +119,82 @@ public class ListarDistribuciones extends JInternalFrame {
 				comboBoxDistribuciones.setModel(listaDistEntregadas);
 			}
 		});
-		rdbtnEntregadas.setBounds(310, 39, 149, 23);
+		rdbtnEntregadas.setBounds(396, 18, 90, 23);
 		getContentPane().add(rdbtnEntregadas);
 		
 		comboBoxDistribuciones = new JComboBox<Integer>();
-		comboBoxDistribuciones.setBounds(64, 125, 108, 24);
+		comboBoxDistribuciones.setBounds(148, 108, 150, 19);
 		getContentPane().add(comboBoxDistribuciones);
 		
 		JLabel lblId = new JLabel("ID");
-		lblId.setBounds(21, 130, 70, 15);
+		lblId.setBounds(148, 92, 70, 15);
 		getContentPane().add(lblId);
 		
 		JLabel lblZona = new JLabel("Zona");
-		lblZona.setBounds(21, 90, 46, 15);
+		lblZona.setBounds(148, 45, 46, 15);
 		getContentPane().add(lblZona);
 		
 		JLabel lblDonacin = new JLabel("Donación");
-		lblDonacin.setBounds(21, 176, 70, 15);
+		lblDonacin.setBounds(148, 139, 70, 15);
 		getContentPane().add(lblDonacin);
 		
 		JLabel lblBeneficiario = new JLabel("Beneficiario");
-		lblBeneficiario.setBounds(21, 216, 112, 15);
+		lblBeneficiario.setBounds(148, 186, 112, 15);
 		getContentPane().add(lblBeneficiario);
 		
 		JLabel lblFechaDePreparacin = new JLabel("Fecha de preparación");
-		lblFechaDePreparacin.setBounds(21, 256, 184, 15);
+		lblFechaDePreparacin.setBounds(148, 233, 184, 15);
 		getContentPane().add(lblFechaDePreparacin);
 		
 		JLabel lblFechaDeEntrega = new JLabel("Fecha de entrega");
-		lblFechaDeEntrega.setBounds(21, 296, 174, 15);
+		lblFechaDeEntrega.setBounds(148, 280, 174, 15);
 		getContentPane().add(lblFechaDeEntrega);
 		
 		JLabel lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(21, 336, 132, 15);
+		lblEstado.setBounds(148, 327, 132, 15);
 		getContentPane().add(lblEstado);
 		
 		txtDonacion = new JTextField();
-		txtDonacion.setBounds(170, 176, 114, 19);
+		txtDonacion.setBounds(148, 155, 338, 19);
 		getContentPane().add(txtDonacion);
 		txtDonacion.setColumns(10);
 		
 		txtBeneficiario = new JTextField();
-		txtBeneficiario.setBounds(170, 216, 114, 19);
+		txtBeneficiario.setBounds(148, 202, 338, 19);
 		getContentPane().add(txtBeneficiario);
 		txtBeneficiario.setColumns(10);
 		
 		txtFechaP = new JTextField();
-		txtFechaP.setBounds(170, 256, 114, 19);
+		txtFechaP.setBounds(148, 249, 338, 19);
 		getContentPane().add(txtFechaP);
 		txtFechaP.setColumns(10);
 		
 		txtFechaE = new JTextField();
-		txtFechaE.setBounds(170, 296, 114, 19);
+		txtFechaE.setBounds(148, 296, 338, 19);
 		getContentPane().add(txtFechaE);
 		txtFechaE.setColumns(10);
 		
 		txtEstado = new JTextField();
-		txtEstado.setBounds(170, 336, 114, 19);
+		txtEstado.setBounds(148, 343, 338, 19);
 		getContentPane().add(txtEstado);
 		txtEstado.setColumns(10);
 		
-		JButton btnVerInformacin = new JButton("Ver información");
+		JButton btnVerInformacin = new JButton("› Ver información");
 		btnVerInformacin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listarDistribucionesActionPerformed(e);
 			}
 		});
-		btnVerInformacin.setBounds(360, 85, 167, 25);
+		btnVerInformacin.setBounds(336, 108, 150, 19);
 		getContentPane().add(btnVerInformacin);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("✘ Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancelarActionPerformed(e);
 			}
 		});
-		btnCancelar.setBounds(360, 139, 117, 25);
+		btnCancelar.setBounds(258, 385, 117, 23);
 		getContentPane().add(btnCancelar);
 
 	}

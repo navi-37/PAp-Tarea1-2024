@@ -46,92 +46,93 @@ public class AltaDistribucion extends JInternalFrame {
 
 	public AltaDistribucion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 800, 550);
+		//setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("ALTA DISTRIBUCIÓN");
 		setClosable(true);
 		
 		JLabel lblDonacion = new JLabel("Donación (ID)");
-		lblDonacion.setBounds(33, 74, 108, 13);
+		lblDonacion.setBounds(148, 92, 108, 13);
 		getContentPane().add(lblDonacion);
 		
 		JLabel lblBeneficiario = new JLabel("Beneficiario (e-mail)");
-		lblBeneficiario.setBounds(33, 108, 135, 13);
+		lblBeneficiario.setBounds(148, 151, 135, 13);
 		getContentPane().add(lblBeneficiario);
 		
 		JLabel lblFechaPrep = new JLabel("Fecha de preparación");
-		lblFechaPrep.setBounds(33, 143, 149, 13);
+		lblFechaPrep.setBounds(148, 220, 149, 13);
 		getContentPane().add(lblFechaPrep);
 		
 		JLabel lblFechaEntrega = new JLabel("Fecha de entrega");
-		lblFechaEntrega.setBounds(33, 173, 149, 13);
+		lblFechaEntrega.setBounds(148, 269, 149, 13);
 		getContentPane().add(lblFechaEntrega);
 		
 		textDonacion = new JTextField();
-		textDonacion.setBounds(142, 71, 96, 19);
+		textDonacion.setBounds(148, 111, 338, 19);
 		getContentPane().add(textDonacion);
 		textDonacion.setColumns(10);
 		
 		textBeneficiario = new JTextField();
-		textBeneficiario.setBounds(172, 105, 96, 19);
+		textBeneficiario.setBounds(148, 170, 338, 19);
 		getContentPane().add(textBeneficiario);
 		textBeneficiario.setColumns(10);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		JButton btnAceptar = new JButton("✔ Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				agregarDistribucionAceptarActionPerformed(e);
 			}
 		});
-		btnAceptar.setBounds(105, 217, 85, 21);
+		btnAceptar.setBounds(188, 348, 117, 25);
 		getContentPane().add(btnAceptar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("✘ Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				agregarDistribucionCancelarActionPerformed(e);
 			}
 		});
-		btnCancelar.setBounds(237, 217, 85, 21);
+		btnCancelar.setBounds(329, 348, 117, 25);
 		getContentPane().add(btnCancelar);
 		
 		JLabel lblid = new JLabel("ID");
-		lblid.setBounds(33, 33, 57, 13);
+		lblid.setBounds(148, 33, 57, 13);
 		getContentPane().add(lblid);
 		
 		textId = new JTextField();
-		textId.setBounds(94, 33, 96, 19);
+		textId.setBounds(148, 52, 338, 19);
 		getContentPane().add(textId);
 		textId.setColumns(10);
 		
 		cBDiaFechaP = new JComboBox<String>();
 		cBDiaFechaP.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
-		cBDiaFechaP.setBounds(193, 135, 57, 21);
+		cBDiaFechaP.setBounds(308, 218, 57, 21);
 		getContentPane().add(cBDiaFechaP);
 		
 		cBMesFechaP = new JComboBox<String>();
 		cBMesFechaP.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		cBMesFechaP.setBounds(251, 135, 59, 21);
+		cBMesFechaP.setBounds(366, 218, 59, 21);
 		getContentPane().add(cBMesFechaP);
 		
 		cBAnoFechaP = new JComboBox<String>();
 		cBAnoFechaP.setModel(new DefaultComboBoxModel<String>(new String[] {"2024", "2025"}));
-		cBAnoFechaP.setBounds(312, 135, 59, 21);
+		cBAnoFechaP.setBounds(427, 218, 59, 21);
 		getContentPane().add(cBAnoFechaP);
 		
 		cBDiaFechaE = new JComboBox<String>();
 		cBDiaFechaE.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
-		cBDiaFechaE.setBounds(193, 165, 57, 21);
+		cBDiaFechaE.setBounds(308, 267, 57, 21);
 		getContentPane().add(cBDiaFechaE);
 		
 		cBMesFechaE = new JComboBox<String>();
 		cBMesFechaE.setModel(new DefaultComboBoxModel<String>(new String[] {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"}));
-		cBMesFechaE.setBounds(251, 165, 59, 21);
+		cBMesFechaE.setBounds(366, 267, 59, 21);
 		getContentPane().add(cBMesFechaE);
 		
 		cBAnoFechaE = new JComboBox<String>();
 		cBAnoFechaE.setModel(new DefaultComboBoxModel<String>(new String[] {"2024", "2025"}));
-		cBAnoFechaE.setBounds(312, 165, 59, 21);
+		cBAnoFechaE.setBounds(427, 267, 59, 21);
 		getContentPane().add(cBAnoFechaE);
 		
 		limpiarFormulario();

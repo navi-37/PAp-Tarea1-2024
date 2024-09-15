@@ -43,18 +43,18 @@ public class AltaUsuario extends JInternalFrame {
 
     public AltaUsuario(IControlador icon) {
         this.icon = icon;
-        setBounds(100, 100, 800, 550);
+        setBounds(100, 100, 650, 460);
 		getContentPane().setLayout(null);
 		setTitle("ALTA USUARIO");
 		setClosable(true);
 
         textNombre = new JTextField();
-        textNombre.setBounds(103, 32, 200, 20);
+        textNombre.setBounds(148, 26, 338, 19);
         getContentPane().add(textNombre);
         textNombre.setColumns(10);
 
         textEmail = new JTextField();
-        textEmail.setBounds(103, 64, 200, 20);
+        textEmail.setBounds(148, 73, 338, 19);
         getContentPane().add(textEmail);
         textEmail.setColumns(10);
 
@@ -84,79 +84,79 @@ public class AltaUsuario extends JInternalFrame {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         DateFormatter dateFormatter = new DateFormatter(format);
         texFechaNacimiento = new JFormattedTextField(dateFormatter);
-        texFechaNacimiento.setBounds(188, 221, 200, 20);
+        texFechaNacimiento.setBounds(148, 261, 338, 19);
         getContentPane().add(texFechaNacimiento);
         
         comboBoxTipoUsuario.setModel(new DefaultComboBoxModel<String>(new String[]{"Beneficiario", "Repartidor"}));
-        comboBoxTipoUsuario.setBounds(188, 125, 200, 22);
+        comboBoxTipoUsuario.setBounds(148, 120, 338, 19);
         getContentPane().add(comboBoxTipoUsuario);
 
         JLabel lblTipoDeUsuario = new JLabel("Tipo de usuario");
-        lblTipoDeUsuario.setBounds(34, 125, 134, 22);
+        lblTipoDeUsuario.setBounds(148, 104, 134, 13);
         getContentPane().add(lblTipoDeUsuario);
 
         JLabel lblNombre = new JLabel("Nombre");
-        lblNombre.setBounds(34, 35, 70, 15);
+        lblNombre.setBounds(148, 10, 70, 13);
         getContentPane().add(lblNombre);
 
         JLabel lblEmail = new JLabel("Email");
-        lblEmail.setBounds(34, 67, 70, 15);
+        lblEmail.setBounds(148, 57, 70, 13);
         getContentPane().add(lblEmail);
 
         textNumeroLicencia = new JTextField();
-        textNumeroLicencia.setBounds(188, 158, 200, 20);
+        textNumeroLicencia.setBounds(148, 167, 338, 19);
         getContentPane().add(textNumeroLicencia);
         textNumeroLicencia.setColumns(10);
 
         textDireccion = new JTextField();
-        textDireccion.setBounds(188, 190, 200, 20);
+        textDireccion.setBounds(148, 214, 338, 19);
         getContentPane().add(textDireccion);
         textDireccion.setColumns(10);
 
         comboBoxEstadoBeneficiario = new JComboBox<EstadoBeneficiario>(EstadoBeneficiario.values());
-        comboBoxEstadoBeneficiario.setBounds(188, 285, 200, 22);
+        comboBoxEstadoBeneficiario.setBounds(148, 355, 338, 19);
         getContentPane().add(comboBoxEstadoBeneficiario);
 
         comboBoxBarrio = new JComboBox<Barrio>(Barrio.values());
-        comboBoxBarrio.setBounds(188, 252, 200, 22);
+        comboBoxBarrio.setBounds(148, 308, 338, 19);
         getContentPane().add(comboBoxBarrio);
 
-        JButton btnAceptar = new JButton("Aceptar");
+        JButton btnAceptar = new JButton("✔ Aceptar");
         btnAceptar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 agregarUsuarioAceptarActionPerformed(e);
             }
         });
-        btnAceptar.setBounds(124, 331, 117, 25);
+        btnAceptar.setBounds(188, 391, 117, 25);
         getContentPane().add(btnAceptar);
 
-        JButton btnCancelar = new JButton("Cancelar");
+        JButton btnCancelar = new JButton("✘ Cancelar");
         btnCancelar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 agregarUsuarioCancelarActionPerformed(e);
             }
         });
-        btnCancelar.setBounds(298, 331, 117, 25);
+        btnCancelar.setBounds(329, 391, 117, 25);
         getContentPane().add(btnCancelar);
         
         lblNumeroLicencia = new JLabel("Nro de Licencia");
-        lblNumeroLicencia.setBounds(34, 158, 117, 20);
+        lblNumeroLicencia.setBounds(148, 151, 117, 13);
         getContentPane().add(lblNumeroLicencia);
         
         lblDireccion = new JLabel("Direccion");
-        lblDireccion.setBounds(34, 189, 102, 22);
+        lblDireccion.setBounds(148, 198, 102, 13);
         getContentPane().add(lblDireccion);
         
         lblFechaNacimiento = new JLabel("Fecha de nacimiento");
-        lblFechaNacimiento.setBounds(34, 222, 134, 20);
+        lblFechaNacimiento.setBounds(148, 245, 134, 13);
         getContentPane().add(lblFechaNacimiento);
         
         JLabel lblBarrio = new JLabel("Barrio");
-        lblBarrio.setBounds(34, 256, 46, 14);
+        lblBarrio.setBounds(148, 292, 46, 13);
         getContentPane().add(lblBarrio);
         
         JLabel lblEstadoBenef = new JLabel("Estado");
-        lblEstadoBenef.setBounds(34, 289, 46, 14);
+        lblEstadoBenef.setBounds(148, 339, 46, 13);
         getContentPane().add(lblEstadoBenef);
         
         limpiarFormulario();
