@@ -31,13 +31,14 @@ public class AltaDonacion extends JInternalFrame {
 
 	public AltaDonacion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 800, 550);
+		//setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("ALTA DONACIÓN");
 		setClosable(true);
 		
 		textid = new JTextField();
-		textid.setBounds(56, 33, 60, 20);
+		textid.setBounds(148, 29, 338, 19);
 		getContentPane().add(textid);
 		textid.setColumns(10);
 		
@@ -65,69 +66,69 @@ public class AltaDonacion extends JInternalFrame {
 		
 		comboBoxTipoDonacion.setModel(new DefaultComboBoxModel<String>(new String[] {"Alimento", "Artículo"}));
 		comboBoxTipoDonacion.setToolTipText("");
-		comboBoxTipoDonacion.setBounds(160, 80, 95, 22);
+		comboBoxTipoDonacion.setBounds(148, 88, 338, 19);
 		getContentPane().add(comboBoxTipoDonacion);
 		
 		JLabel lblTipoDeDonacin = new JLabel("Tipo de donación");
-		lblTipoDeDonacin.setBounds(34, 80, 134, 22);
+		lblTipoDeDonacin.setBounds(148, 69, 134, 13);
 		getContentPane().add(lblTipoDeDonacin);
 		
 		JLabel lblId = new JLabel("ID");
-		lblId.setBounds(34, 35, 70, 15);
+		lblId.setBounds(148, 10, 70, 13);
 		getContentPane().add(lblId);
 		
 		JLabel lblDescripcin = new JLabel("Descripción");
-		lblDescripcin.setBounds(34, 129, 111, 20);
+		lblDescripcin.setBounds(148, 128, 111, 13);
 		getContentPane().add(lblDescripcin);
 		
 		JLabel lblCantidadDeElementos = new JLabel("Cantidad de elementos");
-		lblCantidadDeElementos.setBounds(34, 178, 176, 15);
+		lblCantidadDeElementos.setBounds(148, 187, 176, 13);
 		getContentPane().add(lblCantidadDeElementos);
 		
 		JLabel lblPeso = new JLabel("Peso");
-		lblPeso.setBounds(34, 227, 70, 15);
+		lblPeso.setBounds(148, 246, 70, 13);
 		getContentPane().add(lblPeso);
 		
 		JLabel lblDimensiones = new JLabel("Dimensiones");
-		lblDimensiones.setBounds(34, 270, 134, 15);
+		lblDimensiones.setBounds(148, 305, 134, 13);
 		getContentPane().add(lblDimensiones);
 		
 		textDimensiones = new JTextField();
-		textDimensiones.setBounds(131, 267, 79, 19);
+		textDimensiones.setBounds(148, 324, 338, 19);
 		getContentPane().add(textDimensiones);
 		textDimensiones.setColumns(10);
 		
 		textPeso = new JTextField();
-		textPeso.setBounds(71, 224, 60, 19);
+		textPeso.setBounds(148, 265, 338, 19);
 		getContentPane().add(textPeso);
 		textPeso.setColumns(10);
 		
 		textCantElem = new JTextField();
-		textCantElem.setBounds(184, 175, 60, 19);
+		textCantElem.setBounds(148, 206, 338, 19);
 		getContentPane().add(textCantElem);
 		textCantElem.setColumns(10);
 		
 		textDescripcion = new JTextField();
-		textDescripcion.setBounds(128, 129, 228, 19);
+		textDescripcion.setBounds(148, 147, 338, 19);
 		getContentPane().add(textDescripcion);
 		textDescripcion.setColumns(10);
 		
-		JButton btnAceptar = new JButton("Aceptar");
+		JButton btnAceptar = new JButton("✔ Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				agregarDonacionAceptarActionPerformed(e);		
 			}
 		});
-		btnAceptar.setBounds(128, 319, 117, 25);
+		btnAceptar.setBounds(188, 373, 117, 25);
 		getContentPane().add(btnAceptar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("✘ Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				agregarDonacionCancelarActionPerformed(e);
 			}
 		});
-		btnCancelar.setBounds(298, 319, 117, 25);
+		btnCancelar.setBounds(329, 373, 117, 25);
 		getContentPane().add(btnCancelar);
 		
 		limpiarFormulario();

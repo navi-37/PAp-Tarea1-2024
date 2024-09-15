@@ -13,6 +13,7 @@ import javax.swing.JTextField;
 import datatypes.DtAlimento;
 import datatypes.DtArticulo;
 import datatypes.DtDonacion;
+import excepciones.DonacionNoExisteExc;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -39,7 +40,8 @@ public class ModificarDonacion extends JInternalFrame {
 	
 	public ModificarDonacion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 800, 550);
+		//setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("MODIFICAR DONACIÓN");
 		setClosable(true);
@@ -50,86 +52,86 @@ public class ModificarDonacion extends JInternalFrame {
 				listarInfoDonacion();
 			}
 		});
-		comboBoxDonaciones.setBounds(63, 27, 68, 24);
+		comboBoxDonaciones.setBounds(148, 48, 338, 19);
 		getContentPane().add(comboBoxDonaciones);
 		
 		
 		JLabel lblId = new JLabel("ID");
-		lblId.setBounds(22, 32, 70, 15);
+		lblId.setBounds(148, 32, 70, 13);
 		getContentPane().add(lblId);
 		
 		JLabel lblFechaIngresada = new JLabel("Fecha ingresada");
-		lblFechaIngresada.setBounds(22, 125, 158, 15);
+		lblFechaIngresada.setBounds(148, 126, 158, 13);
 		getContentPane().add(lblFechaIngresada);
 		
 		JLabel lblDescripcin = new JLabel("Descripción");
-		lblDescripcin.setBounds(22, 170, 129, 15);
+		lblDescripcin.setBounds(148, 173, 129, 13);
 		getContentPane().add(lblDescripcin);
 		
 		JLabel lblCantidadDeElementos = new JLabel("Cantidad de elementos");
-		lblCantidadDeElementos.setBounds(22, 215, 175, 15);
+		lblCantidadDeElementos.setBounds(148, 220, 175, 13);
 		getContentPane().add(lblCantidadDeElementos);
 		
 		JLabel lblPeso = new JLabel("Peso");
-		lblPeso.setBounds(22, 260, 70, 15);
+		lblPeso.setBounds(148, 267, 70, 13);
 		getContentPane().add(lblPeso);
 		
 		JLabel lblDimensiones = new JLabel("Dimensiones");
-		lblDimensiones.setBounds(22, 305, 129, 15);
+		lblDimensiones.setBounds(148, 314, 129, 13);
 		getContentPane().add(lblDimensiones);
 		
 		textFieldFechaIng = new JTextField();
-		textFieldFechaIng.setBounds(154, 125, 120, 20);
+		textFieldFechaIng.setBounds(148, 142, 338, 19);
 		getContentPane().add(textFieldFechaIng);
 		textFieldFechaIng.setColumns(10);
 		
 		textFieldDescripcion = new JTextField();
-		textFieldDescripcion.setBounds(123, 170, 151, 20);
+		textFieldDescripcion.setBounds(148, 189, 338, 19);
 		getContentPane().add(textFieldDescripcion);
 		textFieldDescripcion.setColumns(10);
 		
 		textFieldCantElem = new JTextField();
-		textFieldCantElem.setBounds(200, 215, 74, 20);
+		textFieldCantElem.setBounds(148, 236, 338, 19);
 		getContentPane().add(textFieldCantElem);
 		textFieldCantElem.setColumns(10);
 		
 		textFieldPeso = new JTextField();
-		textFieldPeso.setBounds(204, 260, 70, 20);
+		textFieldPeso.setBounds(148, 283, 338, 19);
 		getContentPane().add(textFieldPeso);
 		textFieldPeso.setColumns(10);
 		
 		textFieldDimensiones = new JTextField();
-		textFieldDimensiones.setBounds(164, 305, 110, 20);
+		textFieldDimensiones.setBounds(148, 330, 338, 19);
 		getContentPane().add(textFieldDimensiones);
 		textFieldDimensiones.setColumns(10);
 		
 		JLabel lblTipoDonacion = new JLabel("Tipo de donación");
-		lblTipoDonacion.setBounds(22, 80, 109, 14);
+		lblTipoDonacion.setBounds(148, 79, 109, 13);
 		getContentPane().add(lblTipoDonacion);
 		
 		textFieldTipoDonacion = new JTextField();
 		textFieldTipoDonacion.setEditable(false);
-		textFieldTipoDonacion.setBounds(154, 80, 120, 20);
+		textFieldTipoDonacion.setBounds(148, 95, 338, 19);
 		getContentPane().add(textFieldTipoDonacion);
 		textFieldTipoDonacion.setColumns(10);
 		
-		JButton btnModificar = new JButton("Modificar");
+		JButton btnModificar = new JButton("✔ Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarDatos();
 			}
 		});
-		btnModificar.setBounds(341, 84, 117, 25);
+		btnModificar.setBounds(188, 374, 117, 25);
 		getContentPane().add(btnModificar);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("✘ Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				limpiarFormulario();
 				setVisible(false);
 			}
 		});
-		btnCancelar.setBounds(341, 134, 117, 25);
+		btnCancelar.setBounds(329, 374, 117, 25);
 		getContentPane().add(btnCancelar);
 
 	}
@@ -146,8 +148,16 @@ public class ModificarDonacion extends JInternalFrame {
 		if (comboBoxDonaciones.getSelectedItem() != null) {
 			
 			Integer id = (Integer) comboBoxDonaciones.getSelectedItem();
-			DtDonacion donacion;
-			donacion = this.icon.getDonacion(id);
+			//DtDonacion donacion;
+			//donacion = this.icon.getDonacion(id);
+			DtDonacion donacion = null;
+			try {
+				donacion = icon.getDonacion(id);
+			} catch (DonacionNoExisteExc ee) {
+				JOptionPane.showMessageDialog(this, "La donación no existe", "Error",
+	                    JOptionPane.ERROR_MESSAGE);
+				return;
+			}
 			textFieldFechaIng.setText(convertirFechaADiaMesAnio(donacion.getFechaIngresada()));
 			if (donacion instanceof DtAlimento) {
 				textFieldTipoDonacion.setText("Alimento");

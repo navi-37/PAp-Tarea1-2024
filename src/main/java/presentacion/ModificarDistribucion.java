@@ -39,7 +39,8 @@ public class ModificarDistribucion extends JInternalFrame {
 	
 	public ModificarDistribucion(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 800, 550);
+		//setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("MODIFICAR DISTRIBUCIÓN");
 		setClosable(true);
@@ -59,7 +60,7 @@ public class ModificarDistribucion extends JInternalFrame {
 				comboBoxDistribuciones.setModel(listaDistTodas);
 			}
 		});
-		rdbtnTodas.setBounds(8, 39, 83, 23);
+		rdbtnTodas.setBounds(148, 18, 63, 23);
 		getContentPane().add(rdbtnTodas);
 		
 		//Pendientes
@@ -72,7 +73,7 @@ public class ModificarDistribucion extends JInternalFrame {
 				comboBoxDistribuciones.setModel(listaDistPendientes);
 			}
 		});
-		rdbtnPendientes.setBounds(97, 39, 108, 23);
+		rdbtnPendientes.setBounds(210, 18, 90, 23);
 		getContentPane().add(rdbtnPendientes);
 		
 		//EnCamino
@@ -86,7 +87,7 @@ public class ModificarDistribucion extends JInternalFrame {
 				
 			}
 		});
-		rdbtnEnCamino.setBounds(212, 39, 108, 23);
+		rdbtnEnCamino.setBounds(306, 18, 85, 23);
 		getContentPane().add(rdbtnEnCamino);
 		
 		//Entregadas
@@ -99,11 +100,11 @@ public class ModificarDistribucion extends JInternalFrame {
 				comboBoxDistribuciones.setModel(listaDistEntregadas);
 			}
 		});
-		rdbtnEntregadas.setBounds(316, 39, 149, 23);
+		rdbtnEntregadas.setBounds(396, 18, 90, 23);
 		getContentPane().add(rdbtnEntregadas);
 		
 		comboBoxDistribuciones = new JComboBox<Integer>();
-		comboBoxDistribuciones.setBounds(97, 85, 140, 24);
+		comboBoxDistribuciones.setBounds(148, 61, 338, 19);
 		getContentPane().add(comboBoxDistribuciones);
 		
 		comboEstado = new JComboBox<EstadoDistribucion>();
@@ -111,78 +112,78 @@ public class ModificarDistribucion extends JInternalFrame {
 		for (EstadoDistribucion estado : EstadoDistribucion.values()) {
 		    comboEstado.addItem(estado);
 		}
-		comboEstado.setBounds(97, 250, 140, 19);
+		comboEstado.setBounds(148, 343, 338, 19);
 		getContentPane().add(comboEstado);
 		
 		JLabel lblId = new JLabel("ID");
-		lblId.setBounds(19, 89, 98, 15);
+		lblId.setBounds(148, 45, 98, 13);
 		getContentPane().add(lblId);
 		
 		JLabel lblDonacin = new JLabel("Donación");
-		lblDonacin.setBounds(19, 126, 98, 15);
+		lblDonacin.setBounds(148, 139, 98, 13);
 		getContentPane().add(lblDonacin);
 		
 		JLabel lblBeneficiario = new JLabel("Beneficiario");
-		lblBeneficiario.setBounds(19, 153, 98, 15);
+		lblBeneficiario.setBounds(148, 186, 98, 13);
 		getContentPane().add(lblBeneficiario);
 		
 		JLabel lblFechaDePreparacin = new JLabel("Fecha de preparación");
-		lblFechaDePreparacin.setBounds(19, 192, 184, 15);
+		lblFechaDePreparacin.setBounds(148, 233, 184, 13);
 		getContentPane().add(lblFechaDePreparacin);
 		
 		JLabel lblFechaDeEntrega = new JLabel("Fecha de entrega");
-		lblFechaDeEntrega.setBounds(18, 219, 174, 15);
+		lblFechaDeEntrega.setBounds(148, 280, 174, 13);
 		getContentPane().add(lblFechaDeEntrega);
 		
 		JLabel lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(19, 251, 70, 15);
+		lblEstado.setBounds(148, 327, 70, 13);
 		getContentPane().add(lblEstado);
 		
 		txtDonacion = new JTextField();
-		txtDonacion.setBounds(123, 123, 114, 19);
+		txtDonacion.setBounds(148, 155, 338, 19);
 		getContentPane().add(txtDonacion);
 		txtDonacion.setColumns(10);
 		
 		txtBeneficiario = new JTextField();
-		txtBeneficiario.setBounds(123, 150, 114, 19);
+		txtBeneficiario.setBounds(148, 202, 338, 19);
 		getContentPane().add(txtBeneficiario);
 		txtBeneficiario.setColumns(10);
 		
 		txtFechaP = new JTextField();
-		txtFechaP.setBounds(204, 189, 140, 19);
+		txtFechaP.setBounds(148, 249, 338, 19);
 		getContentPane().add(txtFechaP);
 		txtFechaP.setColumns(10);
 		
 		txtFechaE = new JTextField();
-		txtFechaE.setBounds(204, 216, 140, 19);
+		txtFechaE.setBounds(148, 296, 338, 19);
 		getContentPane().add(txtFechaE);
 		txtFechaE.setColumns(10);
 		
-		JButton btnVerInformacin = new JButton("Ver información");
+		JButton btnVerInformacin = new JButton("› Ver información");
 		btnVerInformacin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				listarDistribucionesActionPerformed(e);
 			}
 		});
-		btnVerInformacin.setBounds(298, 85, 167, 25);
+		btnVerInformacin.setBounds(148, 104, 338, 25);
 		getContentPane().add(btnVerInformacin);
 		
-		JButton btnCancelar = new JButton("Cancelar");
+		JButton btnCancelar = new JButton("✘ Cancelar");
 		btnCancelar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				cancelarActionPerformed(e);
 			}
 		});
-		btnCancelar.setBounds(260, 298, 117, 25);
+		btnCancelar.setBounds(329, 385, 117, 25);
 		getContentPane().add(btnCancelar);
 		
-		JButton btnModificar = new JButton("Modificar");
+		JButton btnModificar = new JButton("✔ Modificar");
 		btnModificar.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        modificarDistribucionActionPerformed(e);
 		    }
 		});
-		btnModificar.setBounds(109, 298, 117, 25);
+		btnModificar.setBounds(188, 385, 117, 25);
 		getContentPane().add(btnModificar);
 
 

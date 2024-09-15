@@ -39,25 +39,26 @@ public class ModificarUsuario extends JInternalFrame {
 
 	public ModificarUsuario(IControlador icon) {
 		this.icon = icon;
-		setBounds(100, 100, 800, 550);
+		//setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("MODIFICAR USUARIO");
 		setClosable(true);
 		
-		JLabel lblTipoUsuario = new JLabel("Elegir tipo de Usuario a modificar");
-		lblTipoUsuario.setForeground(new Color(128, 128, 128));
-		lblTipoUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblTipoUsuario.setBounds(20, 12, 265, 32);
+		JLabel lblTipoUsuario = new JLabel("Elegir tipo de Usuario");
+		//lblTipoUsuario.setForeground(new Color(128, 128, 128));
+		//lblTipoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTipoUsuario.setBounds(148, 52, 158, 13);
 		getContentPane().add(lblTipoUsuario);
 		
 		comboBoxUsuarios = new JComboBox();
-		comboBoxUsuarios.setBounds(30, 54, 315, 32);
+		comboBoxUsuarios.setBounds(148, 114, 338, 30);
 		getContentPane().add(comboBoxUsuarios);
 		
 		// caso beneficiarios 
 		
 		rdbtnBeneficiario = new JRadioButton("Beneficiario");
-		rdbtnBeneficiario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		//rdbtnBeneficiario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		rdbtnBeneficiario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -76,14 +77,14 @@ public class ModificarUsuario extends JInternalFrame {
 				comboBoxUsuarios.setModel(listaUsuarios);
 			}
 		});
-		rdbtnBeneficiario.setBounds(310, 18, 103, 21);
+		rdbtnBeneficiario.setBounds(316, 48, 94, 20);
 		getContentPane().add(rdbtnBeneficiario);
 		
 		
 		// caso repartidor 
 		
 		rdbtnRepartidor = new JRadioButton("Repartidor");
-		rdbtnRepartidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		//rdbtnRepartidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		rdbtnRepartidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -102,41 +103,35 @@ public class ModificarUsuario extends JInternalFrame {
 			}
 		});
 		
-		rdbtnRepartidor.setBounds(475, 18, 103, 21);
+		rdbtnRepartidor.setBounds(413, 48, 100, 20);
 		getContentPane().add(rdbtnRepartidor);
 		///////////////////////////////////////////////////////////////////////////////////////
 		
 		
 		
 		JLabel lblNombreUsuario = new JLabel("Nombre del usuario:");
-		lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNombreUsuario.setBounds(48, 161, 131, 32);
+		//lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNombreUsuario.setBounds(148, 223, 131, 13);
 		getContentPane().add(lblNombreUsuario);
 		
 		JLabel lblemailUsuario = new JLabel("Correo electrónico:");
-		lblemailUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblemailUsuario.setBounds(47, 203, 201, 32);
+		//lblemailUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblemailUsuario.setBounds(148, 283, 201, 13);
 		getContentPane().add(lblemailUsuario);
 		
-		JLabel lblDatosUsuario = new JLabel("Datos del usuario");
-		lblDatosUsuario.setForeground(new Color(128, 128, 128));
-		lblDatosUsuario.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblDatosUsuario.setBounds(20, 125, 240, 26);
-		getContentPane().add(lblDatosUsuario);
-		
 		textFieldNombreUsuario = new JTextField();
-		textFieldNombreUsuario.setBounds(189, 170, 325, 21);
+		textFieldNombreUsuario.setBounds(148, 242, 338, 21);
 		getContentPane().add(textFieldNombreUsuario);
 		textFieldNombreUsuario.setColumns(10);
 		
 		textFieldCorreo = new JTextField();
 		textFieldCorreo.setColumns(10);
-		textFieldCorreo.setBounds(189, 212, 325, 21);
+		textFieldCorreo.setBounds(148, 302, 338, 21);
 		getContentPane().add(textFieldCorreo);
 		
-		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnModificar.setBounds(281, 259, 115, 32);
+		JButton btnModificar = new JButton("✔ Modificar");
+		//btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 10));
+		btnModificar.setBounds(188, 364, 115, 25);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarDatosUsuario(e);
@@ -146,16 +141,30 @@ public class ModificarUsuario extends JInternalFrame {
 		getContentPane().add(btnModificar);
 		
 		// mostrar info del usuario seleccionado
-		JButton btnMostrarInfo = new JButton("mostrar información");
-		btnMostrarInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		JButton btnMostrarInfo = new JButton("› Ver información");
+		//btnMostrarInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnMostrarInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarInfo(e); 
 			}
 		});
-		btnMostrarInfo.setBounds(200, 130, 145, 21);
+		btnMostrarInfo.setBounds(148, 171, 338, 21);
 		getContentPane().add(btnMostrarInfo);
 		
+		JLabel lblNewLabel = new JLabel("Usuario");
+		lblNewLabel.setBounds(148, 95, 45, 13);
+		getContentPane().add(lblNewLabel);
+		
+		
+		JButton btnCancelar = new JButton("✘ Cancelar");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				borrarSeleccion();
+				setVisible(false);
+			}
+		});
+		btnCancelar.setBounds(329, 364, 117, 25);
+		getContentPane().add(btnCancelar);
 	}
 	
 	public void mostrarInfo(ActionEvent e) {

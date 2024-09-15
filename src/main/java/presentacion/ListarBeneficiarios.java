@@ -36,13 +36,14 @@ public class ListarBeneficiarios extends JInternalFrame {
 	public ListarBeneficiarios(IControlador icont) {
 		icon = icont;
 		
-		setBounds(100, 100, 800, 550);
+		//setBounds(100, 100, 800, 550);
+		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("LISTAR BENEFICIARIOS");
 		setClosable(true);
 		
-		btnCerrar = new JButton("Cerrar");
-        btnCerrar.setBounds(44, 331, 89, 23);
+		btnCerrar = new JButton("✘ Cancelar");
+        btnCerrar.setBounds(449, 365, 117, 23);
         btnCerrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 limpiarFormulario(); 
@@ -52,19 +53,19 @@ public class ListarBeneficiarios extends JInternalFrame {
         getContentPane().add(btnCerrar);
 		
 		scrollPane = new JScrollPane();
-	    scrollPane.setBounds(34, 129, 500, 200);
+	    scrollPane.setBounds(66, 141, 500, 200);
 	    getContentPane().add(scrollPane);
 	    
 	    listBeneficiarios = new JList<>();
 	    scrollPane.setViewportView(listBeneficiarios);
 		
 	    lblBeneficiarios = new JLabel("Beneficiarios");
-		lblBeneficiarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblBeneficiarios.setBounds(34, 12, 167, 14);
+		//lblBeneficiarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblBeneficiarios.setBounds(66, 26, 167, 14);
 		getContentPane().add(lblBeneficiarios);
 		
 		estadoComboBox = new JComboBox<>(new String[] {"Seleccione un estado", EstadoBeneficiario.ACTIVO.name(), EstadoBeneficiario.SUSPENDIDO.name()});
-        estadoComboBox.setBounds(32, 40, 216, 27);
+        estadoComboBox.setBounds(66, 50, 300, 27);
         getContentPane().add(estadoComboBox);
 
         estadoComboBox.addActionListener(new ActionListener() {
@@ -74,7 +75,7 @@ public class ListarBeneficiarios extends JInternalFrame {
         });
 
         barrioComboBox = new JComboBox<>(new String[] {"Seleccione un barrio", Barrio.CIUDAD_VIEJA.name(), Barrio.CORDON.name(), Barrio.PARQUE_RODO.name(), Barrio.CENTRO.name(), Barrio.PALERMO.name()});
-        barrioComboBox.setBounds(34, 90, 214, 27);
+        barrioComboBox.setBounds(66, 91, 300, 27);
         getContentPane().add(barrioComboBox);
 
         barrioComboBox.addActionListener(new ActionListener() {
