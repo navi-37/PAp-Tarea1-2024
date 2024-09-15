@@ -219,7 +219,16 @@ public class ModificarDistribucion extends JInternalFrame {
 	            Date fechaE = formatoFecha.parse(txtFechaE.getText());
 	            EstadoDistribucion estado = (EstadoDistribucion) comboEstado.getSelectedItem(); 
 
-	            String emailBeneficiario = txtBeneficiario.getText();
+
+	            //Lo de la rama modificarUsuario
+	            DtBeneficiario beneficiario = this.icon.getBeneficiario(txtBeneficiario.getText());
+	            System.out.println(beneficiario.getEmail());
+	            
+	            DtDonacion donacion = this.icon.getDonacion(Integer.valueOf(txtDonacion.getText()));
+	            System.out.println(donacion.getId());  // ------------BORRAR ---------------------------------------------------------------------
+
+
+	            /* String emailBeneficiario = txtBeneficiario.getText();
 	            Integer idDonacion = Integer.valueOf(txtDonacion.getText());
 	            
 	            DtDonacion donacion = null;
@@ -236,8 +245,8 @@ public class ModificarDistribucion extends JInternalFrame {
 	            } catch (BeneficiarioNoExisteExc bne){
 	            	JOptionPane.showMessageDialog(this, bne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	            	return;
-	            }
-	            	         
+	            } */
+
 	            DtDistribucion nuevaDistribucion = new DtDistribucion(id, fechaP, fechaE, estado, beneficiario, donacion);
 
 	            this.icon.modificarDistribucion(nuevaDistribucion);

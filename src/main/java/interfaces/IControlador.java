@@ -52,7 +52,7 @@ public interface IControlador {
 
 	public DtUsuario getUsuario(String email);
 
-	public void modificarUsuario(DtUsuario dtu, String email, String nombre);
+	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo);
 	
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc;
 	

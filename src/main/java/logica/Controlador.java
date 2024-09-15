@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 
 import datatypes.Barrio;
 import datatypes.DtAlimento;
@@ -171,11 +172,11 @@ public class Controlador implements IControlador{
     }
 	
 	@Override
-    public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
-        ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
-        ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-        ManejadorDonacion mD = ManejadorDonacion.getInstancia();
-        Distribucion distribucionExistente = mDist.buscarDistribucion(dtdistribucion.getId());
+	public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
+	    ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
+	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+	    ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+	    Distribucion distribucionExistente = mDist.buscarDistribucion(dtdistribucion.getId());
 
         if (distribucionExistente == null) {
             throw new DistribucionNoEncontradaExc("Distribución no encontrada con el ID: " + dtdistribucion.getId());
@@ -185,22 +186,27 @@ public class Controlador implements IControlador{
             distribucionExistente.setFechaEntrega(dtdistribucion.getFechaEntrega());
             distribucionExistente.setEstado(dtdistribucion.getEstado());
 
-            String email = dtdistribucion.getBeneficiario().getEmail();
-            Integer id = dtdistribucion.getDonacion().getId();
+			String email = dtdistribucion.getBeneficiario().getEmail();
+			Integer id = dtdistribucion.getDonacion().getId();
+			
+	        Beneficiario beneficiario = (Beneficiario) mU.buscarUsuario(email); //Falta checkeo x si no es beneficiario
+	        Donacion donacion = mD.buscarDonacion(id);
+	        
+	        distribucionExistente.setBeneficiario(beneficiario);
+	        distribucionExistente.setDonacion(donacion);
+	        
+	        Conexion conexion = Conexion.getInstancia();
+	        EntityManager em = conexion.getEntityManager();
 
-            Beneficiario beneficiario = (Beneficiario) mU.buscarUsuario(email); //Falta checkeo x si no es beneficiario
-            Donacion donacion = mD.buscarDonacion(id);
-
-            distribucionExistente.setBeneficiario(beneficiario);
-            distribucionExistente.setDonacion(donacion);
-
-            Conexion conexion = Conexion.getInstancia();
-            EntityManager em = conexion.getEntityManager();
-            em.getTransaction().begin();
-            em.merge(distribucionExistente);
-            em.getTransaction().commit();
-        }
-    }
+	        try {
+	            // No iniciar nueva transacción, solo hacer el merge
+	            em.merge(distribucionExistente);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	            throw e; // lanzar la excepción para que se maneje en el nivel superior si es necesario
+	        }
+	    }
+	}
 	
 	@Override
 	public Integer [] listarDonaciones() {
@@ -307,24 +313,113 @@ public class Controlador implements IControlador{
 	
 	public DtUsuario getUsuario(String email) {
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-		DtUsuario dtu = new DtUsuario(mU.buscarUsuario(email).getNombre(),mU.buscarUsuario(email).getEmail());
+		Usuario usr = mU.buscarUsuario(email);
+		DtUsuario dtu = new DtUsuario(usr.getNombre(), usr.getEmail());
 		
 		return dtu;
 	}
 	
-	public void modificarUsuario(DtUsuario dtu, String email, String nombre) {
-		
-		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-						
-		if (!email.equals(dtu.getEmail())) { // si se cambia correo
-		    mU.buscarUsuario(dtu.getEmail()).setEmail(email);
-		    if (!nombre.equals(dtu.getNombre())) { // y si se cambia el nombre
-		    	mU.buscarUsuario(email).setNombre(nombre);
-		    }
-		} else	// si no se cambia correo pero sí el nombre
-			if (!nombre.equals(dtu.getNombre())) { 
-			    mU.buscarUsuario(dtu.getEmail()).setNombre(nombre);
-			}	
+	public void modificarDistribucionesBeneficiario(Beneficiario viejoBeneficiario, Beneficiario nuevoBeneficiario, EntityManager em) { 
+	    // Obtener instancia del manejador de distribuciones
+	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
+
+	    // Buscar distribuciones asociadas al beneficiario viejo
+	    List<Distribucion> distribucionesViejas = mD.buscarDistribucionesPorBeneficiario(viejoBeneficiario.getEmail());
+
+	    if (!(distribucionesViejas.isEmpty())) {
+	        // Eliminar distribuciones viejas asociadas al beneficiario viejo
+	    	em.getTransaction().begin();
+	    	for (Distribucion distribucion : distribucionesViejas) {
+	           // em.remove(em.contains(distribucion) ? distribucion : em.merge(distribucion));
+	        	distribucion.setBeneficiario(nuevoBeneficiario);
+	        	
+	        	em.merge(nuevoBeneficiario);
+	        	
+	        }
+	    	em.getTransaction().commit();
+	        // ahora se puede eliminar el usuario de la base de datos
+	        if (viejoBeneficiario != null) {
+	        	em.getTransaction().begin();
+	        	em.remove(viejoBeneficiario);
+	            em.getTransaction().commit();
+	        }
+
+	        // persistir nuevo usuario
+	        //em.persist(nuevoBeneficiario);
+	        //em.flush(); // PROBAR EL FLUSH ACÁ! 
+
+	        // Crear nuevas distribuciones con el beneficiario nuevo
+	       /* for (Distribucion distribucionVieja : distribucionesViejas) {
+	            Distribucion nuevaDistribucion = new Distribucion(
+	                distribucionVieja.getId(),
+	                distribucionVieja.getFechaPreparacion(),
+	                distribucionVieja.getFechaEntrega(),
+	                distribucionVieja.getEstado(),
+	                nuevoBeneficiario,       // !!!
+	                distribucionVieja.getDonacion());
+
+	            // Persistir la nueva distribución en la base de datos
+	            em.persist(nuevaDistribucion);*/
+	    }
+	}
+	
+	
+
+	
+	@Override
+	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
+	    String emailActual = dtu.getEmail();
+	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+	    Usuario usuarioAModificar = mU.buscarUsuario(emailActual);
+	    Conexion conexion = Conexion.getInstancia();
+	    EntityManager em = conexion.getEntityManager();
+
+	    try {
+	        em.getTransaction().begin();
+
+	        Usuario nuevoUsuario = null;
+	        
+	        
+	        if (emailActual.equals(emailNuevo)) {
+	        	usuarioAModificar.setNombre(nombreNuevo);
+                em.merge(usuarioAModificar);
+                em.getTransaction().commit();
+            } else {
+		        // Si es Beneficiario
+		        if (usuarioAModificar instanceof Beneficiario) {
+		            Beneficiario viejoBeneficiario = (Beneficiario) usuarioAModificar;
+	
+		            Beneficiario nuevoBeneficiario = new Beneficiario(
+		                nombreNuevo, emailNuevo, // nuevos email y nombre
+		                viejoBeneficiario.getDireccion(), // mismos datos extras
+		                viejoBeneficiario.getFechaNacimiento(), 
+		                viejoBeneficiario.getEstado(),
+		                viejoBeneficiario.getBarrio()
+		            );
+		            em.merge(nuevoBeneficiario);
+		            em.getTransaction().commit();
+		            modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí
+		           
+		        } else if (usuarioAModificar instanceof Repartidor) {
+		        	Repartidor viejoRepartidor = (Repartidor) usuarioAModificar;
+		        	
+		        	Repartidor nuevoRepartidor = new Repartidor(nombreNuevo, emailNuevo,viejoRepartidor.getNumeroLicencia());
+		            em.merge(nuevoRepartidor);
+		            em.getTransaction().commit();
+		            
+		            if (viejoRepartidor != null) {
+			        	em.getTransaction().begin();
+			        	em.remove(viejoRepartidor);
+			            em.getTransaction().commit();
+			        }
+		        }
+            }
+	    } catch (Exception e) {
+	        if (em.getTransaction().isActive()) {
+	            em.getTransaction().rollback();
+	        }
+	        e.printStackTrace();
+	    } 
 	}
 	
 	@Override
@@ -425,5 +520,6 @@ public class Controlador implements IControlador{
         }
         return retorno;
     }
-	    
+
 }
+
