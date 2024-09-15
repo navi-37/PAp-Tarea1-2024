@@ -221,13 +221,13 @@ public class ModificarUsuario extends JInternalFrame {
 	
 		        // Actualizar el ComboBox
 		        actualizarComboBoxUsuarios();
-		        
+		        /*
 		        // checkear si el email es el mismo. sino, busca el nuevo email
 		        DtUsuario usuarioActualizado = icon.getUsuario(email);
 		        if (usuarioActualizado != null) {
 		            this.comboBoxUsuarios.setSelectedItem(usuarioActualizado);
 		        }
-		        
+		        */
 		        JOptionPane.showMessageDialog(this, "Los datos del usuario han sido modificados con éxito.", 
 		        		"Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);	
 	        } else {

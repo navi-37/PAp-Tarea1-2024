@@ -216,9 +216,14 @@ public class ModificarDistribucion extends JInternalFrame {
 	            Date fechaE = formatoFecha.parse(txtFechaE.getText());
 	            EstadoDistribucion estado = (EstadoDistribucion) comboEstado.getSelectedItem(); 
 
-	            DtDistribucion dist = this.icon.getDistribucion(id);
-	            DtBeneficiario beneficiario = dist.getBeneficiario();
-	            DtDonacion donacion = dist.getDonacion();
+	            //DtDistribucion dist = this.icon.getDistribucion(id);
+	            //DtBeneficiario beneficiario = dist.getBeneficiario();
+	            //DtDonacion donacion = dist.getDonacion();
+	            DtBeneficiario beneficiario = this.icon.getBeneficiario(txtBeneficiario.getText());
+	            System.out.println(beneficiario.getEmail());
+	            
+	            DtDonacion donacion = this.icon.getDonacion(Integer.valueOf(txtDonacion.getText()));
+	            System.out.println(donacion.getId());
 
 	            DtDistribucion nuevaDistribucion = new DtDistribucion(id, fechaP, fechaE, estado, beneficiario, donacion);
 

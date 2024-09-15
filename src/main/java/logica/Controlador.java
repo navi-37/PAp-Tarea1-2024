@@ -172,6 +172,8 @@ public class Controlador implements IControlador{
 	@Override
 	public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
 	    ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
+	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+	    ManejadorDonacion mD = ManejadorDonacion.getInstancia();
 	    Distribucion distribucionExistente = mDist.buscarDistribucion(dtdistribucion.getId());
 
 	    if (distribucionExistente == null) {
@@ -182,8 +184,11 @@ public class Controlador implements IControlador{
 	        distribucionExistente.setFechaEntrega(dtdistribucion.getFechaEntrega());
 	        distribucionExistente.setEstado(dtdistribucion.getEstado());
 
-	        Beneficiario beneficiario = distribucionExistente.getBeneficiario();
-	        Donacion donacion = distribucionExistente.getDonacion();
+			String email = dtdistribucion.getBeneficiario().getEmail();
+			Integer id = dtdistribucion.getDonacion().getId();
+			
+	        Beneficiario beneficiario = (Beneficiario) mU.buscarUsuario(email); //Falta checkeo x si no es beneficiario
+	        Donacion donacion = mD.buscarDonacion(id);
 	        
 	        distribucionExistente.setBeneficiario(beneficiario);
 	        distribucionExistente.setDonacion(donacion);
@@ -304,7 +309,8 @@ public class Controlador implements IControlador{
 	public void modificarUsuario(DtUsuario dtu, String email, String nombre) {
 		
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-						
+		//dtu = dtUsuarioViejo
+		// email y nombre son los datos nuevos
 		if (!email.equals(dtu.getEmail())) { // si se cambia correo
 		    mU.buscarUsuario(dtu.getEmail()).setEmail(email);
 		    if (!nombre.equals(dtu.getNombre())) { // y si se cambia el nombre
