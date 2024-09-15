@@ -108,4 +108,18 @@ public class ManejadorDistribucion {
 		}
 		return aRetornar;
 	}
+	
+	// necesaria para la implementación de modificarUsuario beneficiario 
+	public ArrayList<Distribucion> buscarDistribucionesPorBeneficiario(String emailBeneficiario) {	 
+	    Conexion conexion = Conexion.getInstancia();
+	    EntityManager em = conexion.getEntityManager();
+
+	    Query query = em.createQuery("SELECT d FROM Distribucion d WHERE d.beneficiario.email = :email");
+	    query.setParameter("email", emailBeneficiario);
+
+	    @SuppressWarnings("unchecked")
+	    List<Distribucion> distribuciones = (List<Distribucion>) query.getResultList();
+
+	    return new ArrayList<>(distribuciones);
+	}
 }
