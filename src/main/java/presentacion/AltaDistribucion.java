@@ -14,6 +14,7 @@ import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
 import datatypes.DtDonacion;
 import datatypes.EstadoDistribucion;
+import excepciones.BeneficiarioNoExisteExc;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
 import excepciones.UsuarioNOBeneficiarioExc;
@@ -80,8 +81,12 @@ public class AltaDistribucion extends JInternalFrame {
 		
 		JButton btnAceptar = new JButton("✔ Aceptar");
 		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				agregarDistribucionAceptarActionPerformed(e);
+			public void actionPerformed(ActionEvent e) {			
+				try {
+					agregarDistribucionAceptarActionPerformed(e);
+				} catch (BeneficiarioNoExisteExc e1) {
+					e1.printStackTrace();
+				}	
 			}
 		});
 		btnAceptar.setBounds(188, 348, 117, 25);
@@ -137,7 +142,7 @@ public class AltaDistribucion extends JInternalFrame {
 		
 		limpiarFormulario();
 	}
-	protected void agregarDistribucionAceptarActionPerformed(ActionEvent arg0) {
+	protected void agregarDistribucionAceptarActionPerformed(ActionEvent arg0) throws BeneficiarioNoExisteExc {
 		
 		if (checkFormulario()) {
 			int id_distribucion = Integer.parseInt(this.textId.getText());
@@ -150,8 +155,8 @@ public class AltaDistribucion extends JInternalFrame {
 			DtBeneficiario beneficiario = null;
 			try {
 				beneficiario = icon.getBeneficiario(email_beneficiario);
-			} catch (NullPointerException e) {
-				JOptionPane.showMessageDialog(this, "El beneficiario no existe", "Error",
+			} catch (BeneficiarioNoExisteExc bne) {
+				JOptionPane.showMessageDialog(this, bne.getMessage(), "Error",
 	                    JOptionPane.ERROR_MESSAGE);
 				return;
 			}
@@ -160,7 +165,7 @@ public class AltaDistribucion extends JInternalFrame {
 			try {
 				donacion = icon.getDonacion(id_donacion);
 			} catch (DonacionNoExisteExc ee) {
-				JOptionPane.showMessageDialog(this, "La donación no existe", "Error",
+				JOptionPane.showMessageDialog(this, ee.getMessage(), "Error",
 	                    JOptionPane.ERROR_MESSAGE);
 				return;
 			}
