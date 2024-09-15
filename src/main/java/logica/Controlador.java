@@ -394,17 +394,26 @@ public class Controlador implements IControlador{
 		            em.getTransaction().commit();
 		            modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí
 		           
-		        } 
+		        } else if (usuarioAModificar instanceof Repartidor) {
+		        	Repartidor viejoRepartidor = (Repartidor) usuarioAModificar;
+		        	
+		        	Repartidor nuevoRepartidor = new Repartidor(nombreNuevo, emailNuevo,viejoRepartidor.getNumeroLicencia());
+		            em.merge(nuevoRepartidor);
+		            em.getTransaction().commit();
+		            
+		            if (viejoRepartidor != null) {
+			        	em.getTransaction().begin();
+			        	em.remove(viejoRepartidor);
+			            em.getTransaction().commit();
+			        }
+		        }
             }
 	    } catch (Exception e) {
 	        if (em.getTransaction().isActive()) {
 	            em.getTransaction().rollback();
 	        }
 	        e.printStackTrace();
-	    } finally {
-	        // Cerrar el EntityManager si es necesario
-	        // em.close();
-	    }
+	    } 
 	}
 	
 	@Override
