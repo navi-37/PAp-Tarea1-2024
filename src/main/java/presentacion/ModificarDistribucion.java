@@ -11,7 +11,9 @@ import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
 import datatypes.DtDonacion;
 import datatypes.EstadoDistribucion;
+import excepciones.BeneficiarioNoExisteExc;
 import excepciones.DistribucionNoEncontradaExc;
+import excepciones.DonacionNoExisteExc;
 import interfaces.IControlador;
 
 import javax.swing.DefaultComboBoxModel;
@@ -208,6 +210,7 @@ public class ModificarDistribucion extends JInternalFrame {
 	protected void modificarDistribucionActionPerformed(ActionEvent e) {
 	    if (checkFormulario()) {
 	        try {
+	        	
 	            String strId = this.comboBoxDistribuciones.getSelectedItem().toString();
 	            int id = Integer.parseInt(strId);
 	            SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
@@ -216,10 +219,25 @@ public class ModificarDistribucion extends JInternalFrame {
 	            Date fechaE = formatoFecha.parse(txtFechaE.getText());
 	            EstadoDistribucion estado = (EstadoDistribucion) comboEstado.getSelectedItem(); 
 
-	            DtDistribucion dist = this.icon.getDistribucion(id);
-	            DtBeneficiario beneficiario = dist.getBeneficiario();
-	            DtDonacion donacion = dist.getDonacion();
-
+	            String emailBeneficiario = txtBeneficiario.getText();
+	            Integer idDonacion = Integer.valueOf(txtDonacion.getText());
+	            
+	            DtDonacion donacion = null;
+	            DtBeneficiario beneficiario = null;
+	            
+	            try {
+	            	donacion = this.icon.getDonacion(idDonacion);
+	            } catch (DonacionNoExisteExc dne){
+	            	JOptionPane.showMessageDialog(this, dne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	            	return;
+	            }
+	            try {
+	            	beneficiario = this.icon.getBeneficiario(emailBeneficiario);
+	            } catch (BeneficiarioNoExisteExc bne){
+	            	JOptionPane.showMessageDialog(this, bne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+	            	return;
+	            }
+	            	         
 	            DtDistribucion nuevaDistribucion = new DtDistribucion(id, fechaP, fechaE, estado, beneficiario, donacion);
 
 	            this.icon.modificarDistribucion(nuevaDistribucion);
@@ -232,6 +250,7 @@ public class ModificarDistribucion extends JInternalFrame {
 	        } catch (DistribucionNoEncontradaExc ex) {
 	            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 	        } catch (IllegalArgumentException ex) {
+	        	ex.printStackTrace();
 	            JOptionPane.showMessageDialog(this, "Estado de distribución inválido.", "Error", JOptionPane.ERROR_MESSAGE);
 	        } catch (Exception ex) {
 	            JOptionPane.showMessageDialog(this, "Error al parsear la fecha. Por favor, usa el formato dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);

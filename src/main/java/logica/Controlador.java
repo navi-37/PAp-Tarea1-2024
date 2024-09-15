@@ -25,6 +25,7 @@ import datatypes.EstadoDistribucion;
 
 import excepciones.DonacionRepetidaExc;
 import excepciones.UsuarioRepetidoExc;
+import excepciones.BeneficiarioNoExisteExc;
 import excepciones.DistribucionNoEncontradaExc;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
@@ -170,31 +171,36 @@ public class Controlador implements IControlador{
     }
 	
 	@Override
-	public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
-	    ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
-	    Distribucion distribucionExistente = mDist.buscarDistribucion(dtdistribucion.getId());
+    public void modificarDistribucion(DtDistribucion dtdistribucion) throws DistribucionNoEncontradaExc {
+        ManejadorDistribucion mDist = ManejadorDistribucion.getInstancia();
+        ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+        ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+        Distribucion distribucionExistente = mDist.buscarDistribucion(dtdistribucion.getId());
 
-	    if (distribucionExistente == null) {
-	        throw new DistribucionNoEncontradaExc("Distribución no encontrada con el ID: " + dtdistribucion.getId());
-	    } else {
-	        // Modificar los campos de la distribución existente
-	        distribucionExistente.setFechaPreparacion(dtdistribucion.getFechaPreparacion());
-	        distribucionExistente.setFechaEntrega(dtdistribucion.getFechaEntrega());
-	        distribucionExistente.setEstado(dtdistribucion.getEstado());
+        if (distribucionExistente == null) {
+            throw new DistribucionNoEncontradaExc("Distribución no encontrada con el ID: " + dtdistribucion.getId());
+        } else {
+            // Modificar los campos de la distribución existente
+            distribucionExistente.setFechaPreparacion(dtdistribucion.getFechaPreparacion());
+            distribucionExistente.setFechaEntrega(dtdistribucion.getFechaEntrega());
+            distribucionExistente.setEstado(dtdistribucion.getEstado());
 
-	        Beneficiario beneficiario = distribucionExistente.getBeneficiario();
-	        Donacion donacion = distribucionExistente.getDonacion();
-	        
-	        distribucionExistente.setBeneficiario(beneficiario);
-	        distribucionExistente.setDonacion(donacion);
-	        
-	        Conexion conexion = Conexion.getInstancia();
-			EntityManager em = conexion.getEntityManager();
-			em.getTransaction().begin();
-	        em.merge(distribucionExistente);
-	        em.getTransaction().commit();
-	    }
-	}
+            String email = dtdistribucion.getBeneficiario().getEmail();
+            Integer id = dtdistribucion.getDonacion().getId();
+
+            Beneficiario beneficiario = (Beneficiario) mU.buscarUsuario(email); //Falta checkeo x si no es beneficiario
+            Donacion donacion = mD.buscarDonacion(id);
+
+            distribucionExistente.setBeneficiario(beneficiario);
+            distribucionExistente.setDonacion(donacion);
+
+            Conexion conexion = Conexion.getInstancia();
+            EntityManager em = conexion.getEntityManager();
+            em.getTransaction().begin();
+            em.merge(distribucionExistente);
+            em.getTransaction().commit();
+        }
+    }
 	
 	@Override
 	public Integer [] listarDonaciones() {
@@ -238,11 +244,16 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-	public DtBeneficiario getBeneficiario(String email) {
+	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc {
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 		Usuario usr = mU.buscarUsuario(email);
-		Beneficiario usrb = (Beneficiario) usr;
-		DtBeneficiario dtBen = new DtBeneficiario(usrb.getNombre(), usrb.getEmail(), usrb.getDireccion(), usrb.getFechaNacimiento(), usrb.getEstado(), usrb.getBarrio());
+		DtBeneficiario dtBen = null;
+		if (usr instanceof Beneficiario) {
+			Beneficiario usrb = (Beneficiario) usr;
+			dtBen = new DtBeneficiario(usrb.getNombre(), usrb.getEmail(), usrb.getDireccion(), usrb.getFechaNacimiento(), usrb.getEstado(), usrb.getBarrio());
+		} else if (dtBen == null){
+			throw new BeneficiarioNoExisteExc("El beneficiario no existe");
+		}
 		return dtBen;
 	}
 	
@@ -414,84 +425,5 @@ public class Controlador implements IControlador{
         }
         return retorno;
     }
-	
 	    
-	    /*
-	    ArrayList<String> beneficiariosCordon = new ArrayList<>();
-	    ArrayList<String> beneficiariosCentro = new ArrayList<>();
-	    ArrayList<String> beneficiariosParqueRodo = new ArrayList<>();
-	    ArrayList<String> beneficiariosPalermo = new ArrayList<>();
-	    ArrayList<String> beneficiariosCiudadVieja = new ArrayList<>();
-	    
-	    if(cantCordon != 0) {
-		    System.out.println("Cordón:");
-		    for (DtDistribucion d : distCordon) {
-		    	if(!beneficiariosCordon.contains(d.getBeneficiario().getEmail())) {
-		    		beneficiariosCordon.add(d.getBeneficiario().getEmail());
-		    	}
-		    }
-		    System.out.println("Cantidad de distribuciones: " + cantCordon);
-		    System.out.println("Beneficiarios: ");
-		    for (String b : beneficiariosCordon) {
-	            System.out.println(b);
-	        }
-	    }
-	    
-	    if (cantCentro != 0) {
-		    System.out.println("Centro:");
-		    for (DtDistribucion d : distCentro) {
-		    	if(!beneficiariosCentro.contains(d.getBeneficiario().getEmail())) {
-		    		beneficiariosCentro.add(d.getBeneficiario().getEmail());
-		    	}
-		    }
-		    System.out.println("Cantidad de distribuciones: " + cantCentro);
-		    System.out.println("Beneficiarios: ");
-		    for (String b : beneficiariosCentro) {
-	            System.out.println(b);
-	        }
-	    }
-	    
-	    if (cantParqueRodo != 0) {
-		    System.out.println("Parque Rodó:");
-		    for (DtDistribucion d : distParqueRodo) {
-		    	if(!beneficiariosParqueRodo.contains(d.getBeneficiario().getEmail())) {
-		    		beneficiariosParqueRodo.add(d.getBeneficiario().getEmail());
-		    	}
-		    }
-		    System.out.println("Cantidad de distribuciones: " + cantParqueRodo);
-		    System.out.println("Beneficiarios: ");
-		    for (String b : beneficiariosParqueRodo) {
-	            System.out.println(b);
-	        }
-	    }
-	    
-	    if (cantPalermo != 0) {
-		    System.out.println("Palermo:");
-		    for (DtDistribucion d : distPalermo) {
-		    	if(!beneficiariosPalermo.contains(d.getBeneficiario().getEmail())) {
-		    		beneficiariosPalermo.add(d.getBeneficiario().getEmail());
-		    	}
-		    }
-		    System.out.println("Cantidad de distribuciones: " + cantPalermo);
-		    System.out.println("Beneficiarios: ");
-		    for (String b : beneficiariosPalermo) {
-	            System.out.println(b);
-	        }
-	    }
-	    
-	    if (cantCiudadVieja != 0) {
-		    System.out.println("Ciudad Vieja:");
-		    for (DtDistribucion d : distCiudadVieja) {
-		    	if(!beneficiariosCiudadVieja.contains(d.getBeneficiario().getEmail())) {
-		    		beneficiariosCiudadVieja.add(d.getBeneficiario().getEmail());
-		    	}
-		    }
-		    System.out.println("Cantidad de distribuciones: " + cantCiudadVieja);
-		    System.out.println("Beneficiarios: ");
-		    for (String b : beneficiariosCiudadVieja) {
-	            System.out.println(b);
-	        }
-	    }
-	    
-	    */
 }
