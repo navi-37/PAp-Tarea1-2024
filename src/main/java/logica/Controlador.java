@@ -323,20 +323,26 @@ public class Controlador implements IControlador{
 	    if (!(distribucionesViejas.isEmpty())) {
 	        // Eliminar distribuciones viejas asociadas al beneficiario viejo
 	        for (Distribucion distribucion : distribucionesViejas) {
-	            em.remove(em.contains(distribucion) ? distribucion : em.merge(distribucion));
+	           // em.remove(em.contains(distribucion) ? distribucion : em.merge(distribucion));
+	        	distribucion.setBeneficiario(nuevoBeneficiario);
+	        	em.getTransaction().begin();
+	        	em.merge(nuevoBeneficiario);
+	        	em.getTransaction().commit();
 	        }
 
 	        // ahora se puede eliminar el usuario de la base de datos
 	        if (viejoBeneficiario != null) {
-	            em.remove(viejoBeneficiario);
+	        	em.getTransaction().begin();
+	        	em.remove(viejoBeneficiario);
+	            em.getTransaction().commit();
 	        }
 
 	        // persistir nuevo usuario
-	        em.persist(nuevoBeneficiario);
-	        em.flush(); // PROBAR EL FLUSH ACÁ! 
+	        //em.persist(nuevoBeneficiario);
+	        //em.flush(); // PROBAR EL FLUSH ACÁ! 
 
 	        // Crear nuevas distribuciones con el beneficiario nuevo
-	        for (Distribucion distribucionVieja : distribucionesViejas) {
+	       /* for (Distribucion distribucionVieja : distribucionesViejas) {
 	            Distribucion nuevaDistribucion = new Distribucion(
 	                distribucionVieja.getId(),
 	                distribucionVieja.getFechaPreparacion(),
@@ -346,10 +352,10 @@ public class Controlador implements IControlador{
 	                distribucionVieja.getDonacion());
 
 	            // Persistir la nueva distribución en la base de datos
-	            em.persist(nuevaDistribucion);
-	        }
+	            em.persist(nuevaDistribucion);*/
 	    }
 	}
+	
 	
 	@Override
 	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
@@ -377,19 +383,22 @@ public class Controlador implements IControlador{
 	                viejoBeneficiario.getEstado(),
 	                viejoBeneficiario.getBarrio()
 	            );
-
+	            em.merge(nuevoBeneficiario);
+	            em.getTransaction().commit();
 	           // if (!(dtu.getEmail().equals(emailNuevo))) { // cambia email -> hace nuevo obj. Usuario
 	                // reasignar distribuciones asociadas
 	            modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí
 	            /*} else { // el email es el mismo y se puede simplemente mergear con el nuevo nombre sin conflicto con las distribuciones
 	                em.merge(nuevoBeneficiario);
 	            }*/
-	        } else if (usuarioAModificar instanceof Repartidor) { // Si es repartidor
+	           
+	           // em.getTransaction().commit();
+	        } /*else if (usuarioAModificar instanceof Repartidor) { // Si es repartidor
 	            Repartidor repartidor = (Repartidor) usuarioAModificar;
 	            nuevoUsuario = new Repartidor(nombreNuevo, emailNuevo, repartidor.getNumeroLicencia());
 	         // ver si con merge acá funca bien
 	        em.merge(nuevoUsuario);
-	        }
+	        } 
 
 	        // eliminar usuario antiguo después de actualizar las distribuciones
 	        if (!em.contains(usuarioAModificar)) {
@@ -399,7 +408,7 @@ public class Controlador implements IControlador{
 	        // Eliminar el usuario sólo si ya no tiene distribuciones asociadas
 	        em.remove(usuarioAModificar);
 
-	        em.getTransaction().commit();
+	        em.getTransaction().commit(); */
 	    } catch (Exception e) {
 	        if (em.getTransaction().isActive()) {
 	            em.getTransaction().rollback();
