@@ -322,14 +322,15 @@ public class Controlador implements IControlador{
 
 	    if (!(distribucionesViejas.isEmpty())) {
 	        // Eliminar distribuciones viejas asociadas al beneficiario viejo
-	        for (Distribucion distribucion : distribucionesViejas) {
+	    	em.getTransaction().begin();
+	    	for (Distribucion distribucion : distribucionesViejas) {
 	           // em.remove(em.contains(distribucion) ? distribucion : em.merge(distribucion));
 	        	distribucion.setBeneficiario(nuevoBeneficiario);
-	        	em.getTransaction().begin();
+	        	
 	        	em.merge(nuevoBeneficiario);
-	        	em.getTransaction().commit();
+	        	
 	        }
-
+	    	em.getTransaction().commit();
 	        // ahora se puede eliminar el usuario de la base de datos
 	        if (viejoBeneficiario != null) {
 	        	em.getTransaction().begin();
@@ -357,13 +358,13 @@ public class Controlador implements IControlador{
 	}
 	
 	
+
+	
 	@Override
 	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
 	    String emailActual = dtu.getEmail();
-
 	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 	    Usuario usuarioAModificar = mU.buscarUsuario(emailActual);
-
 	    Conexion conexion = Conexion.getInstancia();
 	    EntityManager em = conexion.getEntityManager();
 
@@ -371,44 +372,30 @@ public class Controlador implements IControlador{
 	        em.getTransaction().begin();
 
 	        Usuario nuevoUsuario = null;
-
-	        // Si es Beneficiario
-	        if (usuarioAModificar instanceof Beneficiario) {
-	            Beneficiario viejoBeneficiario = (Beneficiario) usuarioAModificar;
-
-	            Beneficiario nuevoBeneficiario = new Beneficiario(
-	                nombreNuevo, emailNuevo, // nuevos email y nombre
-	                viejoBeneficiario.getDireccion(), // mismos datos extras
-	                viejoBeneficiario.getFechaNacimiento(), 
-	                viejoBeneficiario.getEstado(),
-	                viejoBeneficiario.getBarrio()
-	            );
-	            em.merge(nuevoBeneficiario);
-	            em.getTransaction().commit();
-	           // if (!(dtu.getEmail().equals(emailNuevo))) { // cambia email -> hace nuevo obj. Usuario
-	                // reasignar distribuciones asociadas
-	            modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí
-	            /*} else { // el email es el mismo y se puede simplemente mergear con el nuevo nombre sin conflicto con las distribuciones
-	                em.merge(nuevoBeneficiario);
-	            }*/
-	           
-	           // em.getTransaction().commit();
-	        } /*else if (usuarioAModificar instanceof Repartidor) { // Si es repartidor
-	            Repartidor repartidor = (Repartidor) usuarioAModificar;
-	            nuevoUsuario = new Repartidor(nombreNuevo, emailNuevo, repartidor.getNumeroLicencia());
-	         // ver si con merge acá funca bien
-	        em.merge(nuevoUsuario);
-	        } 
-
-	        // eliminar usuario antiguo después de actualizar las distribuciones
-	        if (!em.contains(usuarioAModificar)) {
-	            usuarioAModificar = em.merge(usuarioAModificar);  // Reanexamos si está detached
-	        }
-
-	        // Eliminar el usuario sólo si ya no tiene distribuciones asociadas
-	        em.remove(usuarioAModificar);
-
-	        em.getTransaction().commit(); */
+	        
+	        
+	        if (emailActual.equals(emailNuevo)) {
+	        	usuarioAModificar.setNombre(nombreNuevo);
+                em.merge(usuarioAModificar);
+                em.getTransaction().commit();
+            } else {
+		        // Si es Beneficiario
+		        if (usuarioAModificar instanceof Beneficiario) {
+		            Beneficiario viejoBeneficiario = (Beneficiario) usuarioAModificar;
+	
+		            Beneficiario nuevoBeneficiario = new Beneficiario(
+		                nombreNuevo, emailNuevo, // nuevos email y nombre
+		                viejoBeneficiario.getDireccion(), // mismos datos extras
+		                viejoBeneficiario.getFechaNacimiento(), 
+		                viejoBeneficiario.getEstado(),
+		                viejoBeneficiario.getBarrio()
+		            );
+		            em.merge(nuevoBeneficiario);
+		            em.getTransaction().commit();
+		            modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí
+		           
+		        } 
+            }
 	    } catch (Exception e) {
 	        if (em.getTransaction().isActive()) {
 	            em.getTransaction().rollback();
