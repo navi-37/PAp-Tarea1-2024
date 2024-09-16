@@ -101,7 +101,7 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		
 		JLabel lblNombreUsuario = new JLabel("Nombre del usuario");
-		lblNombreUsuario.setBounds(148, 223, 131, 13);
+		lblNombreUsuario.setBounds(148, 223, 200, 13);
 		getContentPane().add(lblNombreUsuario);
 		
 		JLabel lblemailUsuario = new JLabel("Correo electrónico");
@@ -139,7 +139,7 @@ public class ModificarUsuario extends JInternalFrame {
 		getContentPane().add(btnMostrarInfo);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(148, 95, 45, 13);
+		lblNewLabel.setBounds(148, 95, 100, 13);
 		getContentPane().add(lblNewLabel);
 		
 		

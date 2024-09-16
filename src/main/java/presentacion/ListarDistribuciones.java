@@ -183,7 +183,7 @@ public class ListarDistribuciones extends JInternalFrame {
 				listarDistribucionesActionPerformed(e);
 			}
 		});
-		btnVerInformacin.setBounds(336, 108, 150, 19);
+		btnVerInformacin.setBounds(311, 108, 175, 19);
 		getContentPane().add(btnVerInformacin);
 		
 		JButton btnCancelar = new JButton("✘ Cancelar");

@@ -147,7 +147,7 @@ public class AltaUsuario extends JInternalFrame {
         getContentPane().add(lblDireccion);
         
         lblFechaNacimiento = new JLabel("Fecha de nacimiento");
-        lblFechaNacimiento.setBounds(148, 245, 134, 13);
+        lblFechaNacimiento.setBounds(148, 245, 300, 13);
         getContentPane().add(lblFechaNacimiento);
         
         JLabel lblBarrio = new JLabel("Barrio");
@@ -155,7 +155,7 @@ public class AltaUsuario extends JInternalFrame {
         getContentPane().add(lblBarrio);
         
         JLabel lblEstadoBenef = new JLabel("Estado");
-        lblEstadoBenef.setBounds(148, 339, 46, 13);
+        lblEstadoBenef.setBounds(148, 339, 100, 13);
         getContentPane().add(lblEstadoBenef);
         
         limpiarFormulario();

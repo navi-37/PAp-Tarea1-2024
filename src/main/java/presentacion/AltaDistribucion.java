@@ -55,11 +55,11 @@ public class AltaDistribucion extends JInternalFrame {
 		getContentPane().add(lblDonacion);
 		
 		JLabel lblBeneficiario = new JLabel("Beneficiario (e-mail)");
-		lblBeneficiario.setBounds(148, 151, 135, 13);
+		lblBeneficiario.setBounds(148, 151, 200, 13);
 		getContentPane().add(lblBeneficiario);
 		
 		JLabel lblFechaPrep = new JLabel("Fecha de preparación");
-		lblFechaPrep.setBounds(148, 220, 149, 13);
+		lblFechaPrep.setBounds(148, 220, 157, 13);
 		getContentPane().add(lblFechaPrep);
 		
 		JLabel lblFechaEntrega = new JLabel("Fecha de entrega");

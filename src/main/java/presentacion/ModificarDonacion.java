@@ -105,7 +105,7 @@ public class ModificarDonacion extends JInternalFrame {
 		textFieldDimensiones.setColumns(10);
 		
 		JLabel lblTipoDonacion = new JLabel("Tipo de donación");
-		lblTipoDonacion.setBounds(148, 79, 109, 13);
+		lblTipoDonacion.setBounds(148, 79, 150, 13);
 		getContentPane().add(lblTipoDonacion);
 		
 		textFieldTipoDonacion = new JTextField();
