@@ -15,7 +15,6 @@ import interfaces.IControlador;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import javax.swing.JTextPane;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -40,7 +39,6 @@ public class ReporteZona extends JInternalFrame {
 	public ReporteZona(IControlador icon) {
 		this.icon = icon;
 		setBounds(100, 100, 650, 500);
-		//setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("ZONAS CON MÁS DISTRIBUCIONES");
 		setClosable(true);
@@ -90,7 +88,6 @@ public class ReporteZona extends JInternalFrame {
 		
 		listReporte = new JTextPane();
 		listReporte.setBounds(66, 84, 646, 332);
-		//getContentPane().add(listReporte);
 		scrollPane.setViewportView(listReporte);
 		
 		JLabel lblNewLabel = new JLabel("Distribuciones realizadas dentro del siguiente rango de fechas:");

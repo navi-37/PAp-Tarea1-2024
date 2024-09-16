@@ -4,7 +4,6 @@ import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -12,7 +11,6 @@ import java.util.List;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
-import java.awt.Color;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -34,20 +32,16 @@ public class ModificarUsuario extends JInternalFrame {
 	private JRadioButton rdbtnBeneficiario;
 	private JRadioButton rdbtnRepartidor;
 	private JComboBox<DtUsuario> comboBoxUsuarios;
-	private JButton btnModificar;
 	
 
 	public ModificarUsuario(IControlador icon) {
 		this.icon = icon;
-		//setBounds(100, 100, 800, 550);
 		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("MODIFICAR USUARIO");
 		setClosable(true);
 		
 		JLabel lblTipoUsuario = new JLabel("Elegir tipo de Usuario");
-		//lblTipoUsuario.setForeground(new Color(128, 128, 128));
-		//lblTipoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblTipoUsuario.setBounds(148, 52, 158, 13);
 		getContentPane().add(lblTipoUsuario);
 		
@@ -58,7 +52,6 @@ public class ModificarUsuario extends JInternalFrame {
 		// caso beneficiarios 
 		
 		rdbtnBeneficiario = new JRadioButton("Beneficiario");
-		//rdbtnBeneficiario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		rdbtnBeneficiario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -84,7 +77,6 @@ public class ModificarUsuario extends JInternalFrame {
 		// caso repartidor 
 		
 		rdbtnRepartidor = new JRadioButton("Repartidor");
-		//rdbtnRepartidor.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		
 		rdbtnRepartidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -105,17 +97,14 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		rdbtnRepartidor.setBounds(413, 48, 100, 20);
 		getContentPane().add(rdbtnRepartidor);
-		///////////////////////////////////////////////////////////////////////////////////////
 		
 		
 		
-		JLabel lblNombreUsuario = new JLabel("Nombre del usuario:");
-		//lblNombreUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLabel lblNombreUsuario = new JLabel("Nombre del usuario");
 		lblNombreUsuario.setBounds(148, 223, 131, 13);
 		getContentPane().add(lblNombreUsuario);
 		
-		JLabel lblemailUsuario = new JLabel("Correo electrónico:");
-		//lblemailUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		JLabel lblemailUsuario = new JLabel("Correo electrónico");
 		lblemailUsuario.setBounds(148, 283, 201, 13);
 		getContentPane().add(lblemailUsuario);
 		
@@ -130,7 +119,6 @@ public class ModificarUsuario extends JInternalFrame {
 		getContentPane().add(textFieldCorreo);
 		
 		JButton btnModificar = new JButton("✔ Modificar");
-		//btnModificar.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		btnModificar.setBounds(188, 364, 115, 25);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -142,7 +130,6 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		// mostrar info del usuario seleccionado
 		JButton btnMostrarInfo = new JButton("› Ver información");
-		//btnMostrarInfo.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		btnMostrarInfo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mostrarInfo(e); 
@@ -213,21 +200,12 @@ public class ModificarUsuario extends JInternalFrame {
 	public void modificarDatosUsuario(ActionEvent e) {
 	    if (this.comboBoxUsuarios.getSelectedItem() != null) {
 	        DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
-	        String emailviejo = dtu.getEmail();
 	        
 	        String email = textFieldCorreo.getText();
 	        String nombre = textFieldNombreUsuario.getText();
 	        if ((!dtu.getEmail().equals(email)) || (!dtu.getNombre().equals(nombre))) { //evaluar si cambió algo
-		        this.icon.modificarUsuario(dtu, email, nombre); // modificar usuario
-	
-		        // Actualizar el ComboBox
+		        this.icon.modificarUsuario(dtu, email, nombre);
 		        actualizarComboBoxUsuarios();
-		        
-		        // checkear si el email es el mismo. sino, busca el nuevo email
-		        /*DtUsuario usuarioActualizado = icon.getUsuario(emailviejo);
-		        if (usuarioActualizado != null) {
-		            this.comboBoxUsuarios.setSelectedItem(usuarioActualizado);
-		        }*/
 		        
 		        JOptionPane.showMessageDialog(this, "Los datos del usuario han sido modificados con éxito.", 
 		        		"Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);	

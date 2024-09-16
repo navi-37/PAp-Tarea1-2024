@@ -1,7 +1,5 @@
 package presentacion;
 
-
-
 import javax.swing.JInternalFrame;
 
 import interfaces.IControlador;
@@ -47,7 +45,6 @@ public class AltaDistribucion extends JInternalFrame {
 
 	public AltaDistribucion(IControlador icon) {
 		this.icon = icon;
-		//setBounds(100, 100, 800, 550);
 		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("ALTA DISTRIBUCIÓN");
@@ -149,8 +146,6 @@ public class AltaDistribucion extends JInternalFrame {
 			Integer id_donacion = Integer.valueOf(this.textDonacion.getText());
 			String email_beneficiario = this.textBeneficiario.getText();
 			
-			
-			
 			// funcion icon getDtDonacion y getDtBeneficiario
 			DtBeneficiario beneficiario = null;
 			try {
@@ -230,7 +225,6 @@ public class AltaDistribucion extends JInternalFrame {
             return false;
         }
         try {
-			//donacion = icon.getDonacion(id_donacion);
 			Integer.parseInt(donacion);
 		} catch (NumberFormatException e) {
 			JOptionPane.showMessageDialog(this, "El ID de la donación tiene que ser un número", "Error",

@@ -31,7 +31,6 @@ public class Principal {
 	private ModificarUsuario modificarUsuarioInternalFrame; 
 	private ReporteZona reporteZonasInternalFrame;
 
-
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -57,8 +56,7 @@ public class Principal {
 		agregarDonacionInternalFrame = new AltaDonacion(icon);
 		agregarDonacionInternalFrame.setClosable(true);
 		jInternalFrameSize = agregarDonacionInternalFrame.getSize();
-		//agregarDonacionInternalFrame.setLocation(29,
-		//27);
+
 		agregarDonacionInternalFrame.setLocation(118,
 				41);
 		agregarDonacionInternalFrame.setVisible(false);
@@ -141,8 +139,6 @@ public class Principal {
 		frame.getContentPane().setLayout(null);
 		
 		JMenuBar menuBar = new JMenuBar();
-		//menuBar.setBounds(0, 0, 576, 22);
-		//frame.getContentPane().add(menuBar);
 		frame.setJMenuBar(menuBar);
 		
 		JMenu menuAltas = new JMenu("› Dar de alta  ");
@@ -222,7 +218,6 @@ public class Principal {
 		mntmDistribuciones.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		mntmDistribuciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//listarDistribucionesInternalFrame.inicializarComboBoxes();
 				listarDistribucionesInternalFrame.setVisible(true);
 			}
 		});

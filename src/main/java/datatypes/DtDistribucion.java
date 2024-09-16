@@ -1,7 +1,5 @@
 package datatypes;
 
-
-
 import java.util.Date;
 
 public class DtDistribucion {
@@ -11,7 +9,6 @@ public class DtDistribucion {
 	private EstadoDistribucion estado;
 	private DtBeneficiario beneficiario;
 	private DtDonacion donacion;
-	
 	
 	public DtDistribucion(int id, Date fechaPreparacion, Date fechaEntrega, EstadoDistribucion estado, DtBeneficiario beneficiario, DtDonacion donacion) {
 		super();

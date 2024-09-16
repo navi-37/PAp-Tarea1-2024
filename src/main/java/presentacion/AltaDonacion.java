@@ -31,7 +31,6 @@ public class AltaDonacion extends JInternalFrame {
 
 	public AltaDonacion(IControlador icon) {
 		this.icon = icon;
-		//setBounds(100, 100, 800, 550);
 		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("ALTA DONACIÓN");
@@ -42,7 +41,6 @@ public class AltaDonacion extends JInternalFrame {
 		getContentPane().add(textid);
 		textid.setColumns(10);
 		
-		//JComboBox<String> 
 		comboBoxTipoDonacion = new JComboBox<String>();
 		comboBoxTipoDonacion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -166,8 +164,7 @@ public class AltaDonacion extends JInternalFrame {
 	} 
 	protected void agregarDonacionCancelarActionPerformed(ActionEvent arg0) {
         limpiarFormulario();
-        setVisible(false);
-		
+        setVisible(false);	
 	} 
 	
 	private boolean checkFormulario() {
@@ -197,14 +194,15 @@ public class AltaDonacion extends JInternalFrame {
                         JOptionPane.ERROR_MESSAGE);
                 return false;
             }
-        }
-        try {
-        	Integer.parseInt(cantElem);
-        	 
-        } catch (NumberFormatException e){
-        	JOptionPane.showMessageDialog(this, "La cantidad de elementos tiene que ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
+
+	        try {
+	        	Integer.parseInt(cantElem);
+	        	 
+	        } catch (NumberFormatException e){
+	        	JOptionPane.showMessageDialog(this, "La cantidad de elementos tiene que ser un número.", "Error", JOptionPane.ERROR_MESSAGE);
+	            return false;
+	        }
+		}
         return true;
     }
 	

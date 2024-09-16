@@ -11,9 +11,7 @@ import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
 import datatypes.DtDonacion;
 import datatypes.EstadoDistribucion;
-import excepciones.BeneficiarioNoExisteExc;
 import excepciones.DistribucionNoEncontradaExc;
-import excepciones.DonacionNoExisteExc;
 import interfaces.IControlador;
 
 import javax.swing.DefaultComboBoxModel;
@@ -41,7 +39,6 @@ public class ModificarDistribucion extends JInternalFrame {
 	
 	public ModificarDistribucion(IControlador icon) {
 		this.icon = icon;
-		//setBounds(100, 100, 800, 550);
 		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("MODIFICAR DISTRIBUCIÓN");
@@ -221,31 +218,8 @@ public class ModificarDistribucion extends JInternalFrame {
 
 
 	            //Lo de la rama modificarUsuario
-	            DtBeneficiario beneficiario = this.icon.getBeneficiario(txtBeneficiario.getText());
-	            System.out.println(beneficiario.getEmail());
-	            
+	            DtBeneficiario beneficiario = this.icon.getBeneficiario(txtBeneficiario.getText()); 
 	            DtDonacion donacion = this.icon.getDonacion(Integer.valueOf(txtDonacion.getText()));
-	            System.out.println(donacion.getId());  // ------------BORRAR ---------------------------------------------------------------------
-
-
-	            /* String emailBeneficiario = txtBeneficiario.getText();
-	            Integer idDonacion = Integer.valueOf(txtDonacion.getText());
-	            
-	            DtDonacion donacion = null;
-	            DtBeneficiario beneficiario = null;
-	            
-	            try {
-	            	donacion = this.icon.getDonacion(idDonacion);
-	            } catch (DonacionNoExisteExc dne){
-	            	JOptionPane.showMessageDialog(this, dne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-	            	return;
-	            }
-	            try {
-	            	beneficiario = this.icon.getBeneficiario(emailBeneficiario);
-	            } catch (BeneficiarioNoExisteExc bne){
-	            	JOptionPane.showMessageDialog(this, bne.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-	            	return;
-	            } */
 
 	            DtDistribucion nuevaDistribucion = new DtDistribucion(id, fechaP, fechaE, estado, beneficiario, donacion);
 

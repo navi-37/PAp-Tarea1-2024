@@ -40,7 +40,6 @@ public class ModificarDonacion extends JInternalFrame {
 	
 	public ModificarDonacion(IControlador icon) {
 		this.icon = icon;
-		//setBounds(100, 100, 800, 550);
 		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("MODIFICAR DONACIÓN");
@@ -148,8 +147,6 @@ public class ModificarDonacion extends JInternalFrame {
 		if (comboBoxDonaciones.getSelectedItem() != null) {
 			
 			Integer id = (Integer) comboBoxDonaciones.getSelectedItem();
-			//DtDonacion donacion;
-			//donacion = this.icon.getDonacion(id);
 			DtDonacion donacion = null;
 			try {
 				donacion = icon.getDonacion(id);

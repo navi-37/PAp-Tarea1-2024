@@ -80,7 +80,6 @@ public class AltaUsuario extends JInternalFrame {
             }
         });
         
-        //
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         DateFormatter dateFormatter = new DateFormatter(format);
         texFechaNacimiento = new JFormattedTextField(dateFormatter);

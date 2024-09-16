@@ -16,8 +16,6 @@ import datatypes.DtBeneficiario;
 import datatypes.EstadoBeneficiario;
 import interfaces.IControlador;
 
-import java.awt.Font;
-
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
@@ -36,7 +34,6 @@ public class ListarBeneficiarios extends JInternalFrame {
 	public ListarBeneficiarios(IControlador icont) {
 		icon = icont;
 		
-		//setBounds(100, 100, 800, 550);
 		setBounds(100, 100, 650, 450);
 		getContentPane().setLayout(null);
 		setTitle("LISTAR BENEFICIARIOS");
@@ -60,7 +57,6 @@ public class ListarBeneficiarios extends JInternalFrame {
 	    scrollPane.setViewportView(listBeneficiarios);
 		
 	    lblBeneficiarios = new JLabel("Beneficiarios");
-		//lblBeneficiarios.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblBeneficiarios.setBounds(66, 26, 167, 14);
 		getContentPane().add(lblBeneficiarios);
 		

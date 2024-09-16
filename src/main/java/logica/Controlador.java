@@ -1,7 +1,5 @@
 package logica;
 
-import java.util.AbstractMap;
-import java.util.Map.Entry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -10,7 +8,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
 
 import datatypes.Barrio;
 import datatypes.DtAlimento;
@@ -77,8 +74,6 @@ public class Controlador implements IControlador{
 			if (usuarioBeneficiario instanceof Beneficiario) {
 			    b = (Beneficiario) usuarioBeneficiario;
 			}
-			//DtBeneficiario beneficiario = new DtBeneficiario(b.getNombre(), b.getEmail(), b.getDireccion(), b.getFechaNacimiento(), b.getEstado(), b.getBarrio());
-			//DtDonacion donacion = new DtDonacion(d.getId(), d.getFechaIngresada());
 			Distribucion nuevaDistribucion = new Distribucion(dtdistribucion.getId(), dtdistribucion.getFechaPreparacion(), dtdistribucion.getFechaEntrega(), dtdistribucion.getEstado(), b, d);
 			mDist.agregarDistribucion(nuevaDistribucion);	
 		}
@@ -119,7 +114,7 @@ public class Controlador implements IControlador{
 		return retorno;
 	}
 	
-	// hice esto para no sobrecargar el if de listarLasDistribucionesFiltradas, retorna true si 
+	// para no sobrecargar el if de listarLasDistribucionesFiltradas, retorna true si 
 	// corresponde añadir la id de la distrubución a la combobox de distribuciones a listar.
 	private boolean distribucionCumpleCondiciones(DtDistribucion dt_dist, EstadoDistribucion estado, Barrio zona) {
 		boolean filtroEstado = (estado == null || dt_dist.getEstado() == estado);
@@ -152,7 +147,7 @@ public class Controlador implements IControlador{
 		
 		ArrayList<Usuario> usuarios = mU.listaUsuarios();  
 				
-		for (Usuario u :usuarios) {					// importar Usuarios y cargar la lista a DtUsuarios
+		for (Usuario u :usuarios) {		// importar Usuarios y cargar la lista a DtUsuarios
 			if (u instanceof Beneficiario) {
 				Beneficiario ben = (Beneficiario) u;
 				DtBeneficiario dtben = new DtBeneficiario(
@@ -199,11 +194,12 @@ public class Controlador implements IControlador{
 	        EntityManager em = conexion.getEntityManager();
 
 	        try {
-	            // No iniciar nueva transacción, solo hacer el merge
-	            em.merge(distribucionExistente);
+	        	em.getTransaction().begin();
+	        	em.merge(distribucionExistente);
+	        	em.getTransaction().commit();
 	        } catch (Exception e) {
 	            e.printStackTrace();
-	            throw e; // lanzar la excepción para que se maneje en el nivel superior si es necesario
+	            throw e;
 	        }
 	    }
 	}
@@ -268,9 +264,7 @@ public class Controlador implements IControlador{
 		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
 		Donacion donacionAModificar = mD.buscarDonacion(donacion.getId());
 		
-		if (donacionAModificar == null) {
-			//error
-		} else {
+		if (donacionAModificar != null) {
 			if (donacion instanceof DtAlimento) {
 				DtAlimento alimento = (DtAlimento) donacion;
 				Alimento alimentoAModificar = (Alimento) donacionAModificar;
@@ -300,7 +294,7 @@ public class Controlador implements IControlador{
 		ArrayList<DtRepartidor> repartidores = new ArrayList<DtRepartidor>();
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 		ArrayList<Usuario> usuarios = mU.listaUsuarios(); 
-		for (Usuario u :usuarios) {					// importar Usuarios y cargar la lista a DtUsuarios
+		for (Usuario u :usuarios) {		// importar Usuarios y cargar la lista a DtUsuarios
 			if (u instanceof Repartidor) {
 				Repartidor rep = (Repartidor) u;	// evaluar si es usuario clase repartidor
 				DtRepartidor dtrep = new DtRepartidor(
@@ -320,21 +314,16 @@ public class Controlador implements IControlador{
 	}
 	
 	public void modificarDistribucionesBeneficiario(Beneficiario viejoBeneficiario, Beneficiario nuevoBeneficiario, EntityManager em) { 
-	    // Obtener instancia del manejador de distribuciones
 	    ManejadorDistribucion mD = ManejadorDistribucion.getInstancia();
 
 	    // Buscar distribuciones asociadas al beneficiario viejo
 	    List<Distribucion> distribucionesViejas = mD.buscarDistribucionesPorBeneficiario(viejoBeneficiario.getEmail());
 
 	    if (!(distribucionesViejas.isEmpty())) {
-	        // Eliminar distribuciones viejas asociadas al beneficiario viejo
 	    	em.getTransaction().begin();
 	    	for (Distribucion distribucion : distribucionesViejas) {
-	           // em.remove(em.contains(distribucion) ? distribucion : em.merge(distribucion));
-	        	distribucion.setBeneficiario(nuevoBeneficiario);
-	        	
-	        	em.merge(nuevoBeneficiario);
-	        	
+	        	distribucion.setBeneficiario(nuevoBeneficiario);	
+	        	em.merge(nuevoBeneficiario);	
 	        }
 	    	em.getTransaction().commit();
 	        // ahora se puede eliminar el usuario de la base de datos
@@ -343,28 +332,8 @@ public class Controlador implements IControlador{
 	        	em.remove(viejoBeneficiario);
 	            em.getTransaction().commit();
 	        }
-
-	        // persistir nuevo usuario
-	        //em.persist(nuevoBeneficiario);
-	        //em.flush(); // PROBAR EL FLUSH ACÁ! 
-
-	        // Crear nuevas distribuciones con el beneficiario nuevo
-	       /* for (Distribucion distribucionVieja : distribucionesViejas) {
-	            Distribucion nuevaDistribucion = new Distribucion(
-	                distribucionVieja.getId(),
-	                distribucionVieja.getFechaPreparacion(),
-	                distribucionVieja.getFechaEntrega(),
-	                distribucionVieja.getEstado(),
-	                nuevoBeneficiario,       // !!!
-	                distribucionVieja.getDonacion());
-
-	            // Persistir la nueva distribución en la base de datos
-	            em.persist(nuevaDistribucion);*/
 	    }
 	}
-	
-	
-
 	
 	@Override
 	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
@@ -375,11 +344,7 @@ public class Controlador implements IControlador{
 	    EntityManager em = conexion.getEntityManager();
 
 	    try {
-	        em.getTransaction().begin();
-
-	        Usuario nuevoUsuario = null;
-	        
-	        
+	        em.getTransaction().begin();     
 	        if (emailActual.equals(emailNuevo)) {
 	        	usuarioAModificar.setNombre(nombreNuevo);
                 em.merge(usuarioAModificar);
@@ -475,7 +440,7 @@ public class Controlador implements IControlador{
         zonas.add(new Object[] { "Palermo", cantPalermo, distPalermo, repPalermo });
         zonas.add(new Object[] { "Ciudad Vieja", cantCiudadVieja, distCiudadVieja, repCiudadVieja });
 
-        // Paso 3: Ordenar la lista de zonas por la cantidad de distribuciones (de mayor a menor)
+        //Ordenar la lista de zonas por la cantidad de distribuciones (de mayor a menor)
         Collections.sort(zonas, new Comparator<Object[]>() {
             @Override
             public int compare(Object[] zona1, Object[] zona2) {
@@ -483,7 +448,7 @@ public class Controlador implements IControlador{
             }
         });
 
-        // Paso 4: Imprimir las zonas ordenadas
+        //Imprimir las zonas ordenadas
         for (Object[] zona : zonas) {
             String nombreZona = (String) zona[0];
             int cantidadDistribuciones = (int) zona[1];
@@ -494,9 +459,6 @@ public class Controlador implements IControlador{
             	reporteZona.setBarrio(nombreZona);
             	reporteZona.setCantDist(String.valueOf(cantidadDistribuciones));
             	
-                System.out.println(nombreZona + ":");
-                System.out.println("Cantidad de distribuciones: " + cantidadDistribuciones);
-                System.out.println("Beneficiarios: ");
                 ArrayList<String> beneficiarios = new ArrayList<>();
                 for (DtDistribucion d : distribuciones) {
                     if (!beneficiarios.contains(d.getBeneficiario().getEmail())) { //para que no se repitan los mails
@@ -508,7 +470,6 @@ public class Controlador implements IControlador{
                 	todosBeneficiarios = reporteZona.getBeneficiarios();
                 	if (todosBeneficiarios != null) {
 	                	reporteZona.setBeneficiarios(todosBeneficiarios + " - " + b); //vamos concatenando los emails restantes
-	                    System.out.println(b);
                 	} else {
                 		reporteZona.setBeneficiarios(b); //seteamos el valor inicial
                 	}

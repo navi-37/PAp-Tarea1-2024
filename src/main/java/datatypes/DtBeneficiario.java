@@ -2,7 +2,6 @@ package datatypes;
 
 import java.time.LocalDateTime;
 
-
 public class DtBeneficiario extends DtUsuario {
 	private String direccion;
 	private LocalDateTime fechaNacimiento;
@@ -37,7 +36,6 @@ public class DtBeneficiario extends DtUsuario {
 	public String toString() {
 		return super.toString() +
 		"\n Direccion: " + direccion + "\n  " +
-		// "\nFecha de nacimiento: " + fechaNacimiento +  --> dato no usado por ninguna función de listar
 		"\nEstado: " + estado + "\n " +
 		"\nBarrio: " + barrio;
 	}
