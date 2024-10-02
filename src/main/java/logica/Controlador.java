@@ -16,6 +16,7 @@ import datatypes.DtBeneficiario;
 import datatypes.DtDonacion;
 import datatypes.DtRepartidor;
 import datatypes.DtReporte;
+import datatypes.DtUsrModificar;
 import datatypes.DtUsuario;
 import datatypes.EstadoBeneficiario;
 import datatypes.DtDistribucion;
@@ -336,17 +337,23 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo) {
 	    String emailActual = dtu.getEmail();
 	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 	    Usuario usuarioAModificar = mU.buscarUsuario(emailActual);
 	    Conexion conexion = Conexion.getInstancia();
 	    EntityManager em = conexion.getEntityManager();
+	    
+	    EstadoBeneficiario estadoActual; 
 
 	    try {
 	        em.getTransaction().begin();     
 	        if (emailActual.equals(emailNuevo)) {
 	        	usuarioAModificar.setNombre(nombreNuevo);
+	        	/*nos va a llegar un dtusramod que puede que tenga estado null, no estamos diferenciando
+	        	 * el tipo de usuario todavía, vamos a tener que laburarlo desde acá fijandonos qué cambió y si 
+	        	 * el estado está vacío sabemos que es repartidor, aun no hicimos ningun cambio en esta func */
+	        	//
                 em.merge(usuarioAModificar);
                 em.getTransaction().commit();
             } else {
@@ -361,6 +368,8 @@ public class Controlador implements IControlador{
 		                viejoBeneficiario.getEstado(),
 		                viejoBeneficiario.getBarrio()
 		            );
+		            
+		            //fdddddddddddddddddddg
 		            em.merge(nuevoBeneficiario);
 		            em.getTransaction().commit();
 		            modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí

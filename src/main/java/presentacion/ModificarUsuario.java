@@ -18,7 +18,9 @@ import javax.swing.JButton;
 
 import datatypes.DtBeneficiario;
 import datatypes.DtRepartidor;
+import datatypes.DtUsrModificar;
 import datatypes.DtUsuario;
+import datatypes.EstadoBeneficiario;
 import interfaces.IControlador;
 
 
@@ -32,6 +34,7 @@ public class ModificarUsuario extends JInternalFrame {
 	private JRadioButton rdbtnBeneficiario;
 	private JRadioButton rdbtnRepartidor;
 	private JComboBox<DtUsuario> comboBoxUsuarios;
+	private JComboBox<EstadoBeneficiario> comboBoxEstado;
 	
 
 	public ModificarUsuario(IControlador icon) {
@@ -42,12 +45,13 @@ public class ModificarUsuario extends JInternalFrame {
 		setClosable(true);
 		
 		JLabel lblTipoUsuario = new JLabel("Elegir tipo de Usuario");
-		lblTipoUsuario.setBounds(148, 52, 158, 13);
+		lblTipoUsuario.setBounds(148, 29, 158, 13);
 		getContentPane().add(lblTipoUsuario);
 		
 		comboBoxUsuarios = new JComboBox();
-		comboBoxUsuarios.setBounds(148, 114, 338, 30);
+		comboBoxUsuarios.setBounds(148, 91, 338, 30);
 		getContentPane().add(comboBoxUsuarios);
+		
 		
 		// caso beneficiarios 
 		
@@ -55,7 +59,8 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		rdbtnBeneficiario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				comboBoxEstado.setSelectedItem(null);
+				comboBoxEstado.setEnabled(true);
 				rdbtnRepartidor.setSelected(false);
 				textFieldNombreUsuario.setText("");
 				textFieldCorreo.setText("");  
@@ -70,7 +75,7 @@ public class ModificarUsuario extends JInternalFrame {
 				comboBoxUsuarios.setModel(listaUsuarios);
 			}
 		});
-		rdbtnBeneficiario.setBounds(316, 48, 94, 20);
+		rdbtnBeneficiario.setBounds(316, 25, 94, 20);
 		getContentPane().add(rdbtnBeneficiario);
 		
 		
@@ -80,6 +85,8 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		rdbtnRepartidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				comboBoxEstado.setSelectedItem(null);
+				comboBoxEstado.setEnabled(false);
 				rdbtnBeneficiario.setSelected(false);
 				textFieldNombreUsuario.setText("");
 				textFieldCorreo.setText(""); 
@@ -101,21 +108,21 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		
 		JLabel lblNombreUsuario = new JLabel("Nombre del usuario");
-		lblNombreUsuario.setBounds(148, 223, 200, 13);
+		lblNombreUsuario.setBounds(148, 200, 200, 13);
 		getContentPane().add(lblNombreUsuario);
 		
 		JLabel lblemailUsuario = new JLabel("Correo electrónico");
-		lblemailUsuario.setBounds(148, 283, 201, 13);
+		lblemailUsuario.setBounds(148, 260, 201, 13);
 		getContentPane().add(lblemailUsuario);
 		
 		textFieldNombreUsuario = new JTextField();
-		textFieldNombreUsuario.setBounds(148, 242, 338, 21);
+		textFieldNombreUsuario.setBounds(148, 219, 338, 21);
 		getContentPane().add(textFieldNombreUsuario);
 		textFieldNombreUsuario.setColumns(10);
 		
 		textFieldCorreo = new JTextField();
 		textFieldCorreo.setColumns(10);
-		textFieldCorreo.setBounds(148, 302, 338, 21);
+		textFieldCorreo.setBounds(148, 279, 338, 21);
 		getContentPane().add(textFieldCorreo);
 		
 		JButton btnModificar = new JButton("✔ Modificar");
@@ -135,11 +142,11 @@ public class ModificarUsuario extends JInternalFrame {
 				mostrarInfo(e); 
 			}
 		});
-		btnMostrarInfo.setBounds(148, 171, 338, 21);
+		btnMostrarInfo.setBounds(148, 148, 338, 21);
 		getContentPane().add(btnMostrarInfo);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
-		lblNewLabel.setBounds(148, 95, 100, 13);
+		lblNewLabel.setBounds(148, 72, 100, 13);
 		getContentPane().add(lblNewLabel);
 		
 		
@@ -152,25 +159,41 @@ public class ModificarUsuario extends JInternalFrame {
 		});
 		btnCancelar.setBounds(329, 364, 117, 25);
 		getContentPane().add(btnCancelar);
+		
+		// comboBoxEstado = new JComboBox();
+		comboBoxEstado = new JComboBox<EstadoBeneficiario>(EstadoBeneficiario.values());
+		comboBoxEstado.setBounds(148, 322, 338, 24);
+		getContentPane().add(comboBoxEstado);
+		
+		JLabel lblEstado = new JLabel("Estado");
+		lblEstado.setBounds(74, 306, 70, 15);
+		getContentPane().add(lblEstado);
+		
+		borrarSeleccion();
 	}
 	
 	public void mostrarInfo(ActionEvent e) {
 	    if (this.comboBoxUsuarios.getSelectedItem() != null) { // verificar que hay algo seleccionado
-	        DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
-	        
-	        // Actualizar los campos de texto con la información del usuario seleccionado
-	        textFieldNombreUsuario.setText(dtu.getNombre());
-	        textFieldCorreo.setText(dtu.getEmail());
+	    	if (rdbtnBeneficiario.isSelected()) {
+	    		DtBeneficiario dtben = (DtBeneficiario) this.comboBoxUsuarios.getSelectedItem();
+	    		textFieldNombreUsuario.setText(dtben.getNombre());
+		        textFieldCorreo.setText(dtben.getEmail());
+		        comboBoxEstado.setSelectedItem(dtben.getEstado());
+		    } else if (rdbtnRepartidor.isSelected()) {
+		    	DtRepartidor dtrep = (DtRepartidor) this.comboBoxUsuarios.getSelectedItem();	
+		    	textFieldNombreUsuario.setText(dtrep.getNombre());
+		        textFieldCorreo.setText(dtrep.getEmail());
+		    }
 	    }
 	}
 	
 	public void borrarSeleccion() {
-		
 		rdbtnBeneficiario.setSelected(false);
 		rdbtnRepartidor.setSelected(false);
 		textFieldNombreUsuario.setText("");
 		textFieldCorreo.setText("");
 		comboBoxUsuarios.setSelectedItem(null);
+		comboBoxEstado.setSelectedItem(null);
 	}
 	
 	private void actualizarComboBoxUsuarios() {
@@ -199,12 +222,31 @@ public class ModificarUsuario extends JInternalFrame {
 
 	public void modificarDatosUsuario(ActionEvent e) {
 	    if (this.comboBoxUsuarios.getSelectedItem() != null) {
-	        DtUsuario dtu = (DtUsuario) this.comboBoxUsuarios.getSelectedItem();
-	        
-	        String email = textFieldCorreo.getText();
+	    	DtUsrModificar dtu = (DtUsrModificar) this.comboBoxUsuarios.getSelectedItem();
+	    	String email = textFieldCorreo.getText();
 	        String nombre = textFieldNombreUsuario.getText();
-	        if ((!dtu.getEmail().equals(email)) || (!dtu.getNombre().equals(nombre))) { //evaluar si cambió algo
-		        this.icon.modificarUsuario(dtu, email, nombre);
+	        EstadoBeneficiario estado = (EstadoBeneficiario) comboBoxEstado.getSelectedItem();
+	        
+	    	/*if (rdbtnBeneficiario.isSelected()) {
+	    		DtBeneficiario dtben = (DtBeneficiario) this.comboBoxUsuarios.getSelectedItem();
+	    		if ((!dtben.getEmail().equals(email)) || (!dtben.getNombre().equals(nombre)) || (!dtben.getEstado().equals(estado))) {
+		    		textFieldNombreUsuario.setText(dtben.getNombre());
+			        textFieldCorreo.setText(dtben.getEmail());
+			        comboBoxEstado.setSelectedItem(dtben.getEstado());
+	    		}
+		    } else if (rdbtnRepartidor.isSelected()) {
+		    	DtRepartidor dtrep = (DtRepartidor) this.comboBoxUsuarios.getSelectedItem();
+		    	if ((!dtrep.getEmail().equals(email)) || (!dtrep.getNombre().equals(nombre))) {
+			    	textFieldNombreUsuario.setText(dtrep.getNombre());
+			        textFieldCorreo.setText(dtrep.getEmail());
+		    	}
+		    }
+		    */
+	        
+	        
+	        
+	         //evaluar si cambió algo
+		        this.icon.modificarUsuario(dtu, email, nombre, estado);
 		        actualizarComboBoxUsuarios();
 		        
 		        JOptionPane.showMessageDialog(this, "Los datos del usuario han sido modificados con éxito.", 
@@ -214,4 +256,4 @@ public class ModificarUsuario extends JInternalFrame {
 	        }             
 	    }
 	}
-}
+
