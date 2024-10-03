@@ -48,9 +48,10 @@ public class ModificarUsuario extends JInternalFrame {
 		lblTipoUsuario.setBounds(148, 29, 158, 13);
 		getContentPane().add(lblTipoUsuario);
 		
-		comboBoxUsuarios = new JComboBox();
-		comboBoxUsuarios.setBounds(148, 91, 338, 30);
+		comboBoxUsuarios = new JComboBox<DtUsuario>();
+		comboBoxUsuarios.setBounds(148, 66, 338, 30);
 		getContentPane().add(comboBoxUsuarios);
+		comboBoxUsuarios.setEnabled(false);
 		
 		
 		// caso beneficiarios 
@@ -59,6 +60,7 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		rdbtnBeneficiario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				comboBoxUsuarios.setEnabled(true);
 				comboBoxEstado.setSelectedItem(null);
 				comboBoxEstado.setEnabled(true);
 				rdbtnRepartidor.setSelected(false);
@@ -85,6 +87,7 @@ public class ModificarUsuario extends JInternalFrame {
 		
 		rdbtnRepartidor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				comboBoxUsuarios.setEnabled(true);
 				comboBoxEstado.setSelectedItem(null);
 				comboBoxEstado.setEnabled(false);
 				rdbtnBeneficiario.setSelected(false);
@@ -102,31 +105,31 @@ public class ModificarUsuario extends JInternalFrame {
 			}
 		});
 		
-		rdbtnRepartidor.setBounds(413, 48, 100, 20);
+		rdbtnRepartidor.setBounds(412, 25, 100, 20);
 		getContentPane().add(rdbtnRepartidor);
 		
 		
 		
 		JLabel lblNombreUsuario = new JLabel("Nombre del usuario");
-		lblNombreUsuario.setBounds(148, 200, 200, 13);
+		lblNombreUsuario.setBounds(148, 175, 200, 13);
 		getContentPane().add(lblNombreUsuario);
 		
 		JLabel lblemailUsuario = new JLabel("Correo electrónico");
-		lblemailUsuario.setBounds(148, 260, 201, 13);
+		lblemailUsuario.setBounds(148, 235, 201, 13);
 		getContentPane().add(lblemailUsuario);
 		
 		textFieldNombreUsuario = new JTextField();
-		textFieldNombreUsuario.setBounds(148, 219, 338, 21);
+		textFieldNombreUsuario.setBounds(148, 194, 338, 21);
 		getContentPane().add(textFieldNombreUsuario);
 		textFieldNombreUsuario.setColumns(10);
 		
 		textFieldCorreo = new JTextField();
 		textFieldCorreo.setColumns(10);
-		textFieldCorreo.setBounds(148, 279, 338, 21);
+		textFieldCorreo.setBounds(148, 254, 338, 21);
 		getContentPane().add(textFieldCorreo);
 		
 		JButton btnModificar = new JButton("✔ Modificar");
-		btnModificar.setBounds(188, 364, 115, 25);
+		btnModificar.setBounds(190, 367, 115, 25);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modificarDatosUsuario(e);
@@ -142,7 +145,7 @@ public class ModificarUsuario extends JInternalFrame {
 				mostrarInfo(e); 
 			}
 		});
-		btnMostrarInfo.setBounds(148, 148, 338, 21);
+		btnMostrarInfo.setBounds(148, 123, 338, 21);
 		getContentPane().add(btnMostrarInfo);
 		
 		JLabel lblNewLabel = new JLabel("Usuario");
@@ -157,16 +160,16 @@ public class ModificarUsuario extends JInternalFrame {
 				setVisible(false);
 			}
 		});
-		btnCancelar.setBounds(329, 364, 117, 25);
+		btnCancelar.setBounds(331, 367, 117, 25);
 		getContentPane().add(btnCancelar);
 		
 		// comboBoxEstado = new JComboBox();
 		comboBoxEstado = new JComboBox<EstadoBeneficiario>(EstadoBeneficiario.values());
-		comboBoxEstado.setBounds(148, 322, 338, 24);
+		comboBoxEstado.setBounds(148, 314, 338, 24);
 		getContentPane().add(comboBoxEstado);
 		
 		JLabel lblEstado = new JLabel("Estado");
-		lblEstado.setBounds(74, 306, 70, 15);
+		lblEstado.setBounds(148, 295, 70, 15);
 		getContentPane().add(lblEstado);
 		
 		borrarSeleccion();
@@ -219,41 +222,46 @@ public class ModificarUsuario extends JInternalFrame {
 	    }
 	}
 	
-
 	public void modificarDatosUsuario(ActionEvent e) {
 	    if (this.comboBoxUsuarios.getSelectedItem() != null) {
-	    	DtUsrModificar dtu = (DtUsrModificar) this.comboBoxUsuarios.getSelectedItem();
+	    	//DtUsrModificar dtu = (DtUsrModificar) this.comboBoxUsuarios.getSelectedItem();
+	    	DtUsrModificar dtu = new DtUsrModificar();
 	    	String email = textFieldCorreo.getText();
 	        String nombre = textFieldNombreUsuario.getText();
 	        EstadoBeneficiario estado = (EstadoBeneficiario) comboBoxEstado.getSelectedItem();
 	        
-	    	/*if (rdbtnBeneficiario.isSelected()) {
+	    	if (rdbtnBeneficiario.isSelected()) {
 	    		DtBeneficiario dtben = (DtBeneficiario) this.comboBoxUsuarios.getSelectedItem();
 	    		if ((!dtben.getEmail().equals(email)) || (!dtben.getNombre().equals(nombre)) || (!dtben.getEstado().equals(estado))) {
 		    		textFieldNombreUsuario.setText(dtben.getNombre());
 			        textFieldCorreo.setText(dtben.getEmail());
 			        comboBoxEstado.setSelectedItem(dtben.getEstado());
+			        dtu.setEmail(dtben.getEmail());
+			        dtu.setNombre(dtben.getNombre());
+			        dtu.setEstado(dtben.getEstado());
 	    		}
 		    } else if (rdbtnRepartidor.isSelected()) {
 		    	DtRepartidor dtrep = (DtRepartidor) this.comboBoxUsuarios.getSelectedItem();
 		    	if ((!dtrep.getEmail().equals(email)) || (!dtrep.getNombre().equals(nombre))) {
 			    	textFieldNombreUsuario.setText(dtrep.getNombre());
 			        textFieldCorreo.setText(dtrep.getEmail());
+			        dtu.setEmail(dtrep.getEmail());
+			        dtu.setNombre(dtrep.getNombre());
 		    	}
+		    } else {
+		    	//add mensaje de no cambiaste nada gato
 		    }
-		    */
 	        
+	    	//evaluar si cambió algo
+	        this.icon.modificarUsuario(dtu, email, nombre, estado);
+	        actualizarComboBoxUsuarios();
+	        comboBoxUsuarios.setEnabled(false);
 	        
-	        
-	         //evaluar si cambió algo
-		        this.icon.modificarUsuario(dtu, email, nombre, estado);
-		        actualizarComboBoxUsuarios();
-		        
-		        JOptionPane.showMessageDialog(this, "Los datos del usuario han sido modificados con éxito.", 
-		        		"Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);	
+	        JOptionPane.showMessageDialog(this, "Los datos del usuario han sido modificados con éxito.", 
+	        		"Modificación Exitosa", JOptionPane.INFORMATION_MESSAGE);	
 	        } else {
 	        	JOptionPane.showMessageDialog(this, "No ha ingresado nuevos datos para el usuario seleccionado", "Sin Modificación", JOptionPane.INFORMATION_MESSAGE);
 	        }             
 	    }
-	}
+}
 

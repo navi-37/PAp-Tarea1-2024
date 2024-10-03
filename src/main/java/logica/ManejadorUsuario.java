@@ -32,10 +32,17 @@ public class ManejadorUsuario {
 	public Usuario buscarUsuario(String email) {
 		Conexion conexion = Conexion.getInstancia();
 		EntityManager em = conexion.getEntityManager();
-		
 		Usuario usuario = em.find(Usuario.class, email);
 		return usuario;
 	}
+	
+	public Beneficiario buscarBeneficiario(String email) {
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		Beneficiario beneficiario = em.find(Beneficiario.class, email);
+		return beneficiario;
+	}
+	
 	
 	public ArrayList<Usuario> listaUsuarios(){
 		Conexion conexion = Conexion.getInstancia();

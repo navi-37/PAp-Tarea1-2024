@@ -32,7 +32,14 @@ public class DtUsrModificar {
 		this.estado = estado;
 	}
 	
-	
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@Override
 	public String toString() {
 		return "Nombre: " + nombre + "\n  " + "\nEmail: " + email;
