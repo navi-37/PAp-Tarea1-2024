@@ -17,6 +17,7 @@ import datatypes.EstadoBeneficiario;
 import datatypes.EstadoDistribucion;
 import excepciones.DonacionRepetidaExc;
 import excepciones.UsuarioRepetidoExc;
+import datatypes.DtUsrModificar;
 import excepciones.BeneficiarioNoExisteExc;
 import excepciones.DistribucionNoEncontradaExc;
 import excepciones.DistribucionRepetidaExc;
@@ -52,7 +53,7 @@ public interface IControlador {
 
 	public DtUsuario getUsuario(String email);
 
-	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo);
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo);
 	
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc;
 	

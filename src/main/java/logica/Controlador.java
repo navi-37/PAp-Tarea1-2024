@@ -16,6 +16,7 @@ import datatypes.DtBeneficiario;
 import datatypes.DtDonacion;
 import datatypes.DtRepartidor;
 import datatypes.DtReporte;
+import datatypes.DtUsrModificar;
 import datatypes.DtUsuario;
 import datatypes.EstadoBeneficiario;
 import datatypes.DtDistribucion;
@@ -336,18 +337,35 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-	public void modificarUsuario(DtUsuario dtu, String emailNuevo, String nombreNuevo) {
-	    String emailActual = dtu.getEmail();
-	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
-	    Usuario usuarioAModificar = mU.buscarUsuario(emailActual);
-	    Conexion conexion = Conexion.getInstancia();
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo) {
+		Conexion conexion = Conexion.getInstancia();
 	    EntityManager em = conexion.getEntityManager();
-
+		String emailActual = dtu.getEmail();
+	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+	    EstadoBeneficiario estadoActual = dtu.getEstado();
+	    
+	    Beneficiario beneficiarioAModificar = null;
+	    Usuario usuarioAModificar = null;
+	    
+	    //agrego un poco de lógica pa ver si el usuario a modificar es beneficiario ya que varía la operación del manejador ahora dependiendo de qué sea
+	    if (estadoActual != null) { // si es beneficiario
+	    	beneficiarioAModificar = mU.buscarBeneficiario(emailActual);
+	    } else { //es repartidor, lo laburamos directamente con el tipo usuario:
+	    	usuarioAModificar = mU.buscarUsuario(emailActual);
+	    }
+	    
 	    try {
 	        em.getTransaction().begin();     
-	        if (emailActual.equals(emailNuevo)) {
-	        	usuarioAModificar.setNombre(nombreNuevo);
-                em.merge(usuarioAModificar);
+	        if (emailActual.equals(emailNuevo)) { // si el usuario decide no cambiar el email nos ahorramos todo el quilombo con la bd
+	        	if (usuarioAModificar != null) {
+	        		usuarioAModificar.setNombre(nombreNuevo);
+	        		em.merge(usuarioAModificar);
+	        	} else {
+	        		beneficiarioAModificar.setNombre(nombreNuevo);
+	        		beneficiarioAModificar.setEstado(estadoNuevo);
+	        		em.merge(beneficiarioAModificar);
+	        	}
+	        	
                 em.getTransaction().commit();
             } else {
 		        // Si es Beneficiario
@@ -361,6 +379,7 @@ public class Controlador implements IControlador{
 		                viejoBeneficiario.getEstado(),
 		                viejoBeneficiario.getBarrio()
 		            );
+		            
 		            em.merge(nuevoBeneficiario);
 		            em.getTransaction().commit();
 		            modificarDistribucionesBeneficiario(viejoBeneficiario, nuevoBeneficiario, em); // Pasamos el EntityManager aquí
