@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 
 import interfaces.Fabrica;
 import interfaces.IControlador;
+import publicadores.ControladorPublish;
+
 import javax.swing.JDesktopPane;
 import javax.swing.JPanel;
 import java.awt.Font;
@@ -46,6 +48,8 @@ public class Principal {
 
 	public Principal() {
 		initialize();
+		ControladorPublish cp = new ControladorPublish();
+		cp.publicar();
 		
 		Fabrica fabrica = Fabrica.getInstancia();
         IControlador icon = fabrica.getIControlador();
