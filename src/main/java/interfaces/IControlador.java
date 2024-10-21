@@ -33,7 +33,7 @@ public interface IControlador {
   
 	public void altaDistribucion(DtDistribucion distribucion) throws DistribucionRepetidaExc, UsuarioNOBeneficiarioExc, DonacionNoExisteExc;
 	
-	void modificarDistribucion(DtDistribucion distribucion) throws DistribucionNoEncontradaExc;
+	public void modificarDistribucion(DtDistribucion distribucion) throws DistribucionNoEncontradaExc;
 	
 	public void modificarDonacion(DtDonacion donacion);
 	
