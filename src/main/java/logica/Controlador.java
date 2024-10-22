@@ -1,5 +1,6 @@
 package logica;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +24,7 @@ import datatypes.DtDistribucion;
 import datatypes.EstadoDistribucion;
 
 import excepciones.DonacionRepetidaExc;
+import excepciones.RepartidorNoExisteExc;
 import excepciones.UsuarioRepetidoExc;
 import excepciones.BeneficiarioNoExisteExc;
 import excepciones.DistribucionNoEncontradaExc;
@@ -257,7 +259,21 @@ public class Controlador implements IControlador{
 		} else if (dtBen == null){
 			throw new BeneficiarioNoExisteExc("El beneficiario no existe");
 		}
-		return dtBen;
+		return dtBen;  // HAY QUE AGREGAR CONTRASEÑA???
+	}
+	
+	@Override
+	public DtRepartidor getRepartidor(String email) throws RepartidorNoExisteExc {
+		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
+		Usuario usr = mU.buscarUsuario(email);
+		DtRepartidor dtRep = null;
+		if (usr instanceof Repartidor) {
+			Repartidor usrr = (Repartidor) usr;
+			dtRep = new DtRepartidor(usrr.getNombre(), usrr.getEmail(), usrr.getNumeroLicencia()); // HAY QUE AGREGAR CONTRASEÑA???
+		} else if (dtRep == null){
+			throw new RepartidorNoExisteExc("El repartidor no existe");
+		}
+		return dtRep;
 	}
 	
 	@Override
@@ -337,37 +353,45 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo) {
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
 		Conexion conexion = Conexion.getInstancia();
 	    EntityManager em = conexion.getEntityManager();
 		String emailActual = dtu.getEmail();
 	    ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 	    EstadoBeneficiario estadoActual = dtu.getEstado();
 	    
+	    
 	    Beneficiario beneficiarioAModificar = null;
+	    Repartidor repartidorAModificar = null;
 	    Usuario usuarioAModificar = null;
 	    
 	    //agrego un poco de lógica pa ver si el usuario a modificar es beneficiario ya que varía la operación del manejador ahora dependiendo de qué sea
 	    if (estadoActual != null) { // si es beneficiario
 	    	beneficiarioAModificar = mU.buscarBeneficiario(emailActual);
-	    } else { //es repartidor, lo laburamos directamente con el tipo usuario:
-	    	usuarioAModificar = mU.buscarUsuario(emailActual);
+	    } else { //es repartidor
+	    	repartidorAModificar = mU.buscarRepartidor(emailActual);
 	    }
 	    
 	    try {
 	        em.getTransaction().begin();     
 	        if (emailActual.equals(emailNuevo)) { // si el usuario decide no cambiar el email nos ahorramos todo el quilombo con la bd
-	        	if (usuarioAModificar != null) {
-	        		usuarioAModificar.setNombre(nombreNuevo);
-	        		em.merge(usuarioAModificar);
+	        	if (repartidorAModificar != null) {
+	        		repartidorAModificar.setNombre(nombreNuevo);
+	        		repartidorAModificar.setNumeroLicencia(numeroDeLicenciaNuevo);
+	        		repartidorAModificar.setPw(pwNueva);
+	        		em.merge(repartidorAModificar);
 	        	} else {
 	        		beneficiarioAModificar.setNombre(nombreNuevo);
 	        		beneficiarioAModificar.setEstado(estadoNuevo);
+	        		beneficiarioAModificar.setBarrio(barrioNuevo);
+	        		beneficiarioAModificar.setDireccion(direccionNueva);
+	        		beneficiarioAModificar.setFechaNacimiento(fechaNacimientoNueva);
+	        		beneficiarioAModificar.setPw(pwNueva);
 	        		em.merge(beneficiarioAModificar);
 	        	}
 	        	
                 em.getTransaction().commit();
-            } else {
+            } else { // NO SE TOCA, NO SE VA A CAMBIAR EL MAIL
 		        // Si es Beneficiario
 		        if (usuarioAModificar instanceof Beneficiario) {
 		            Beneficiario viejoBeneficiario = (Beneficiario) usuarioAModificar;

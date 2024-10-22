@@ -3,6 +3,7 @@ package datatypes;
 public class DtUsuario{
 	private String nombre;
 	private String email;
+	private String pw;
 	
 	public DtUsuario() {
 		super();

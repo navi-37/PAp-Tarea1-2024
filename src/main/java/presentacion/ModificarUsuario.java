@@ -253,7 +253,7 @@ public class ModificarUsuario extends JInternalFrame {
 		    }
 	        
 	    	//evaluar si cambió algo
-	        this.icon.modificarUsuario(dtu, email, nombre, estado);
+	        this.icon.modificarUsuario(dtu, email, nombre, estado, null, null, null, null, null);
 	        actualizarComboBoxUsuarios();
 	        comboBoxUsuarios.setEnabled(false);
 	        

@@ -12,6 +12,8 @@ public abstract class Usuario {
 	@Id
 	private String email;
 	
+	private String pw;
+	
 	public Usuario() {
 		//super();
 	}
@@ -20,6 +22,7 @@ public abstract class Usuario {
 		super();
 		this.nombre = nombre;
 		this.email = email;
+		this.pw = "123";
 	}
 
 	public String getNombre() {
@@ -37,5 +40,14 @@ public abstract class Usuario {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	public String getPw() {
+		return pw;
+	}
+
+	public void setPw(String pw) {
+		this.pw = pw;
+	}
+	
 	
 }

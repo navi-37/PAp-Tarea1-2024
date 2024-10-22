@@ -1,5 +1,6 @@
 package publicadores;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,6 +23,7 @@ import datatypes.DtUsuario;
 import datatypes.EstadoBeneficiario;
 import datatypes.EstadoDistribucion;
 import excepciones.BeneficiarioNoExisteExc;
+import excepciones.RepartidorNoExisteExc;
 import excepciones.DistribucionNoEncontradaExc;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
@@ -150,14 +152,20 @@ public class ControladorPublish {
 	}
 	
 	@WebMethod
-	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo) {
-		icon.modificarUsuario(dtu, emailNuevo, nombreNuevo, estadoNuevo);
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
+		icon.modificarUsuario(dtu, emailNuevo, nombreNuevo, estadoNuevo, direccionNueva, fechaNacimientoNueva, barrioNuevo, numeroDeLicenciaNuevo, pwNueva);
 	}
 	
 	@WebMethod
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc{
 		return icon.getBeneficiario(email);
 	}
+	
+	@WebMethod
+	public DtRepartidor getRepartidor(String email) throws RepartidorNoExisteExc{
+		return icon.getRepartidor(email);
+	}
+	
 	
 	@WebMethod
 	public DtReporte[] reporte(Date fechaInicial, Date fechaFinal){

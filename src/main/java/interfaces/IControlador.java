@@ -4,6 +4,7 @@ import datatypes.DtDonacion;
 import datatypes.DtRepartidor;
 import datatypes.DtReporte;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -23,6 +24,7 @@ import excepciones.DistribucionNoEncontradaExc;
 import excepciones.DistribucionRepetidaExc;
 import excepciones.DonacionNoExisteExc;
 import excepciones.UsuarioNOBeneficiarioExc;
+import excepciones.RepartidorNoExisteExc;
 
 
 public interface IControlador {
@@ -53,9 +55,11 @@ public interface IControlador {
 
 	public DtUsuario getUsuario(String email);
 
-	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo);
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva);
 	
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc;
+	
+	public DtRepartidor getRepartidor(String email) throws RepartidorNoExisteExc;
 	
 	public ArrayList<DtReporte> reporte(Date fechaInicial, Date fechaFinal);
 }

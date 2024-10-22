@@ -43,6 +43,12 @@ public class ManejadorUsuario {
 		return beneficiario;
 	}
 	
+	public Repartidor buscarRepartidor(String email) {
+		Conexion conexion = Conexion.getInstancia();
+		EntityManager em = conexion.getEntityManager();
+		Repartidor repartidor = em.find(Repartidor.class, email);
+		return repartidor;
+	}
 	
 	public ArrayList<Usuario> listaUsuarios(){
 		Conexion conexion = Conexion.getInstancia();
