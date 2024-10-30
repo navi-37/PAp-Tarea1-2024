@@ -2,6 +2,10 @@ package datatypes;
 
 import java.time.LocalDateTime;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtAlimento extends DtDonacion {
 	private String descripcionProductos;
 	private Integer cantElementos;

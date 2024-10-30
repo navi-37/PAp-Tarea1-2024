@@ -11,6 +11,7 @@ import javax.jws.soap.SOAPBinding.Style;
 import javax.xml.ws.Endpoint;
 
 import datatypes.Barrio;
+import datatypes.DtAlimento;
 import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
 //import configuraciones.WebServiceConfiguracion;
@@ -122,6 +123,13 @@ public class ControladorPublish {
 		return icon.getDonacion(idDon);
 	}
 	
+	//test-------------------------------------------------->
+	@WebMethod
+	public DtAlimento getAlimento(Integer idDon) throws DonacionNoExisteExc{
+		return (DtAlimento) icon.getDonacion(idDon);
+	}
+	//------------------------------------------------
+	
 	@WebMethod
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona) {
 		return icon.listarLasDistribucionesFiltradas(estado, zona);
@@ -149,15 +157,29 @@ public class ControladorPublish {
 		return icon.getUsuario(email);
 	}
 	
+	//----------
+	@WebMethod
+	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc {
+		return icon.getBeneficiario(email);
+	}
+	
+	@WebMethod
+	public DtRepartidor getRepartidor(String email) {
+		return (DtRepartidor) icon.getUsuario(email);
+	}
+	//------------------
+	
 	@WebMethod
 	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo) {
 		icon.modificarUsuario(dtu, emailNuevo, nombreNuevo, estadoNuevo);
 	}
 	
+	/*
 	@WebMethod
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc{
 		return icon.getBeneficiario(email);
 	}
+	*/
 	
 	@WebMethod
 	public DtReporte[] reporte(Date fechaInicial, Date fechaFinal){
