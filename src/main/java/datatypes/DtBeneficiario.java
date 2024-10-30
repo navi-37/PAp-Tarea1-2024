@@ -2,12 +2,26 @@ package datatypes;
 
 import java.time.LocalDateTime;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DtBeneficiario extends DtUsuario {
 	private String direccion;
 	private LocalDateTime fechaNacimiento;
 	private EstadoBeneficiario estado;
 	private Barrio barrio;
-	
+		
+	public DtBeneficiario() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DtBeneficiario(String nombre, String email) {
+		super(nombre, email);
+		// TODO Auto-generated constructor stub
+	}
+
 	public DtBeneficiario(String nombre, String email, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio) {
 		super(nombre, email);
 		this.direccion = direccion;
