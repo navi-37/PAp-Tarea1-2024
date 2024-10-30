@@ -164,13 +164,7 @@ public class ControladorPublish {
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc {
 		return icon.getBeneficiario(email);
 	}
-	
-	@WebMethod
-	public DtRepartidor getRepartidor(String email) {
-		return (DtRepartidor) icon.getUsuario(email);
-	}
-	//------------------
-	
+		
 	@WebMethod
 	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
 		icon.modificarUsuario(dtu, emailNuevo, nombreNuevo, estadoNuevo, direccionNueva, fechaNacimientoNueva, barrioNuevo, numeroDeLicenciaNuevo, pwNueva);

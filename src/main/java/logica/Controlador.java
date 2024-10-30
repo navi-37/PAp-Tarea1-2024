@@ -154,7 +154,7 @@ public class Controlador implements IControlador{
 			if (u instanceof Beneficiario) {
 				Beneficiario ben = (Beneficiario) u;
 				DtBeneficiario dtben = new DtBeneficiario(
-						ben.getNombre(), ben.getEmail(), ben.getDireccion(), ben.getFechaNacimiento(), ben.getEstado(), ben.getBarrio());
+						ben.getNombre(), ben.getEmail(), ben.getPw(), ben.getDireccion(), ben.getFechaNacimiento(), ben.getEstado(), ben.getBarrio());
 			ListaBeneficiarios.add(dtben);
 			}
 		}
@@ -255,7 +255,7 @@ public class Controlador implements IControlador{
 		DtBeneficiario dtBen = null;
 		if (usr instanceof Beneficiario) {
 			Beneficiario usrb = (Beneficiario) usr;
-			dtBen = new DtBeneficiario(usrb.getNombre(), usrb.getEmail(), usrb.getDireccion(), usrb.getFechaNacimiento(), usrb.getEstado(), usrb.getBarrio());
+			dtBen = new DtBeneficiario(usrb.getNombre(), usrb.getEmail(),usrb.getPw(), usrb.getDireccion(), usrb.getFechaNacimiento(), usrb.getEstado(), usrb.getBarrio());
 		} else if (dtBen == null){
 			throw new BeneficiarioNoExisteExc("El beneficiario no existe");
 		}
@@ -269,7 +269,7 @@ public class Controlador implements IControlador{
 		DtRepartidor dtRep = null;
 		if (usr instanceof Repartidor) {
 			Repartidor usrr = (Repartidor) usr;
-			dtRep = new DtRepartidor(usrr.getNombre(), usrr.getEmail(), usrr.getNumeroLicencia()); // HAY QUE AGREGAR CONTRASEÑA???
+			dtRep = new DtRepartidor(usrr.getNombre(), usrr.getEmail(), usrr.getPw(), usrr.getNumeroLicencia()); // HAY QUE AGREGAR CONTRASEÑA???
 		} else if (dtRep == null){
 			throw new RepartidorNoExisteExc("El repartidor no existe");
 		}
@@ -315,7 +315,7 @@ public class Controlador implements IControlador{
 			if (u instanceof Repartidor) {
 				Repartidor rep = (Repartidor) u;	// evaluar si es usuario clase repartidor
 				DtRepartidor dtrep = new DtRepartidor(
-						rep.getNombre(), rep.getEmail(), rep.getNumeroLicencia());
+						rep.getNombre(), rep.getEmail(), rep.getPw(), rep.getNumeroLicencia());
 				repartidores.add(dtrep);
 			}
 		}
@@ -325,8 +325,7 @@ public class Controlador implements IControlador{
 	public DtUsuario getUsuario(String email) {
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 		Usuario usr = mU.buscarUsuario(email);
-		DtUsuario dtu = new DtUsuario(usr.getNombre(), usr.getEmail());
-		
+		DtUsuario dtu = new DtUsuario(usr.getNombre(), usr.getEmail(), usr.getPw());
 		return dtu;
 	}
 	

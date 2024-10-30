@@ -7,8 +7,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 public class DtRepartidor extends DtUsuario {
     private String numeroDeLicencia;
 
-    public DtRepartidor(String nombre, String email, String numeroDeLicencia) {
-        super(nombre, email);  
+    public DtRepartidor(String nombre, String email, String pw, String numeroDeLicencia) {
+        super(nombre, email, pw);  
         this.numeroDeLicencia = numeroDeLicencia;
     }
 

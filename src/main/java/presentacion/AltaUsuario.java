@@ -190,10 +190,10 @@ public class AltaUsuario extends JInternalFrame {
 	            }
 	            EstadoBeneficiario estado = (EstadoBeneficiario) comboBoxEstadoBeneficiario.getSelectedItem();
 	            Barrio barrio = (Barrio) comboBoxBarrio.getSelectedItem();
-	            usuario = new DtBeneficiario(nombre, email, direccion, fechaNacimiento, estado, barrio);
+	            usuario = new DtBeneficiario(nombre, email, "123", direccion, fechaNacimiento, estado, barrio);
 	        } else if (selectedItem.equals("Repartidor")) {
 	            String numeroLicencia = this.textNumeroLicencia.getText();
-	            usuario = new DtRepartidor(nombre, email, numeroLicencia);
+	            usuario = new DtRepartidor(nombre, email, "123", numeroLicencia);
 	        }
 	
 	        try {

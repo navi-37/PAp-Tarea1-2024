@@ -17,13 +17,13 @@ public class DtBeneficiario extends DtUsuario {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DtBeneficiario(String nombre, String email) {
-		super(nombre, email);
+	public DtBeneficiario(String nombre, String email, String pw) {
+		super(nombre, email, pw);
 		// TODO Auto-generated constructor stub
 	}
 
-	public DtBeneficiario(String nombre, String email, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio) {
-		super(nombre, email);
+	public DtBeneficiario(String nombre, String email, String pw, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio) {
+		super(nombre, email, pw);
 		this.direccion = direccion;
 		this.fechaNacimiento = fechaNacimiento;
 		this.estado = estado;
