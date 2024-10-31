@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.swing.JRadioButton;
@@ -16,11 +17,14 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 
+import datatypes.Barrio;
 import datatypes.DtBeneficiario;
 import datatypes.DtRepartidor;
 import datatypes.DtUsrModificar;
 import datatypes.DtUsuario;
 import datatypes.EstadoBeneficiario;
+import excepciones.BeneficiarioNoExisteExc;
+import excepciones.RepartidorNoExisteExc;
 import interfaces.IControlador;
 
 
@@ -132,7 +136,12 @@ public class ModificarUsuario extends JInternalFrame {
 		btnModificar.setBounds(190, 367, 115, 25);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				modificarDatosUsuario(e);
+				try {
+					modificarDatosUsuario(e);
+				} catch (BeneficiarioNoExisteExc | RepartidorNoExisteExc e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				borrarSeleccion();
 			}
 		});
@@ -222,7 +231,7 @@ public class ModificarUsuario extends JInternalFrame {
 	    }
 	}
 	
-	public void modificarDatosUsuario(ActionEvent e) {
+	public void modificarDatosUsuario(ActionEvent e) throws BeneficiarioNoExisteExc, RepartidorNoExisteExc {
 	    if (this.comboBoxUsuarios.getSelectedItem() != null) {
 	    	//DtUsrModificar dtu = (DtUsrModificar) this.comboBoxUsuarios.getSelectedItem();
 	    	DtUsrModificar dtu = new DtUsrModificar();
@@ -239,6 +248,13 @@ public class ModificarUsuario extends JInternalFrame {
 			        dtu.setEmail(dtben.getEmail());
 			        dtu.setNombre(dtben.getNombre());
 			        dtu.setEstado(dtben.getEstado());
+			        
+			        DtBeneficiario ben = this.icon.getBeneficiario(email);
+			        String direccion = ben.getDireccion();
+			    	LocalDateTime fechaNacimiento = ben.getFechaNacimiento();
+			    	Barrio barrio = ben.getBarrio();
+			    	String pw = ben.getPw();
+			    	this.icon.modificarUsuario(dtu, email, nombre, estado, direccion, fechaNacimiento, barrio, null, pw);
 	    		}
 		    } else if (rdbtnRepartidor.isSelected()) {
 		    	DtRepartidor dtrep = (DtRepartidor) this.comboBoxUsuarios.getSelectedItem();
@@ -247,13 +263,19 @@ public class ModificarUsuario extends JInternalFrame {
 			        textFieldCorreo.setText(dtrep.getEmail());
 			        dtu.setEmail(dtrep.getEmail());
 			        dtu.setNombre(dtrep.getNombre());
+			        
+			        DtRepartidor rep = this.icon.getRepartidor(email);
+			        String numeroDeLicencia = rep.getNumeroDeLicencia();
+			        String pw = rep.getPw();
+			        this.icon.modificarUsuario(dtu, email, nombre, null, null, null, null, numeroDeLicencia, pw);
 		    	}
 		    } else {
 		    	//add mensaje de no cambiaste nada gato
 		    }
-	        
+
+	    	
 	    	//evaluar si cambió algo
-	        this.icon.modificarUsuario(dtu, email, nombre, estado, null, null, null, null, null);
+	       
 	        actualizarComboBoxUsuarios();
 	        comboBoxUsuarios.setEnabled(false);
 	        
