@@ -53,4 +53,5 @@ public class DtBeneficiario extends DtUsuario {
 		"\nEstado: " + estado + "\n " +
 		"\nBarrio: " + barrio;
 	}
+
 }

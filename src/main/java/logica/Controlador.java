@@ -249,6 +249,39 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
+	public DtAlimento getAlimento(Integer idDon) {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+		ArrayList<DtDonacion> todasLasDonaciones = mD.obtenerDonaciones();
+		DtAlimento retorno = null;
+		
+		for (DtDonacion d : todasLasDonaciones) {
+			if (d.getId().equals(idDon)) {
+				if (d instanceof DtAlimento) {
+					DtAlimento alimento = (DtAlimento) d;
+					retorno = new DtAlimento(idDon, alimento.getFechaIngresada(), alimento.getDescripcionProductos(), alimento.getCantElementos());
+				}
+			}
+	    }
+		return retorno;
+	}
+	
+	@Override
+	public DtArticulo getArticulo(Integer idDon) {
+		ManejadorDonacion mD = ManejadorDonacion.getInstancia();
+		ArrayList<DtDonacion> todasLasDonaciones = mD.obtenerDonaciones();
+		DtArticulo retorno = null;
+		
+		for (DtDonacion d : todasLasDonaciones) {
+			if (d.getId().equals(idDon)) {
+				if (d instanceof DtArticulo) {
+					DtArticulo articulo = (DtArticulo) d;
+					retorno = new DtArticulo(idDon, articulo.getFechaIngresada(), articulo.getDescripcion(), articulo.getPeso(), articulo.getDimensiones());				}
+			}
+	    }
+		return retorno;
+	}
+	
+	@Override
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc {
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 		Usuario usr = mU.buscarUsuario(email);

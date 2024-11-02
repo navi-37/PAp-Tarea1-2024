@@ -9,7 +9,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import datatypes.Barrio;
-
+import datatypes.DtAlimento;
+import datatypes.DtArticulo;
 import datatypes.DtBeneficiario;
 
 import datatypes.DtDistribucion;
@@ -46,6 +47,10 @@ public interface IControlador {
 	public ArrayList<DtBeneficiario> listarBeneficiariosPorEstadoYBarrio(EstadoBeneficiario estado, Barrio barrio);
 
 	public DtDonacion getDonacion(Integer idDon) throws DonacionNoExisteExc;
+	
+	public DtAlimento getAlimento(Integer idDon);
+	
+	public DtArticulo getArticulo(Integer idDon);
 	
 	public Integer[] listarLasDistribucionesFiltradas(EstadoDistribucion estado, Barrio zona);
 	

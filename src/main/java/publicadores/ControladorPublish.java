@@ -13,6 +13,7 @@ import javax.xml.ws.Endpoint;
 
 import datatypes.Barrio;
 import datatypes.DtAlimento;
+import datatypes.DtArticulo;
 import datatypes.DtBeneficiario;
 import datatypes.DtDistribucion;
 //import configuraciones.WebServiceConfiguracion;
@@ -125,10 +126,15 @@ public class ControladorPublish {
 		return icon.getDonacion(idDon);
 	}
 	
-	//test-------------------------------------------------->
+	//test [no anduvo xd] tuve que crear getAlimento y getDon en tarea1-------------------------------------------------->
 	@WebMethod
-	public DtAlimento getAlimento(Integer idDon) throws DonacionNoExisteExc{
-		return (DtAlimento) icon.getDonacion(idDon);
+	public DtAlimento getAlimento(Integer idDon){
+		return  icon.getAlimento(idDon);
+	}
+	
+	@WebMethod
+	public DtArticulo getArticulo(Integer idDon){
+		return icon.getArticulo(idDon);
 	}
 	//------------------------------------------------
 	
@@ -164,24 +170,16 @@ public class ControladorPublish {
 	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc {
 		return icon.getBeneficiario(email);
 	}
-		
-	@WebMethod
-	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
-		icon.modificarUsuario(dtu, emailNuevo, nombreNuevo, estadoNuevo, direccionNueva, fechaNacimientoNueva, barrioNuevo, numeroDeLicenciaNuevo, pwNueva);
-	}
-	
-	/*
-	@WebMethod
-	public DtBeneficiario getBeneficiario(String email) throws BeneficiarioNoExisteExc{
-		return icon.getBeneficiario(email);
-	}
-	*/
 	
 	@WebMethod
 	public DtRepartidor getRepartidor(String email) throws RepartidorNoExisteExc{
 		return icon.getRepartidor(email);
 	}
-	
+		
+	@WebMethod
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
+		icon.modificarUsuario(dtu, emailNuevo, nombreNuevo, estadoNuevo, direccionNueva, fechaNacimientoNueva, barrioNuevo, numeroDeLicenciaNuevo, pwNueva);
+	}
 	
 	@WebMethod
 	public DtReporte[] reporte(Date fechaInicial, Date fechaFinal){
