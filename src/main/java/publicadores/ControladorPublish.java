@@ -177,7 +177,7 @@ public class ControladorPublish {
 	}
 		
 	@WebMethod
-	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, Date fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
 		icon.modificarUsuario(dtu, emailNuevo, nombreNuevo, estadoNuevo, direccionNueva, fechaNacimientoNueva, barrioNuevo, numeroDeLicenciaNuevo, pwNueva);
 	}
 	

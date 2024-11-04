@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -12,11 +13,11 @@ import javax.persistence.InheritanceType;
 public class Donacion {
 	@Id
 	private Integer id;
-	private LocalDateTime fechaIngresada;
+	private Date fechaIngresada;
 	
 	public Donacion() {}
 	
-	public Donacion(Integer id, LocalDateTime fechaIngresada) {
+	public Donacion(Integer id, Date fechaIngresada) {
 		super();
 		this.id = id;
 		this.fechaIngresada = fechaIngresada;
@@ -30,11 +31,11 @@ public class Donacion {
 		this.id = id;
 	}
 
-	public LocalDateTime getFechaIngresada() {
+	public Date getFechaIngresada() {
 		return fechaIngresada;
 	}
 
-	public void setFechaIngresada(LocalDateTime fechaIngresada) {
+	public void setFechaIngresada(Date fechaIngresada) {
 		this.fechaIngresada = fechaIngresada;
 	}
 	

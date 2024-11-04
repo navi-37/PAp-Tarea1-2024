@@ -1,12 +1,13 @@
 package datatypes;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 public class DtUsrModificar {
 	private String nombre;
 	private String email;
 	private String direccion;
-	private LocalDateTime fechaNacimiento;
+	private Date fechaNacimiento;
 	private EstadoBeneficiario estado;
 	private Barrio barrio;
 	private String numeroDeLicencia;
@@ -16,7 +17,7 @@ public class DtUsrModificar {
 		super();
 	}
 
-	public DtUsrModificar(String nombre, String email, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio, String numeroDeLicencia, String pw) {
+	public DtUsrModificar(String nombre, String email, String direccion, Date fechaNacimiento, EstadoBeneficiario estado, Barrio barrio, String numeroDeLicencia, String pw) {
 		super();
 		this.nombre = nombre;
 		this.email = email;
@@ -36,11 +37,11 @@ public class DtUsrModificar {
 		this.direccion = direccion;
 	}
 
-	public LocalDateTime getFechaNacimiento() {
+	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
-	public void setFechaNacimiento(LocalDateTime fechaNacimiento) {
+	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
 

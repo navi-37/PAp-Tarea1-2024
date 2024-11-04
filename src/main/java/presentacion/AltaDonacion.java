@@ -17,6 +17,8 @@ import java.time.LocalDateTime;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import java.util.Date;
+
 
 public class AltaDonacion extends JInternalFrame {
 	private static final long serialVersionUID = 1L;
@@ -136,7 +138,7 @@ public class AltaDonacion extends JInternalFrame {
 		
 		if (checkFormulario()) {
 			Integer id = Integer.valueOf(this.textid.getText());
-			LocalDateTime fecha = LocalDateTime.now();
+			Date fecha = new Date();
 	        String selectedItem = (String) comboBoxTipoDonacion.getSelectedItem();
 	        DtDonacion dt = null;
 			if (selectedItem.equals("Alimento")) {

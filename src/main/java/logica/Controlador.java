@@ -385,7 +385,7 @@ public class Controlador implements IControlador{
 	}
 	
 	@Override
-	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, LocalDateTime fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
+	public void modificarUsuario(DtUsrModificar dtu, String emailNuevo, String nombreNuevo, EstadoBeneficiario estadoNuevo, String direccionNueva, Date fechaNacimientoNueva, Barrio barrioNuevo, String numeroDeLicenciaNuevo, String pwNueva) {
 		Conexion conexion = Conexion.getInstancia();
 	    EntityManager em = conexion.getEntityManager();
 		String emailActual = dtu.getEmail();

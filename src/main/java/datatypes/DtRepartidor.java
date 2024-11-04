@@ -5,7 +5,17 @@ import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DtRepartidor extends DtUsuario {
-    private String numeroDeLicencia;
+    public DtRepartidor() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public DtRepartidor(String nombre, String email, String pw) {
+		super(nombre, email, pw);
+		// TODO Auto-generated constructor stub
+	}
+
+	private String numeroDeLicencia;
 
     public DtRepartidor(String nombre, String email, String pw, String numeroDeLicencia) {
         super(nombre, email, pw);  

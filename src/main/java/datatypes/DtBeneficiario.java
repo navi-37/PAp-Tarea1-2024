@@ -1,6 +1,7 @@
 package datatypes;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,7 +9,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DtBeneficiario extends DtUsuario {
 	private String direccion;
-	private LocalDateTime fechaNacimiento;
+	private Date fechaNacimiento;
 	private EstadoBeneficiario estado;
 	private Barrio barrio;
 		
@@ -22,7 +23,7 @@ public class DtBeneficiario extends DtUsuario {
 		// TODO Auto-generated constructor stub
 	}
 
-	public DtBeneficiario(String nombre, String email, String pw, String direccion, LocalDateTime fechaNacimiento, EstadoBeneficiario estado, Barrio barrio) {
+	public DtBeneficiario(String nombre, String email, String pw, String direccion, Date fechaNacimiento, EstadoBeneficiario estado, Barrio barrio) {
 		super(nombre, email, pw);
 		this.direccion = direccion;
 		this.fechaNacimiento = fechaNacimiento;
@@ -34,7 +35,7 @@ public class DtBeneficiario extends DtUsuario {
 		return direccion;
 	}
 
-	public LocalDateTime getFechaNacimiento() {
+	public Date getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
@@ -46,6 +47,22 @@ public class DtBeneficiario extends DtUsuario {
 		return barrio;
 	}
 	
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
+
+	public void setEstado(EstadoBeneficiario estado) {
+		this.estado = estado;
+	}
+
+	public void setBarrio(Barrio barrio) {
+		this.barrio = barrio;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() +
