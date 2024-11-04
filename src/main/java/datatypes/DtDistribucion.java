@@ -10,6 +10,12 @@ public class DtDistribucion {
 	private DtBeneficiario beneficiario;
 	private DtDonacion donacion;
 	
+	
+	public DtDistribucion() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public DtDistribucion(int id, Date fechaPreparacion, Date fechaEntrega, EstadoDistribucion estado, DtBeneficiario beneficiario, DtDonacion donacion) {
 		super();
 		this.id = id;

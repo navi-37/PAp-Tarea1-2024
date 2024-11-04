@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JRadioButton;
@@ -251,7 +252,7 @@ public class ModificarUsuario extends JInternalFrame {
 			        
 			        DtBeneficiario ben = this.icon.getBeneficiario(email);
 			        String direccion = ben.getDireccion();
-			    	LocalDateTime fechaNacimiento = ben.getFechaNacimiento();
+			    	Date fechaNacimiento = ben.getFechaNacimiento();
 			    	Barrio barrio = ben.getBarrio();
 			    	String pw = ben.getPw();
 			    	this.icon.modificarUsuario(dtu, email, nombre, estado, direccion, fechaNacimiento, barrio, null, pw);

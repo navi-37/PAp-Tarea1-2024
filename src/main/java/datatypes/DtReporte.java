@@ -5,8 +5,12 @@ public class DtReporte {
 	private String cantDist;
 	private String beneficiarios;
 	
-	public DtReporte() {}
 	
+	public DtReporte() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 	public DtReporte(String barrio, String cantDist, String beneficiarios) {
 		super();
 		this.barrio = barrio;

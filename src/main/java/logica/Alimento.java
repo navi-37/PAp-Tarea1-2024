@@ -1,6 +1,7 @@
 package logica;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -13,7 +14,7 @@ public class Alimento extends Donacion {
 	
 	public Alimento() {}
 	
-	public Alimento(Integer id, LocalDateTime fechaIngresada, String descripcionProductos, Integer cantElementos) {
+	public Alimento(Integer id, Date fechaIngresada, String descripcionProductos, Integer cantElementos) {
 		super(id, fechaIngresada);
 		this.descripcionProductos = descripcionProductos;
 		this.cantElementos = cantElementos;

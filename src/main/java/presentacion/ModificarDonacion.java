@@ -18,6 +18,7 @@ import excepciones.DonacionNoExisteExc;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -155,7 +156,11 @@ public class ModificarDonacion extends JInternalFrame {
 	                    JOptionPane.ERROR_MESSAGE);
 				return;
 			}
-			textFieldFechaIng.setText(convertirFechaADiaMesAnio(donacion.getFechaIngresada()));
+			//textFieldFechaIng.setText(convertirFechaADiaMesAnio(donacion.getFechaIngresada()));
+			
+			SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			String fecha = formatoFecha.format(donacion.getFechaIngresada());
+			textFieldFechaIng.setText(fecha);
 			if (donacion instanceof DtAlimento) {
 				textFieldTipoDonacion.setText("Alimento");
 				DtAlimento donacionAlimento = (DtAlimento) donacion;
@@ -176,12 +181,13 @@ public class ModificarDonacion extends JInternalFrame {
 		}
 	}
 	
+	/*
 	//en este caso se convierte LocalDateTime a string
 	public String convertirFechaADiaMesAnio(LocalDateTime fecha) {
 	    Date date = Date.from(fecha.atZone(ZoneId.systemDefault()).toInstant());
 	    SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	    return formatoFecha.format(date);
-	}
+	}*/
 	
 	public void limpiarFormulario() {
 		textFieldTipoDonacion.setText("");
@@ -202,11 +208,18 @@ public class ModificarDonacion extends JInternalFrame {
 			// id y fecha no se ven afectados por el tipo de donación
 			Integer id = (Integer) comboBoxDonaciones.getSelectedItem();
 			
-			DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-			LocalDateTime nuevaFechaHoraIngreso = null;
+			//DateTimeFormatter formatoFecha = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+			//Date nuevaFechaHoraIngreso = null;
+			
+			String textoFecha = textFieldFechaIng.getText(); // Suponiendo que textFieldFechaIng es un JTextField
+	        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	        Date nuevaFechaHoraIngreso = null;
+	        
+	        
 			try {
-		        nuevaFechaHoraIngreso = LocalDateTime.parse(textFieldFechaIng.getText(), formatoFecha);
-		    } catch (DateTimeParseException e) {
+				nuevaFechaHoraIngreso = formatoFecha.parse(textoFecha);
+		        //nuevaFechaHoraIngreso = LocalDateTime.parse(textFieldFechaIng.getText(), formatoFecha);
+		    } catch (ParseException e) {
 		        JOptionPane.showMessageDialog(this, "La fecha debe ser ingresada en formato dd/MM/yyyy HH:mm:ss", "Modificar donación",
 	                    JOptionPane.ERROR_MESSAGE);
 		        return;

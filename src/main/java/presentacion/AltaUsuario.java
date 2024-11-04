@@ -17,8 +17,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.swing.text.DateFormatter;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 
 
@@ -177,17 +180,24 @@ public class AltaUsuario extends JInternalFrame {
 	        
 	        if (selectedItem.equals("Beneficiario")) {
 	            String direccion = this.textDireccion.getText();
-	            LocalDateTime fechaNacimiento = null;
+	            Date fechaNacimiento = null;
+	            String fechaString = this.texFechaNacimiento.getText();
+	            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 	            try {
-	            	fechaNacimiento = LocalDate.parse(this.texFechaNacimiento.getText(), dateTimeFormatter).atStartOfDay();
-	                validarFechaNacimiento(fechaNacimiento.toLocalDate());
-	            } catch (FechaInvalidaExc e) {
-	                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Fecha", JOptionPane.ERROR_MESSAGE);
-	                return;
-	            } catch (Exception e) {
-	                JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
-	                return;
+	            	fechaNacimiento = formato.parse(fechaString); // Convierte el String a Date
+	            } catch (ParseException e) {
+	                System.out.println("Error al convertir la fecha: " + e.getMessage());
 	            }
+//	            try {
+//	            	fechaNacimiento = LocalDate.parse(this.texFechaNacimiento.getText(), dateTimeFormatter).atStartOfDay();
+//	                validarFechaNacimiento(fechaNacimiento.toLocalDate());
+//	            } catch (FechaInvalidaExc e) {
+//	                JOptionPane.showMessageDialog(this, e.getMessage(), "Error de Fecha", JOptionPane.ERROR_MESSAGE);
+//	                return;
+//	            } catch (Exception e) {
+//	                JOptionPane.showMessageDialog(this, "Formato de fecha incorrecto. Use dd/MM/yyyy.", "Error", JOptionPane.ERROR_MESSAGE);
+//	                return;
+//	            }
 	            EstadoBeneficiario estado = (EstadoBeneficiario) comboBoxEstadoBeneficiario.getSelectedItem();
 	            Barrio barrio = (Barrio) comboBoxBarrio.getSelectedItem();
 	            usuario = new DtBeneficiario(nombre, email, "123", direccion, fechaNacimiento, estado, barrio);
