@@ -358,7 +358,10 @@ public class Controlador implements IControlador{
 	public DtUsuario getUsuario(String email) {
 		ManejadorUsuario mU = ManejadorUsuario.getInstancia();
 		Usuario usr = mU.buscarUsuario(email);
-		DtUsuario dtu = new DtUsuario(usr.getNombre(), usr.getEmail(), usr.getPw());
+		DtUsuario dtu = null;
+		if (usr != null) {
+			dtu = new DtUsuario(usr.getNombre(), usr.getEmail(), usr.getPw());
+		}
 		return dtu;
 	}
 	
